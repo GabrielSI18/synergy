@@ -760,6 +760,83 @@ const price = {
       margin-bottom: 15px;
     }
 
+    /* Reviews Slider */
+    .reviews-slider {
+      margin: 50px 0;
+      overflow: hidden;
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .reviews-track {
+      display: flex;
+      gap: 20px;
+      animation: scroll 30s linear infinite;
+      width: fit-content;
+    }
+
+    .reviews-slider:hover .reviews-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .review-card-slider {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      min-width: 320px;
+      max-width: 320px;
+      flex-shrink: 0;
+    }
+
+    .review-rating {
+      color: #d4a574;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .review-card-slider .testimonial-text {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+
+    .review-card-slider .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .review-card-slider .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #d4a574;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .review-card-slider .testimonial-name {
+      font-weight: 600;
+      color: #2d2d2d;
+      font-size: 0.95rem;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .hero h1 {
@@ -786,6 +863,11 @@ const price = {
       .section-title {
         font-size: 1.6rem;
       }
+
+      .review-card-slider {
+        min-width: 280px;
+        max-width: 280px;
+      }
     }
   </style>
 </head>
@@ -808,6 +890,121 @@ const price = {
     <div class="container">
       <h2 class="section-title">Momento de reflexão</h2>
       <p class="section-subtitle">Isso parece familiar?<br>Se você se identifica com pelo menos uma dessas situações, continue lendo.</p>
+      
+      <!-- Reviews Slider -->
+      <div class="reviews-slider">
+        <div class="reviews-track">
+          <!-- First set of reviews -->
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Finalmente encontrei algo que funciona de verdade! Em poucos dias já senti a diferença."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">BM</div>
+              <div class="testimonial-name">Beatriz M.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Simples e prático. Cabe perfeitamente na minha rotina corrida."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">LS</div>
+              <div class="testimonial-name">Luciana S.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Não acreditei quando acordei mais leve logo nos primeiros dias. Incrível!"</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">TF</div>
+              <div class="testimonial-name">Tatiana F.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Tentei tantas coisas antes... essa realmente fez diferença na minha vida."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">VR</div>
+              <div class="testimonial-name">Vanessa R.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Meu corpo finalmente respondeu! Me sinto leve como não me sentia há anos."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">CC</div>
+              <div class="testimonial-name">Camila C.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Adorei! Sem complicação, sem sofrimento. Exatamente o que eu precisava."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">DL</div>
+              <div class="testimonial-name">Daniela L.</div>
+            </div>
+          </div>
+
+          <!-- Duplicate set for seamless loop -->
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Finalmente encontrei algo que funciona de verdade! Em poucos dias já senti a diferença."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">BM</div>
+              <div class="testimonial-name">Beatriz M.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Simples e prático. Cabe perfeitamente na minha rotina corrida."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">LS</div>
+              <div class="testimonial-name">Luciana S.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Não acreditei quando acordei mais leve logo nos primeiros dias. Incrível!"</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">TF</div>
+              <div class="testimonial-name">Tatiana F.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Tentei tantas coisas antes... essa realmente fez diferença na minha vida."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">VR</div>
+              <div class="testimonial-name">Vanessa R.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Meu corpo finalmente respondeu! Me sinto leve como não me sentia há anos."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">CC</div>
+              <div class="testimonial-name">Camila C.</div>
+            </div>
+          </div>
+
+          <div class="review-card-slider">
+            <div class="review-rating">★★★★★</div>
+            <p class="testimonial-text">"Adorei! Sem complicação, sem sofrimento. Exatamente o que eu precisava."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">DL</div>
+              <div class="testimonial-name">Daniela L.</div>
+            </div>
+          </div>
+        </div>
+      </div>
       
       <div class="problem-grid">
         <div class="problem-card">
