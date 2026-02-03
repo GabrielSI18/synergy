@@ -1,6 +1,9 @@
 ---
-// Landing Page Produto 1 - Página completamente independente
-import '../styles/global.css'
+const price = {
+  original: 'R$ 97,00',
+  current: 'R$ 37,90',
+  daily: 'R$ 1,30'
+};
 ---
 
 <!DOCTYPE html>
@@ -8,80 +11,1522 @@ import '../styles/global.css'
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produto 1 - Transforme Sua Vida</title>
-  <meta name="description" content="Descubra como o Produto 1 pode transformar sua vida">
+  <title>30 Dias Mais Leve - Sistema Anti-Peso Invisível</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .container-narrow {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #f8f3f0 0%, #fdf6f3 100%);
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #2d2d2d;
+    }
+
+    .hero .subtitle {
+      font-size: 1.25rem;
+      color: #555;
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .cta-primary {
+      display: inline-block;
+      background: #d4a574;
+      color: white;
+      padding: 18px 40px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+    }
+
+    .cta-primary:hover {
+      background: #c69563;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 165, 116, 0.4);
+    }
+
+    .benefits {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .benefit-item {
+      font-size: 1rem;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .benefit-item::before {
+      content: "✓";
+      color: #d4a574;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 80px 20px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2d2d2d;
+    }
+
+    .section-subtitle {
+      font-size: 1.2rem;
+      text-align: center;
+      color: #666;
+      margin-bottom: 50px;
+    }
+
+    /* Problem Section */
+    .problems {
+      background: #fafafa;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .problem-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .problem-card .emoji {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .problem-card p {
+      font-size: 1.1rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Quote */
+    .quote {
+      background: #2d2d2d;
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .quote-text {
+      font-size: 1.5rem;
+      font-style: italic;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Method Section */
+    .method-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: #d4a574;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.5rem;
+    }
+
+    /* Before/After */
+    .comparison {
+      background: #f8f3f0;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .comparison-item h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #2d2d2d;
+    }
+
+    .comparison-item ul {
+      list-style: none;
+    }
+
+    .comparison-item li {
+      padding: 12px 0;
+      font-size: 1.05rem;
+      color: #555;
+      display: flex;
+      align-items: start;
+      gap: 10px;
+    }
+
+    .comparison-item li::before {
+      content: "•";
+      color: #d4a574;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    /* Steps Section */
+    .steps {
+      background: white;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin-top: 50px;
+    }
+
+    .step-card {
+      position: relative;
+      padding: 40px 30px;
+      border: 2px solid #f0f0f0;
+      border-radius: 15px;
+      transition: all 0.3s;
+    }
+
+    .step-card:hover {
+      border-color: #d4a574;
+      transform: translateY(-5px);
+    }
+
+    .step-number {
+      position: absolute;
+      top: -20px;
+      left: 30px;
+      width: 50px;
+      height: 50px;
+      background: #d4a574;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .step-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #2d2d2d;
+      margin-top: 15px;
+    }
+
+    .step-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Author Section */
+    .author {
+      background: #fafafa;
+      text-align: center;
+    }
+
+    .author-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 30px;
+      background: #d4a574;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+    }
+
+    .author-content {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .author-content p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .author-name {
+      font-weight: 600;
+      color: #2d2d2d;
+      font-size: 1.2rem;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    /* Offer Section */
+    .offer {
+      background: linear-gradient(135deg, #2d2d2d 0%, #4a4a4a 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .offer .section-title {
+      color: white;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      max-width: 600px;
+      margin: 40px auto;
+      color: #2d2d2d;
+    }
+
+    .product-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .product-features {
+      text-align: left;
+      margin: 30px 0;
+    }
+
+    .product-features li {
+      padding: 12px 0;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: start;
+      gap: 10px;
+    }
+
+    .product-features li::before {
+      content: "✓";
+      color: #d4a574;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .product-meta {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 30px 0;
+      padding: 20px 0;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: #666;
+    }
+
+    .price-box {
+      margin: 30px 0;
+    }
+
+    .price-old {
+      font-size: 1.2rem;
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    .price-current {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #d4a574;
+      margin: 10px 0;
+    }
+
+    .price-detail {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: #fafafa;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .testimonial-text {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #d4a574;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      color: #2d2d2d;
+    }
+
+    .testimonial-title {
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    /* Transformations */
+    .transformations {
+      background: white;
+    }
+
+    .transformation-item {
+      margin: 50px 0;
+      padding: 40px;
+      background: #fafafa;
+      border-radius: 20px;
+    }
+
+    .transformation-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .transformation-image {
+      aspect-ratio: 3/4;
+      background: #e0e0e0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #999;
+    }
+
+    /* Bonuses */
+    .bonuses {
+      background: #f8f3f0;
+    }
+
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .bonus-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      position: relative;
+      border: 2px solid #d4a574;
+    }
+
+    .bonus-badge {
+      position: absolute;
+      top: -15px;
+      right: 20px;
+      background: #d4a574;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .bonus-price {
+      text-decoration: line-through;
+      color: #999;
+      margin-bottom: 10px;
+    }
+
+    .bonus-card h3 {
+      font-size: 1.2rem;
+      margin: 20px 0 15px;
+      color: #2d2d2d;
+    }
+
+    /* Decision Section */
+    .decision {
+      background: #2d2d2d;
+      color: white;
+    }
+
+    .decision .section-title {
+      color: white;
+    }
+
+    .decision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 50px;
+    }
+
+    .decision-option {
+      padding: 40px;
+      border-radius: 20px;
+      border: 2px solid #4a4a4a;
+    }
+
+    .decision-option.recommended {
+      border-color: #d4a574;
+      background: rgba(212, 165, 116, 0.1);
+      position: relative;
+    }
+
+    .recommended-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #d4a574;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .decision-option h3 {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .decision-option ul {
+      list-style: none;
+    }
+
+    .decision-option li {
+      padding: 12px 0;
+      display: flex;
+      align-items: start;
+      gap: 10px;
+    }
+
+    /* FAQ */
+    .faq {
+      background: #fafafa;
+    }
+
+    .faq-grid {
+      max-width: 800px;
+      margin: 40px auto 0;
+    }
+
+    .faq-item {
+      background: white;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2d2d2d;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-question:hover {
+      background: #f8f3f0;
+    }
+
+    .faq-answer {
+      padding: 0 25px 25px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Comments Section */
+    .comments {
+      background: white;
+    }
+
+    .comment-thread {
+      max-width: 700px;
+      margin: 40px auto;
+    }
+
+    .comment {
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #d4a574;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: #2d2d2d;
+    }
+
+    .comment-time {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .comment-text {
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .comment-actions {
+      display: flex;
+      gap: 20px;
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    .comment-like {
+      cursor: pointer;
+    }
+
+    .comment-reply {
+      margin-left: 40px;
+      margin-top: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: #2d2d2d;
+      color: white;
+      padding: 50px 20px 30px;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-disclaimer {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid #4a4a4a;
+      color: #999;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .guarantee {
+      background: #d4a574;
+      color: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+
+    .guarantee h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero .subtitle {
+        font-size: 1.1rem;
+      }
+
+      .comparison-grid,
+      .decision-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .transformation-images {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 60px 20px;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 min-h-screen text-white">
-  
+<body>
   <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center px-4">
-    <div class="max-w-4xl mx-auto text-center">
-      <span class="inline-block px-4 py-2 bg-purple-500/30 rounded-full text-purple-200 text-sm mb-6">
-        🔥 Oferta por tempo limitado
-      </span>
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-        Transforme Sua Vida com o 
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
-          Produto 1
-        </span>
-      </h1>
-      <p class="text-xl text-purple-200 mb-8 max-w-2xl mx-auto">
-        Descubra o método revolucionário que já ajudou mais de 10.000 pessoas a alcançarem seus objetivos.
-      </p>
-      <a href="#comprar" class="inline-block bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
-        QUERO COMEÇAR AGORA →
-      </a>
+  <section class="hero">
+    <div class="container-narrow">
+      <h1>O peso que mais incomoda não aparece na balança e é exatamente ele que trava seu corpo.</h1>
+      <p class="subtitle">Para mulheres que comem "certinho", tentam de tudo... mas continuam inchadas, desconfortáveis e sem se reconhecer no espelho.</p>
+      <a href="#oferta" class="cta-primary">Quero voltar a me sentir leve</a>
+      <div class="benefits">
+        <div class="benefit-item">Sem dietas restritivas</div>
+        <div class="benefit-item">Sem exercícios intensos</div>
+      </div>
     </div>
   </section>
 
-  <!-- Benefícios -->
-  <section class="py-20 px-4 bg-black/20">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
-        Por que escolher o Produto 1?
-      </h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
-          <div class="text-5xl mb-4">⚡</div>
-          <h3 class="text-xl font-bold mb-3">Resultados Rápidos</h3>
-          <p class="text-purple-200">Veja resultados já nas primeiras semanas de uso.</p>
+  <!-- Problems Section -->
+  <section class="problems">
+    <div class="container">
+      <h2 class="section-title">Momento de reflexão</h2>
+      <p class="section-subtitle">Isso parece familiar?<br>Se você se identifica com pelo menos uma dessas situações, continue lendo.</p>
+      
+      <div class="problem-grid">
+        <div class="problem-card">
+          <span class="emoji">😔</span>
+          <p>Você come pouco, faz de tudo certo... mas continua se sentindo inchada.</p>
         </div>
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
-          <div class="text-5xl mb-4">🎯</div>
-          <h3 class="text-xl font-bold mb-3">Foco Total</h3>
-          <p class="text-purple-200">Método comprovado para maximizar sua performance.</p>
+        <div class="problem-card">
+          <span class="emoji">😞</span>
+          <p>A balança até ajuda às vezes, mas o espelho conta outra história.</p>
         </div>
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
-          <div class="text-5xl mb-4">💎</div>
-          <h3 class="text-xl font-bold mb-3">Suporte Premium</h3>
-          <p class="text-purple-200">Acesso direto ao time de especialistas.</p>
+        <div class="problem-card">
+          <span class="emoji">👗</span>
+          <p>Suas roupas não vestem mais como antes, mesmo sem ter engordado tanto assim.</p>
+        </div>
+        <div class="problem-card">
+          <span class="emoji">😩</span>
+          <p>Você acorda cansada, pesada, como se o corpo não fosse seu.</p>
+        </div>
+        <div class="problem-card">
+          <span class="emoji">🤷‍♀️</span>
+          <p>Já tentou várias coisas e nada parece funcionar de verdade.</p>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 50px; font-size: 1.2rem; color: #555;">
+        E o mais frustrante não é o peso... é começar a achar que o problema é você. <strong>Quando não é.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- Quote 1 -->
+  <section class="quote">
+    <p class="quote-text">"Se você se viu aqui, saiba: o problema não é você."</p>
+  </section>
+
+  <!-- Method Section -->
+  <section>
+    <div class="container-narrow">
+      <h2 class="section-title">Um método que se adapta a você</h2>
+      <p class="section-subtitle">Antes de começar, você responde a um Teste de Leveza simples. Ao final, refaz o teste e vê sua própria evolução.</p>
+      
+      <div class="method-features">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Avaliação inicial e final</h3>
+          <p>Dentro da plataforma</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👤</div>
+          <h3>Comparação individual</h3>
+          <p>Com você mesma, não com outras pessoas</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✓</div>
+          <h3>Feedback claro</h3>
+          <p>Baseado nas suas respostas</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA Final -->
-  <section id="comprar" class="py-20 px-4">
-    <div class="max-w-2xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-6">
-        Pronto para Começar?
-      </h2>
-      <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12">
-        <p class="text-purple-200 line-through text-xl mb-2">De R$ 497,00</p>
-        <p class="text-5xl font-bold mb-2">R$ 97<span class="text-2xl">,00</span></p>
-        <p class="text-purple-300 mb-8">ou 12x de R$ 9,70</p>
-        <a href="#" class="inline-block w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
-          COMPRAR AGORA
-        </a>
-        <p class="text-sm text-purple-300 mt-4">🔒 Compra 100% segura • Garantia de 7 dias</p>
+  <!-- Comparison Section -->
+  <section class="comparison">
+    <div class="container-narrow">
+      <h2 class="section-title">A transformação que você merece</h2>
+      <p class="section-subtitle">Não é sobre peso. É sobre como você se sente.</p>
+      
+      <div class="comparison-grid">
+        <div class="comparison-item">
+          <h3>Antes</h3>
+          <ul>
+            <li>Corpo pesado mesmo comendo pouco</li>
+            <li>Roupas apertadas sem entender o motivo</li>
+            <li>Sensação constante de inchaço</li>
+          </ul>
+        </div>
+        <div class="comparison-item">
+          <h3>Depois</h3>
+          <ul>
+            <li>Corpo mais leve ao acordar</li>
+            <li>Roupas vestindo melhor, sem sofrimento</li>
+            <li>Sensação de que o corpo voltou a colaborar</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 50px; font-size: 1.3rem; color: #2d2d2d;">
+        <strong>A mesma pessoa. A mesma rotina.</strong><br>
+        <span style="color: #666; font-size: 1.1rem;">Apenas eliminando o peso invisível.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Invisible Weight Explanation -->
+  <section>
+    <div class="container-narrow">
+      <h2 class="section-title">Não é falta de força de vontade</h2>
+      <p style="font-size: 1.15rem; color: #555; line-height: 1.8; margin-bottom: 30px;">
+        Você não está inchada porque come demais.<br><br>
+        Você não está pesada porque falta disciplina.<br><br>
+        E você não está frustrada porque é "fraca".<br><br>
+        <strong style="color: #2d2d2d;">O problema é o Peso Invisível:</strong>
+      </p>
+      
+      <p style="font-size: 1.2rem; color: #2d2d2d; text-align: center; line-height: 1.7; margin: 40px 0;">
+        Um peso que não é gordura,<br>
+        mas mantém o corpo inchado, desconfortável e em alerta constante.<br>
+        É esse peso invisível que trava tudo. E a balança não mede.
+      </p>
+      
+      <p style="font-size: 1.1rem; color: #666; text-align: center; margin-top: 30px;">
+        E enquanto esse peso invisível estiver aí, seu corpo não vai responder.<br>
+        <strong>Não importa o que você faça.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- Quote 2 -->
+  <section class="quote">
+    <p class="quote-text">"Depois de observar centenas de mulheres, ficou claro: enquanto o Peso Invisível não é resolvido, o corpo não responde."</p>
+  </section>
+
+  <!-- System Section -->
+  <section class="steps">
+    <div class="container">
+      <h2 class="section-title">Sistema Anti-Peso Invisível</h2>
+      <p class="section-subtitle">Um método simples de 3 passos para eliminar o peso que não aparece na balança.</p>
+      
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Identificar o peso invisível</h3>
+          <p>Entender por que o corpo está travado e onde o peso invisível está agindo.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Neutralizar os gatilhos certos</h3>
+          <p>Parar de irritar o corpo sem radicalismos, com ajustes simples e práticos.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Ativar o estado de leveza</h3>
+          <p>O corpo responde naturalmente quando o peso invisível é eliminado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote 3 -->
+  <section class="quote">
+    <p class="quote-text">"Quando você elimina o peso invisível, seu corpo volta a responder. Sem sofrimento."</p>
+  </section>
+
+  <!-- How it Works -->
+  <section>
+    <div class="container-narrow">
+      <h2 class="section-title">Como funciona na prática</h2>
+      <p class="section-subtitle">O 30 Dias Mais Leve acontece dentro de um aplicativo simples e intuitivo, pensado para mulheres reais.</p>
+      
+      <div class="method-features">
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Acesso imediato</h3>
+          <p>Celular, tablet ou computador</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <h3>Organizado por semanas</h3>
+          <p>Sem bagunça</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💾</div>
+          <h3>Progresso salvo</h3>
+          <p>Automaticamente</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Author Section -->
+  <section class="author">
+    <div class="container-narrow">
+      <h2 class="section-title">Eu sei como você se sente</h2>
+      <div class="author-image">RR</div>
+      <div class="author-content">
+        <p>Durante anos, eu acordava me sentindo pesada, inchada, como se meu corpo não fosse meu.</p>
+        <p>Tentei dietas da moda. Cortei carboidratos. Passei fome. A balança às vezes ajudava, mas o espelho nunca.</p>
+        <p>Até que descobri que não era gordura que me incomodava. Era algo que ninguém falava: o peso invisível.</p>
+        <p>Quando entendi isso e criei um método simples para eliminar, tudo mudou. E eu quero que mude pra você também.</p>
+        <p class="author-name">Rafaela Rodrigues Lima</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offer Section -->
+  <section class="offer" id="oferta">
+    <div class="container">
+      <h2 class="section-title">O que você vai acessar</h2>
+      <p class="section-subtitle" style="color: #ccc;">Um sistema completo, simples e prático. Sem complicação.</p>
+      
+      <div class="product-card">
+        <h3 class="product-title">30 Dias Mais Leve</h3>
+        <p style="font-size: 1.1rem; color: #666; margin-bottom: 20px;">Com o Sistema Anti-Peso Invisível</p>
+        
+        <ul class="product-features">
+          <li>O que ajustar logo ao acordar para começar o dia mais leve</li>
+          <li>Como se alimentar sem gerar inchaço ou desconforto</li>
+          <li>Como lidar quando o corpo trava e parece não responder</li>
+          <li>Como manter a leveza no dia a dia, sem radicalismo</li>
+          <li>Rotina prática que cabe na sua vida real</li>
+        </ul>
+        
+        <div class="product-meta">
+          <div class="meta-item">
+            <span>✓</span> Acesso vitalício
+          </div>
+          <div class="meta-item">
+            <span>✓</span> Envio por e-mail
+          </div>
+          <div class="meta-item">
+            <span>✓</span> Acesso no celular
+          </div>
+          <div class="meta-item">
+            <span>✓</span> Sem mensalidade
+          </div>
+        </div>
+        
+        <div class="price-box">
+          <div class="price-old">{price.original}</div>
+          <div class="price-current">{price.current}</div>
+          <div class="price-detail">Acesso imediato após a compra</div>
+        </div>
+        
+        <a href="#checkout" class="cta-primary" style="display: block; text-align: center;">Quero começar agora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">O que elas estão dizendo</h2>
+      <p class="section-subtitle">Relatos reais de mulheres que se sentiram mais leves e confortáveis no próprio corpo.<br><em style="font-size: 0.9rem; color: #999;">Resultados variam de pessoa para pessoa.</em></p>
+      
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Em poucos dias já me senti mais leve. Não é sobre a balança, é sobre como você se sente. E eu me sinto incrível."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">CM</div>
+            <div>
+              <div class="testimonial-name">Carla M.</div>
+              <div class="testimonial-title">Me sinto incrível</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Minhas roupas voltaram a caber! Sem passar fome, sem sofrimento. É simples demais."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">FR</div>
+            <div>
+              <div class="testimonial-name">Fernanda R.</div>
+              <div class="testimonial-title">Roupas voltaram a caber</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Acordar sem aquela sensação de peso foi libertador. Finalmente entendi o que estava errado."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">AP</div>
+            <div>
+              <div class="testimonial-name">Ana Paula S.</div>
+              <div class="testimonial-title">Sensação de leveza</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Tentei tantas coisas... essa foi a primeira que fez sentido pro meu corpo. Desinchei de verdade."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">JC</div>
+            <div>
+              <div class="testimonial-name">Juliana C.</div>
+              <div class="testimonial-title">Desinchei de verdade</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transformations -->
+  <section class="transformations">
+    <div class="container">
+      <h2 class="section-title">Provas reais</h2>
+      <p class="section-subtitle">Histórias reais de transformação<br>Relatos de mulheres que se sentiram mais leves e confortáveis no próprio corpo.<br><em style="font-size: 0.9rem; color: #999;">Resultados variam de pessoa para pessoa.</em></p>
+      
+      <div class="transformation-item">
+        <div class="transformation-images">
+          <div class="transformation-image">Antes</div>
+          <div class="transformation-image">Depois</div>
+        </div>
+        <p class="testimonial-text" style="font-size: 1.1rem;">"Eu aprendi que a maior parte do resultado vem de como você cuida do seu corpo por dentro. O resto é manter o corpo em movimento, seja caminhando, nadando ou dançando. Quando você trata bem seu corpo, ele responde."</p>
+        <div style="margin-top: 20px;">
+          <div class="testimonial-name">Mariana S.</div>
+          <div class="testimonial-title">Corpo leve e ativo</div>
+        </div>
+      </div>
+      
+      <div class="transformation-item">
+        <div class="transformation-images">
+          <div class="transformation-image">Antes</div>
+          <div class="transformation-image">Depois</div>
+        </div>
+        <p class="testimonial-text" style="font-size: 1.1rem;">"Não foi fácil no começo. Percebi o quanto eu tinha dificuldade com rotinas simples. Mas hoje, esse estilo de vida faz parte de mim e sou muito mais feliz. Me sinto leve como nunca."</p>
+        <div style="margin-top: 20px;">
+          <div class="testimonial-name">Patrícia L.</div>
+          <div class="testimonial-title">Estilo de vida novo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bonuses -->
+  <section class="bonuses">
+    <div class="container">
+      <h2 class="section-title">Bônus Inclusos</h2>
+      <p class="section-subtitle">Além do programa completo, você também recebe:<br>Tudo pensado para facilitar sua aplicação no dia a dia e evitar que você trave no processo.</p>
+      
+      <div class="bonus-grid">
+        <div class="bonus-card">
+          <div class="bonus-badge">GRÁTIS</div>
+          <div class="bonus-price">R$ 27,00</div>
+          <h3>Guia de Situações Reais do Dia a Dia</h3>
+          <p>Respostas práticas para quando a vida acontece: comer fora, dias corridos, vontade de doce ou mais inchaço.</p>
+        </div>
+        
+        <div class="bonus-card">
+          <div class="bonus-badge">GRÁTIS</div>
+          <div class="bonus-price">R$ 37,00</div>
+          <h3>Kit Anti-Inchaço de Emergência</h3>
+          <p>Protocolos rápidos para usar nos dias críticos e saber exatamente o que fazer sem sair do caminho.</p>
+        </div>
+        
+        <div class="bonus-card">
+          <div class="bonus-badge">GRÁTIS</div>
+          <div class="bonus-price">R$ 19,00</div>
+          <h3>Guias Práticos para Consultar Sempre</h3>
+          <p>Listas simples, checklists e substituições inteligentes para facilitar suas decisões no dia a dia.</p>
+        </div>
+        
+        <div class="bonus-card" style="grid-column: 1 / -1; max-width: 500px; margin: 0 auto; width: 100%;">
+          <div class="bonus-badge">BÔNUS ESPECIAL</div>
+          <div class="bonus-price">R$ 47,00</div>
+          <h3>Semana de Manutenção Avançada</h3>
+          <p>Conteúdo extra para manter a leveza em viagens, eventos e fases mais desafiadoras da rotina.</p>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 40px; font-size: 1.1rem; color: #2d2d2d;">
+        ✓ Todos os bônus já estão incluídos, sem custo adicional.
+      </p>
+    </div>
+  </section>
+
+  <!-- Decision Section -->
+  <section class="decision">
+    <div class="container">
+      <h2 class="section-title">Momento de decisão</h2>
+      <p class="section-subtitle" style="color: #ccc;">Você tem duas escolhas agora</p>
+      
+      <div class="decision-grid">
+        <div class="decision-option">
+          <h3>Opção 1</h3>
+          <h4 style="margin-bottom: 30px; color: #ccc;">Continuar lutando contra seu corpo</h4>
+          <ul>
+            <li><span style="color: #666;">•</span> Acordar pesada e inchada</li>
+            <li><span style="color: #666;">•</span> Tentar mais dietas que não funcionam</li>
+            <li><span style="color: #666;">•</span> Se frustrar com o espelho</li>
+            <li><span style="color: #666;">•</span> Não entender por que nada muda</li>
+          </ul>
+        </div>
+        
+        <div class="decision-option recommended">
+          <div class="recommended-badge">Recomendado</div>
+          <h3>Opção 2</h3>
+          <h4 style="margin-bottom: 30px; color: #d4a574;">Eliminar o peso invisível</h4>
+          <ul>
+            <li><span style="color: #d4a574;">✓</span> Acordar leve e disposta</li>
+            <li><span style="color: #d4a574;">✓</span> Vestir suas roupas favoritas</li>
+            <li><span style="color: #d4a574;">✓</span> Se reconhecer no espelho</li>
+            <li><span style="color: #d4a574;">✓</span> Sentir que seu corpo responde</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p style="text-align: center; margin-top: 50px; font-size: 1.2rem; color: white;">
+        Quando o peso invisível é resolvido, o corpo para de brigar com você.
+      </p>
+    </div>
+  </section>
+
+  <!-- Final Offer -->
+  <section style="background: linear-gradient(135deg, #f8f3f0 0%, #fdf6f3 100%);">
+    <div class="container-narrow">
+      <p style="text-align: center; font-size: 1.1rem; color: #d4a574; font-weight: 600; margin-bottom: 20px;">
+        Oferta válida para hoje, 03 de fevereiro
+      </p>
+      
+      <h2 class="section-title">Resumo de tudo que você vai receber:</h2>
+      
+      <ul style="list-style: none; max-width: 500px; margin: 40px auto;">
+        <li style="padding: 12px 0; display: flex; align-items: start; gap: 10px; font-size: 1.05rem;">
+          <span style="color: #d4a574;">✓</span> Programa 30 Dias Mais Leve
+        </li>
+        <li style="padding: 12px 0; display: flex; align-items: start; gap: 10px; font-size: 1.05rem;">
+          <span style="color: #d4a574;">✓</span> Sistema Anti-Peso Invisível
+        </li>
+        <li style="padding: 12px 0; display: flex; align-items: start; gap: 10px; font-size: 1.05rem;">
+          <span style="color: #d4a574;">✓</span> Guia de Situações Reais do Dia a Dia
+        </li>
+        <li style="padding: 12px 0; display: flex; align-items: start; gap: 10px; font-size: 1.05rem;">
+          <span style="color: #d4a574;">✓</span> Kit Anti-Inchaço de Emergência
+        </li>
+        <li style="padding: 12px 0; display: flex; align-items: start; gap: 10px; font-size: 1.05rem;">
+          <span style="color: #d4a574;">✓</span> Guias Práticos para Consultar Sempre
+        </li>
+        <li style="padding: 12px 0; display: flex; align-items: start; gap: 10px; font-size: 1.05rem;">
+          <span style="color: #d4a574;">✓</span> Semana de Manutenção Avançada
+        </li>
+        <li style="padding: 12px 0; display: flex; align-items: start; gap: 10px; font-size: 1.05rem;">
+          <span style="color: #d4a574;">✓</span> Acesso vitalício
+        </li>
+      </ul>
+      
+      <div style="text-align: center; margin: 40px 0;">
+        <p style="font-size: 1.2rem; color: #2d2d2d; margin-bottom: 10px;">
+          💰 Você economiza R$ 59,10
+        </p>
+        <p style="font-size: 1.1rem; color: #666;">
+          📅 Menos de {price.daily} por dia
+        </p>
+      </div>
+      
+      <div class="price-box" style="background: white; padding: 40px; border-radius: 20px; margin-bottom: 30px;">
+        <div class="price-old">{price.original}</div>
+        <div class="price-current">{price.current}</div>
+        <div class="price-detail">Pagamento único, sem mensalidade</div>
+      </div>
+      
+      <a href="#checkout" class="cta-primary" style="display: block; text-align: center; margin-bottom: 30px;">Quero eliminar o peso invisível agora</a>
+      
+      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; font-size: 0.95rem; color: #666;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>✓</span> Acesso por e-mail
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>✓</span> Funciona no celular
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>✓</span> Pagamento seguro
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real Life -->
+  <section>
+    <div class="container-narrow" style="text-align: center;">
+      <h2 class="section-title">Pensado para a vida real</h2>
+      <p style="font-size: 1.1rem; color: #666; line-height: 1.7; margin-bottom: 30px;">
+        Orientações práticas para situações comuns do dia a dia, como falta de tempo, comer fora ou dias de mais inchaço.
+      </p>
+      
+      <div class="method-features">
+        <div class="feature-card">
+          <p style="color: #2d2d2d; font-weight: 600;">Protocolos práticos para momentos específicos</p>
+        </div>
+        <div class="feature-card">
+          <p style="color: #2d2d2d; font-weight: 600;">Dicas simples e aplicáveis</p>
+        </div>
+        <div class="feature-card">
+          <p style="color: #2d2d2d; font-weight: 600;">Sem perfeição, sem radicalismo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote 4 -->
+  <section class="quote">
+    <p class="quote-text">"Nada de perfeição. Apenas direção."</p>
+  </section>
+
+  <!-- Guarantee -->
+  <section style="background: #fafafa;">
+    <div class="container-narrow">
+      <div class="guarantee">
+        <h3>Garantia de 7 dias</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6;">
+          Você tem 7 dias para experimentar com tranquilidade. Se não sentir que faz sentido para você, basta pedir o reembolso.
+        </p>
+        <p style="margin-top: 20px; font-weight: 600;">
+          Sem burocracia. Simples assim.
+        </p>
+      </div>
+      
+      <p style="text-align: center; font-size: 1.2rem; color: #2d2d2d; font-weight: 600; margin-top: 40px;">
+        Compra 100% segura
+      </p>
+    </div>
+  </section>
+
+  <!-- Social Comments -->
+  <section class="comments">
+    <div class="container">
+      <h2 class="section-title">O que estão comentando</h2>
+      <p class="section-subtitle">Dúvidas reais, respostas de quem já comprou</p>
+      
+      <div class="comment-thread">
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-avatar">MC</div>
+            <div>
+              <div class="comment-author">Mariana Costa</div>
+              <div class="comment-time">2h</div>
+            </div>
+          </div>
+          <p class="comment-text">Meninas, é confiável? Quero comprar mas tô com medo 😅</p>
+          <div class="comment-actions">
+            <span class="comment-like">👍 12</span>
+            <span>Responder</span>
+          </div>
+          
+          <div class="comment comment-reply">
+            <div class="comment-header">
+              <div class="comment-avatar">PA</div>
+              <div>
+                <div class="comment-author">Paula Andrade</div>
+                <div class="comment-time">1h</div>
+              </div>
+            </div>
+            <p class="comment-text"><strong>@Mariana</strong> Pode comprar sem medo! Eu comprei semana passada e já tô seguindo. Muito prático! 💚</p>
+            <div class="comment-actions">
+              <span class="comment-like">👍 28</span>
+              <span>Responder</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-avatar">FL</div>
+            <div>
+              <div class="comment-author">Fernanda Lima</div>
+              <div class="comment-time">3h</div>
+            </div>
+          </div>
+          <p class="comment-text">Gente, paga mensalidade?</p>
+          <div class="comment-actions">
+            <span class="comment-like">👍 5</span>
+            <span>Responder</span>
+          </div>
+          
+          <div class="comment comment-reply">
+            <div class="comment-header">
+              <div class="comment-avatar">CM</div>
+              <div>
+                <div class="comment-author">Carla Mendes</div>
+                <div class="comment-time">2h</div>
+              </div>
+            </div>
+            <p class="comment-text"><strong>@Fernanda</strong> Não, é só uma vez! Eu achei super acessível pelo que vem 🙌</p>
+            <div class="comment-actions">
+              <span class="comment-like">👍 19</span>
+              <span>Responder</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-avatar">JR</div>
+            <div>
+              <div class="comment-author">Juliana Rocha</div>
+              <div class="comment-time">5h</div>
+            </div>
+          </div>
+          <p class="comment-text">Mas funciona mesmo? Já tentei tanta coisa...</p>
+          <div class="comment-actions">
+            <span class="comment-like">👍 8</span>
+            <span>Responder</span>
+          </div>
+          
+          <div class="comment comment-reply">
+            <div class="comment-header">
+              <div class="comment-avatar">AB</div>
+              <div>
+                <div class="comment-author">Ana Beatriz</div>
+                <div class="comment-time">4h</div>
+              </div>
+            </div>
+            <p class="comment-text"><strong>@Juliana</strong> Sim! Comecei ontem e já acordei diferente hoje. É sobre entender o que seu corpo precisa, não fazer loucura 💛</p>
+            <div class="comment-actions">
+              <span class="comment-like">👍 34</span>
+              <span>Responder</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-avatar">RO</div>
+            <div>
+              <div class="comment-author">Renata Oliveira</div>
+              <div class="comment-time">30min</div>
+            </div>
+          </div>
+          <p class="comment-text">Comprei agora! Chegou na hora no e-mail. Ansiosa pra começar amanhã 🎉</p>
+          <div class="comment-actions">
+            <span class="comment-like">👍 15</span>
+            <span>Responder</span>
+          </div>
+        </div>
+      </div>
+      
+      <p style="text-align: center; color: #999; font-size: 0.9rem; margin-top: 30px;">
+        Comentários de alunas reais do programa
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2 class="section-title">Perguntas frequentes</h2>
+      <p class="section-subtitle">Tire suas dúvidas antes de começar</p>
+      
+      <div class="faq-grid">
+        <div class="faq-item">
+          <div class="faq-question">
+            Preciso fazer dieta restritiva?
+            <span>▼</span>
+          </div>
+          <div class="faq-answer">
+            Não! O método não é baseado em restrição, mas sim em eliminar o que está travando seu corpo. Você vai aprender a fazer ajustes simples e práticos, sem passar fome ou cortar grupos alimentares inteiros.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Preciso de equipamentos ou ir à academia?
+            <span>▼</span>
+          </div>
+          <div class="faq-answer">
+            Não é necessário. O foco principal é eliminar o peso invisível através de ajustes na rotina e alimentação. Qualquer movimento que você já faça (caminhar, dançar, nadar) é bem-vindo, mas não é obrigatório.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Funciona para qualquer idade?
+            <span>▼</span>
+          </div>
+          <div class="faq-answer">
+            Sim! O método foi criado para mulheres reais, de diferentes idades e rotinas. O importante é estar disposta a fazer pequenos ajustes no dia a dia.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Em quanto tempo vou ver resultados?
+            <span>▼</span>
+          </div>
+          <div class="faq-answer">
+            Muitas mulheres relatam sentir diferença nos primeiros dias, especialmente em relação ao inchaço e sensação de leveza ao acordar. Mas lembre-se: cada corpo responde no seu tempo.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Como funciona o acesso?
+            <span>▼</span>
+          </div>
+          <div class="faq-answer">
+            Assim que a compra for confirmada, você recebe o acesso por e-mail. Pode acessar pelo celular, tablet ou computador, quantas vezes quiser. O acesso é vitalício e sem mensalidade.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            E se não funcionar pra mim?
+            <span>▼</span>
+          </div>
+          <div class="faq-answer">
+            Você tem 7 dias de garantia. Se por qualquer motivo sentir que não é pra você, basta pedir o reembolso. Sem burocracia, sem perguntas complicadas.
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="py-8 px-4 text-center text-purple-300 text-sm border-t border-white/10">
-    <p>© 2026 Produto 1. Todos os direitos reservados.</p>
+  <footer>
+    <div class="container">
+      <div class="footer-brand">30 Dias Mais Leve</div>
+      <p style="color: #ccc; margin-bottom: 20px;">Sistema Anti-Peso Invisível</p>
+      
+      <div class="footer-links">
+        <a href="#termos">Termos de Uso</a>
+        <a href="#privacidade">Política de Privacidade</a>
+        <a href="#contato">Contato</a>
+      </div>
+      
+      <div class="footer-disclaimer">
+        <p>Este produto não substitui orientação médica ou nutricional profissional. Os resultados podem variar de pessoa para pessoa. Consulte um profissional de saúde antes de iniciar qualquer programa.</p>
+        <p style="margin-top: 20px;">© 2026 Todos os direitos reservados.</p>
+      </div>
+    </div>
   </footer>
-
 </body>
 </html>
