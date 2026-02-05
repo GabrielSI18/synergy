@@ -3,22 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAC 1000mg - Suporte Antioxidante e Desintoxicante | Sunfood</title>
-    <meta name="description" content="NAC Selênio + Molibdênio 1000mg - Suporte antioxidante e desintoxicante. Frete grátis e garantia de 7 dias.">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <title>404 - Página não encontrada | Sunfood</title>
+    <meta name="description" content="A página que você procura não foi encontrada.">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --primary-blue: #0066CC;
             --primary-red: #E63946;
             --dark-blue: #003D82;
-            --light-gray: #F8F9FA;
-            --medium-gray: #E9ECEF;
-            --text-dark: #212529;
-            --text-gray: #6C757D;
             --white: #FFFFFF;
-            --green: #28A745;
         }
 
         * {
@@ -29,28 +22,164 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #212529;
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+        }
+
+        .error-icon {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .error-icon svg {
+            width: 80px;
+            height: 80px;
+            stroke: var(--white);
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            line-height: 1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .error-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            font-size: 18px;
+            color: #6C757D;
+            margin-bottom: 40px;
             line-height: 1.6;
-            color: var(--text-dark);
-            background: var(--white);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .btn-home {
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
         }
 
-        .top-bar {
-            background: linear-gradient(135deg, #003D82 0%, #0066CC 100%);
-            color: var(--text-dark);
-            padding: 10px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        .btn-home:hover {
+            background: #D32F3F;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
         }
 
-        .top-bar-content {
+        .btn-home svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 80px;
+            }
+
+            .error-title {
+                font-size: 24px;
+            }
+
+            .error-message {
+                font-size: 16px;
+            }
+
+            .error-icon {
+                width: 100px;
+                height: 100px;
+            }
+
+            .error-icon svg {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">SUNFOOD</div>
+
+    <div class="error-container">
+        <div class="error-icon">
+            <i data-lucide="search-x"></i>
+        </div>
+        
+        <div class="error-code">404</div>
+        
+        <h1 class="error-title">Página não encontrada</h1>
+        
+        <p class="error-message">
+            Ops! A página que você está procurando não existe ou foi movida. 
+            Que tal voltar para a página inicial e explorar nossos produtos?
+        </p>
+
+        <a href="/" class="btn-home">
+            <i data-lucide="home"></i>
+            Voltar para a página inicial
+        </a>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
