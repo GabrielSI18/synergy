@@ -712,9 +712,24 @@
 
         .pricing-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
             margin-top: 50px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 1200px) {
+            .pricing-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
         }
 
         .pricing-card {
@@ -751,6 +766,11 @@
             border-radius: 20px;
             font-weight: 700;
             font-size: 12px;
+            z-index: 10;
+        }
+
+        .pricing-card.best-value .pricing-image {
+            margin-top: -170px;
         }
 
         .pricing-image {
@@ -758,7 +778,7 @@
             max-width: 280px;
             margin: -190px auto 20px;
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
 
         .pricing-image img {
@@ -886,11 +906,14 @@
             color: var(--white);
             margin: 10px 0;
             letter-spacing: -2px;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
         }
 
         .pricing-installments-value span {
             font-size: 36px;
-            margin-right: -4px;
+            margin-right: 2px;
         }
 
         .pricing-new {
@@ -1643,7 +1666,7 @@
                     <div class="pricing-image">
                         <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/2.png?v=1770245793" style="max-width: 300px; margin-top: -20px; margin-bottom: -60px;" alt="Kit 3 Potes">
                     </div>
-                    <div class="pricing-units">COMPRE 2 LEVE 3</div>
+                    <div class="pricing-units">COMPRE 2<br>LEVE 3</div>
                     <div class="pricing-badges">
                         <div class="pricing-badge duration"><i data-lucide="calendar"></i> DURAÇÃO DE 3 MESES</div>
                         <div class="pricing-badge secondary">28% OFF</div>
@@ -1663,7 +1686,7 @@
                     <div class="pricing-image" style="margin-bottom: 5px;">
                         <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/3.png?v=1770245793" style="max-width: 350px; margin-top: 0px; margin-bottom: -60px;" alt="Kit 5 Potes">
                     </div>
-                    <div class="pricing-units">COMPRE 3 LEVE 5</div>
+                    <div class="pricing-units">COMPRE 3<br>LEVE 5</div>
                     <div class="pricing-badges">
                         <div class="pricing-badge duration"><i data-lucide="calendar"></i> DURAÇÃO DE 5 MESES</div>
                         <div class="pricing-badge secondary">50% OFF</div>
@@ -1683,7 +1706,7 @@
                     <div class="pricing-image" style="margin-bottom: 5px;">
                         <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/4.png?v=1770245793" style="max-width: 350px; margin-top: -30px; margin-bottom: -60px;" alt="Kit 10 Potes">
                     </div>
-                    <div class="pricing-units">COMPRE 5 LEVE 10</div>
+                    <div class="pricing-units">COMPRE 5<br>LEVE 10</div>
                     <div class="pricing-badges">
                         <div class="pricing-badge duration"><i data-lucide="calendar"></i> DURAÇÃO DE 10 MESES</div>
                         <div class="pricing-badge secondary">60% OFF</div>
