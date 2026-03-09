@@ -62,6 +62,8 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
     .hero__trust { margin-top: 16px; max-width: 280px; }
     .hero__image { flex: 1; min-width: 280px; display: flex; justify-content: center; }
     .hero__image img { max-width: 480px; border-radius: var(--radius); }
+    .hero__image--mobile { display: none; }
+    .hero__image--mobile img { width: 100%; border-radius: var(--radius); }
     .testimonials { background: var(--light-gray); padding: 70px 5%; text-align: center; }
     .testimonials__gif { max-width: 700px; margin: 0 auto 3rem; border-radius: var(--radius); overflow: hidden; }
     .testimonials__gif img { width: 100%; }
@@ -156,8 +158,9 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
       .header__rating .stars { font-size: 1rem; }
       .hero { flex-direction: column; padding: 36px 5%; text-align: center; gap: 2rem; }
       .hero__content { min-width: unset; width: 100%; }
-      .hero__image { min-width: unset; width: 100%; }
-      .hero__image img { max-width: 100%; }
+      .hero__image { display: none; }
+      .hero__image--mobile { display: block; margin: 1rem auto 0; max-width: 400px; }
+      .hero__image--mobile img { max-width: 100%; }
       .hero__subtitle { max-width: 100%; }
       .hero__benefits { text-align: left; display: inline-block; width: 100%; max-width: 380px; }
       .hero__trust { margin: 16px auto 0; }
@@ -224,6 +227,9 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
           TRANSFORME SEU SORRISO EM MINUTOS<br />
           <span>SEM DOR, SEM DENTISTA E POR UMA FRA&Ccedil;&Atilde;O DO PRE&Ccedil;O!</span>
         </h1>
+        <div class="hero__image--mobile">
+          <img src="https://cdn.shopify.com/s/files/1/0595/9335/9544/files/2_55ae8d68-89b3-410f-b107-c01b1c4232db.png?v=1745505722" alt="Sorrifix" />
+        </div>
         <p class="hero__subtitle">
           A Pr&oacute;tese SORRIFIX &eacute; a solu&ccedil;&atilde;o moderna, acess&iacute;vel e segura para quem busca
           recuperar o sorriso sem passar por procedimentos caros, dolorosos e demorados.
