@@ -144,8 +144,24 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
     .footer__col a { color: #aaa; }
     .footer__col a:hover { color: var(--white); }
     .footer__payment { max-width: 180px; margin-bottom: 12px; }
+    .footer__payment-icons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .payment-icon { width: 48px; height: 32px; }
     .footer__security { max-width: 140px; }
+    .footer__secure-badge { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+    .secure-shield { width: 28px; height: 32px; flex-shrink: 0; }
+    .footer__secure-badge span { color: #fff; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; }
     .footer__copy { text-align: center; font-size: 0.82rem; color: #666; border-top: 1px solid #333; padding-top: 20px; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal-content { background: #fff; color: #222; border-radius: 12px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; padding: 36px 32px; position: relative; animation: modalIn 0.25s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #666; line-height: 1; }
+    .modal-close:hover { color: #111; }
+    .modal-content h2 { font-size: 1.3rem; margin-bottom: 16px; color: #111; }
+    .modal-content h3 { font-size: 1.05rem; margin: 18px 0 8px; color: #222; }
+    .modal-content p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 10px; color: #444; }
+    .modal-content ul, .modal-content ol { padding-left: 20px; margin-bottom: 12px; }
+    .modal-content li { font-size: 0.93rem; line-height: 1.8; color: #444; }
     @media (max-width: 1024px) {
       .hero { gap: 2rem; padding: 48px 5%; }
       .how-it-works__block { gap: 2rem; }
@@ -190,7 +206,8 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
       .mode-of-use__specs .btn { width: 100%; }
       .footer { padding: 40px 5% 24px; }
       .footer__grid { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; }
-      .footer__payment, .footer__security { margin: 0 auto; }
+      .footer__payment, .footer__payment-icons, .footer__security { margin: 0 auto; }
+      .footer__payment-icons { justify-content: center; }
       .btn { padding: 14px 24px; font-size: 0.97rem; }
       .section-title { font-size: clamp(1.2rem, 5vw, 1.6rem); }
     }
@@ -468,23 +485,75 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
       <div class="footer__col">
         <h4>LINKS &Uacute;TEIS</h4>
         <ul>
-          <li><a>Pol&iacute;tica de Privacidade</a></li>
-          <li><a>Pol&iacute;tica de Envio e Prazo de Entrega</a></li>
-          <li><a>Rastrear Pedido</a></li>
-          <li><a>Pol&iacute;tica de Reembolso</a></li>
-          <li><a>Pol&iacute;tica de Trocas e Devolu&ccedil;&atilde;o</a></li>
+          <li><a href="#" onclick="openModal('modal-privacidade'); return false;">Pol&iacute;tica de Privacidade</a></li>
+          <li><a href="#" onclick="openModal('modal-envio'); return false;">Pol&iacute;tica de Envio e Prazo de Entrega</a></li>
+          <li><a href="#" onclick="openModal('modal-rastrear'); return false;">Rastrear Pedido</a></li>
+          <li><a href="#" onclick="openModal('modal-reembolso'); return false;">Pol&iacute;tica de Reembolso</a></li>
+          <li><a href="#" onclick="openModal('modal-trocas'); return false;">Pol&iacute;tica de Trocas e Devolu&ccedil;&atilde;o</a></li>
         </ul>
       </div>
       <div class="footer__col">
         <h4>FORMAS DE PAGAMENTO</h4>
-        <img src="https://cdn.shopify.com/s/files/1/0656/5688/1394/t/7/assets/downloadremovebgpreview-1675868134725.png?v=1675868136" alt="Pagamento" class="footer__payment" />
-        <img src="https://cdn.shopify.com/s/files/1/0656/5688/1394/t/7/assets/seguranca-1675868374507.webp?v=1675868375" alt="Site seguro" class="footer__security" />
+        <div class="footer__payment-icons">
+          <!-- Visa -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <path d="M19.5 21H17L18.9 11H21.4L19.5 21ZM15.4 11L13 17.9L12.7 16.4L12.7 16.4L11.8 12C11.8 12 11.7 11 10.4 11H6.1L6 11.2C6 11.2 7.5 11.5 9.2 12.5L11.3 21H13.9L18 11H15.4ZM37 21H39.2L37.3 11H35.3C34.2 11 33.9 11.8 33.9 11.8L30.2 21H32.8L33.3 19.5H36.5L37 21ZM34.1 17.5L35.5 13.6L36.3 17.5H34.1ZM30 14L30.4 11.8C30.4 11.8 29 11.2 27.6 11.2C26 11.2 22.4 11.9 22.4 15.2C22.4 18.3 26.7 18.3 26.7 19.9C26.7 21.5 22.9 21.2 21.6 20.2L21.2 22.5C21.2 22.5 22.6 23.2 24.6 23.2C26.6 23.2 29.9 22 29.9 19C29.9 15.9 25.5 15.6 25.5 14.3C25.5 13 28.5 13.2 30 14Z" fill="#fff"/>
+          </svg>
+          <!-- Mastercard -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <circle cx="20" cy="16" r="8" fill="#fff" fill-opacity="0.6"/>
+            <circle cx="28" cy="16" r="8" fill="#fff" fill-opacity="0.6"/>
+          </svg>
+          <!-- American Express -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <text x="24" y="18" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff" font-family="Arial, sans-serif">AMEX</text>
+          </svg>
+          <!-- Diners Club -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <circle cx="24" cy="16" r="8" stroke="#fff" stroke-width="1.5" fill="none"/>
+            <line x1="20" y1="10" x2="20" y2="22" stroke="#fff" stroke-width="1"/>
+            <line x1="28" y1="10" x2="28" y2="22" stroke="#fff" stroke-width="1"/>
+          </svg>
+          <!-- Boleto -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <rect x="10" y="8" width="2" height="16" fill="#fff"/><rect x="14" y="8" width="1" height="16" fill="#fff"/>
+            <rect x="17" y="8" width="3" height="16" fill="#fff"/><rect x="22" y="8" width="1" height="16" fill="#fff"/>
+            <rect x="25" y="8" width="2" height="16" fill="#fff"/><rect x="29" y="8" width="1" height="16" fill="#fff"/>
+            <rect x="32" y="8" width="3" height="16" fill="#fff"/><rect x="37" y="8" width="1" height="16" fill="#fff"/>
+          </svg>
+          <!-- Hipercard -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <text x="24" y="18" text-anchor="middle" font-size="6" font-weight="bold" fill="#fff" font-family="Arial, sans-serif">HIPER</text>
+          </svg>
+          <!-- Elo -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <text x="24" y="19" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff" font-family="Arial, sans-serif">elo</text>
+          </svg>
+          <!-- Pix -->
+          <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-icon">
+            <rect x="0.5" y="0.5" width="47" height="31" rx="3.5" stroke="#fff" fill="none"/>
+            <path d="M28.5 11.5L24 16L19.5 11.5M19.5 20.5L24 16L28.5 20.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="footer__secure-badge">
+          <svg viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="secure-shield">
+            <path d="M12 1L2 5.5V12.5C2 19.1 6.3 25.2 12 27C17.7 25.2 22 19.1 22 12.5V5.5L12 1Z" fill="#fff"/>
+          </svg>
+          <span>100% SEGURO</span>
+        </div>
       </div>
     </div>
     <p class="footer__copy">&copy; 2025 Sorrifix. Todos os direitos reservados.</p>
   </footer>
 
-  <script>
+  <script is:inline>
     document.querySelectorAll('.faq__question').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var item = btn.parentElement;
@@ -499,7 +568,131 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
         }
       });
     });
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(event, forceClose) {
+      if (forceClose || event.target.classList.contains('modal-overlay')) {
+        var overlay = event.target.closest('.modal-overlay') || event.target;
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(function(m) {
+          m.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+      }
+    });
   </script>
+
+  <!-- Modais de Políticas -->
+  <div class="modal-overlay" id="modal-privacidade" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal(event, true)">&times;</button>
+      <h2>Política de Privacidade</h2>
+      <p>A <strong>Sorrifix</strong> valoriza a privacidade dos seus clientes. Coletamos apenas os dados necessários para processar pedidos e melhorar sua experiência.</p>
+      <h3>Dados Coletados</h3>
+      <ul>
+        <li>Nome completo, e-mail e telefone para contato e envio.</li>
+        <li>Endereço de entrega para envio dos produtos.</li>
+        <li>Dados de pagamento (processados por plataformas seguras de terceiros).</li>
+      </ul>
+      <h3>Uso dos Dados</h3>
+      <ul>
+        <li>Processar e enviar seu pedido.</li>
+        <li>Enviar atualizações sobre o status da entrega.</li>
+        <li>Oferecer suporte ao cliente.</li>
+      </ul>
+      <h3>Compartilhamento</h3>
+      <p>Seus dados não são vendidos a terceiros. Compartilhamos apenas com parceiros essenciais (transportadoras e processadores de pagamento) para cumprir seu pedido.</p>
+      <h3>Seus Direitos</h3>
+      <p>Você pode solicitar a exclusão ou alteração dos seus dados a qualquer momento entrando em contato pelo e-mail <strong>suporte@sorrifix.com</strong>.</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-envio" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal(event, true)">&times;</button>
+      <h2>Política de Envio e Prazo de Entrega</h2>
+      <h3>Processamento</h3>
+      <p>Os pedidos são processados em até <strong>2 dias úteis</strong> após a confirmação do pagamento.</p>
+      <h3>Prazos de Entrega</h3>
+      <ul>
+        <li><strong>Capitais e regiões metropolitanas:</strong> 5 a 10 dias úteis.</li>
+        <li><strong>Interior e demais regiões:</strong> 8 a 15 dias úteis.</li>
+      </ul>
+      <h3>Frete</h3>
+      <p>Todos os nossos kits possuem <strong>frete grátis</strong> para todo o Brasil.</p>
+      <h3>Rastreamento</h3>
+      <p>Após o envio, você receberá um código de rastreamento por e-mail para acompanhar sua entrega em tempo real.</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-rastrear" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal(event, true)">&times;</button>
+      <h2>Rastrear Pedido</h2>
+      <p>Para rastrear seu pedido, siga os passos abaixo:</p>
+      <ol>
+        <li>Acesse o e-mail cadastrado no momento da compra.</li>
+        <li>Procure pelo e-mail com o assunto <strong>"Seu pedido foi enviado"</strong>.</li>
+        <li>Clique no link de rastreamento ou copie o código de rastreio.</li>
+        <li>Cole o código no site dos <strong>Correios</strong> ou da transportadora indicada.</li>
+      </ol>
+      <p>Caso não tenha recebido o e-mail de rastreamento, entre em contato conosco pelo e-mail <strong>suporte@sorrifix.com</strong> informando o número do pedido.</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-reembolso" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal(event, true)">&times;</button>
+      <h2>Política de Reembolso</h2>
+      <p>Sua satisfação é a nossa prioridade. Oferecemos <strong>garantia de 30 dias</strong> para devolução do dinheiro.</p>
+      <h3>Condições</h3>
+      <ul>
+        <li>O pedido de reembolso deve ser feito em até 30 dias após o recebimento do produto.</li>
+        <li>O produto deve estar em condições adequadas (sem sinais de mau uso).</li>
+      </ul>
+      <h3>Como Solicitar</h3>
+      <ol>
+        <li>Envie um e-mail para <strong>suporte@sorrifix.com</strong> com o assunto "Reembolso".</li>
+        <li>Informe o número do pedido e o motivo da devolução.</li>
+        <li>Aguarde as instruções de devolução da nossa equipe.</li>
+      </ol>
+      <h3>Prazo do Reembolso</h3>
+      <p>Após o recebimento do produto devolvido, o reembolso será processado em até <strong>10 dias úteis</strong>, na mesma forma de pagamento utilizada na compra.</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-trocas" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal(event, true)">&times;</button>
+      <h2>Política de Trocas e Devolução</h2>
+      <h3>Trocas</h3>
+      <p>Realizamos trocas em caso de:</p>
+      <ul>
+        <li>Produto com defeito de fabricação.</li>
+        <li>Produto diferente do pedido.</li>
+        <li>Avaria causada durante o transporte.</li>
+      </ul>
+      <h3>Como Solicitar a Troca</h3>
+      <ol>
+        <li>Entre em contato pelo e-mail <strong>suporte@sorrifix.com</strong> em até 7 dias após o recebimento.</li>
+        <li>Envie fotos do produto recebido.</li>
+        <li>Aguarde a aprovação e as instruções de envio.</li>
+      </ol>
+      <h3>Devolução</h3>
+      <p>Para devoluções, o produto deve ser enviado na embalagem original. O frete de devolução será por conta da Sorrifix nos casos de defeito ou erro no envio.</p>
+      <p>Dúvidas? Fale conosco: <strong>suporte@sorrifix.com</strong></p>
+    </div>
+  </div>
 
 </body>
 </html>
