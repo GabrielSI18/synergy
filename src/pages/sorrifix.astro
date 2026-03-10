@@ -12,6 +12,14 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
   <link rel="icon" type="image/png" href="/sorrifixfavicon.png" />
   <title>SORRIFIX - Conjunto de Pr&oacute;tese Completa Individual</title>
   <meta name="description" content="Transforme seu sorriso em minutos sem dor, sem dentista e por uma fra&ccedil;&atilde;o do pre&ccedil;o." />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17318558682" is:inline></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17318558682');
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -589,6 +597,18 @@ const CHECKOUT_KIT_4 = "https://seguro.ofertinhaexclusiva.com/api/public/shopify
         });
         document.body.style.overflow = '';
       }
+    });
+
+    // Google Ads - Evento de conversão nos botões de compra
+    document.querySelectorAll('.btn--buy[href*="seguro.ofertinhaexclusiva"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-17318558682',
+            'event_callback': function() {}
+          });
+        }
+      });
     });
   </script>
 
