@@ -1718,14 +1718,14 @@
       'https://seguro.ofertinhaexclusiva.com/api/public/shopify?product=2885957672812&store=28859'  // Kit Profissional
     ];
 
-    function goOffers() {
+    window.goOffers = function() {
       var cards = document.querySelectorAll('.price-card');
       var idx = 2; // padrão: Kit Profissional (já vem selecionado)
       cards.forEach(function(c, i) {
         if (c.classList.contains('selected')) idx = i;
       });
       window.location.href = CHECKOUT_URLS[idx];
-    }
+    };
 
     // ===== FLOAT CTA VISIBILITY =====
     var fc = document.getElementById('floatCta');
