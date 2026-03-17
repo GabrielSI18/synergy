@@ -89,7 +89,7 @@
 
     /* ===== GALLERY ===== */
     .gallery-wrap {
-      background: var(--g50);
+      background: var(--white);
       position: relative;
       overflow: hidden;
     }
@@ -100,16 +100,17 @@
     }
     .gallery-slide {
       min-width: 100%;
-      aspect-ratio: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      background: var(--white);
     }
     .gallery-slide img, .gallery-slide video {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      max-height: 75vh;
+      object-fit: contain;
     }
     .gallery-nav {
       position: absolute;
@@ -377,8 +378,8 @@
     .desc-block p { margin-bottom: 16px; }
 
     /* ===== VIDEO ===== */
-    .vid-section { padding: 0; }
-    .vid-section video { width: 100%; display: block; }
+    .vid-section { padding: 0; max-height: 500px; overflow: hidden; }
+    .vid-section video { width: 100%; display: block; max-height: 500px; object-fit: cover; }
 
     /* ===== INFOGRAPHICS ===== */
     .infographics { padding: 0; }
@@ -562,14 +563,15 @@
     @media (min-width: 768px) {
       .product-layout {
         display: grid;
-        grid-template-columns: 55% 45%;
-        gap: 32px;
+        grid-template-columns: 50% 50%;
+        gap: 40px;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 32px 24px;
+        padding: 32px 32px;
+        align-items: start;
       }
       .gallery-wrap { border-radius: 16px; overflow: hidden; }
-      .gallery-slide { aspect-ratio: 1; }
+      .gallery-slide img, .gallery-slide video { max-height: 520px; }
       .gallery-thumbs { padding: 10px 0; }
       .gallery-dots { display: none; }
       .product-info { padding: 0; }
@@ -599,6 +601,9 @@
     /* ===== TELAS MUITO PEQUENAS (320-380px) ===== */
     @media (max-width: 380px) {
       .topbar { font-size: 11px; padding: 8px 12px; }
+      .gallery-slide img, .gallery-slide video { max-height: 55vh; }
+      .gallery-nav { width: 32px; height: 32px; font-size: 14px; }
+      .gallery-thumb { min-width: 44px; width: 44px; height: 44px; }
       .product-title { font-size: 17px; }
       .product-desc { font-size: 13px; }
       .benefits li { font-size: 13px; padding: 7px 10px; }
@@ -620,6 +625,7 @@
       .warranty h2 { font-size: 19px; }
       .warranty p { font-size: 13px; }
       .s-title { font-size: 18px; }
+      .vid-section, .vid-section video { max-height: 350px; }
     }
 
     /* ===== TELAS INTERMEDIÁRIAS (381-480px) ===== */
