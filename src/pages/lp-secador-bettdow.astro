@@ -228,18 +228,27 @@
       color: var(--black);
     }
 
-    /* ===== BENEFITS (emoji) ===== */
-    .emoji-benefits {
+    /* ===== BENEFITS ===== */
+    .benefits-list {
       padding: 0 16px;
       margin: 1.5rem 0;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 10px;
     }
-    .emoji-benefits p {
-      font-size: 1rem;
-      line-height: 1.7;
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.95rem;
+      line-height: 1.6;
       color: var(--black);
+    }
+    .benefit-item .material-symbols-outlined {
+      font-size: 20px;
+      color: var(--black);
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
     /* ===== PRICING ===== */
@@ -403,6 +412,9 @@
       color: var(--g500);
       font-weight: 500;
     }
+    .cta-trust-item .material-symbols-outlined {
+      font-size: 16px;
+    }
 
     /* ===== BADGES (Frete + Garantia) ===== */
     .trust-badges {
@@ -531,7 +543,8 @@
       text-align: center;
       background: var(--green-light);
     }
-    .warranty .wi { font-size: 52px; margin-bottom: 12px; }
+    .warranty .wi { font-size: 52px; margin-bottom: 12px; color: var(--green); }
+    .warranty .wi .material-symbols-outlined { font-size: 52px; }
     .warranty h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: var(--black); }
     .warranty p { font-size: 15px; color: var(--g600); max-width: 480px; margin: 0 auto; line-height: 1.6; }
 
@@ -768,32 +781,20 @@
         align-items: start;
       }
       .gallery-wrap { border-radius: 16px; overflow: hidden; aspect-ratio: 1/1; }
-      .gallery-area {
-        display: grid;
-        grid-template-columns: 74px 1fr;
-        gap: 12px;
-      }
       .gallery-thumbs {
-        flex-direction: column;
-        padding: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        max-height: 560px;
-        scrollbar-width: thin;
-        order: -1;
-        justify-content: flex-start;
+        padding: 10px 0 0;
+        justify-content: center;
+        flex-wrap: wrap;
       }
-      .gallery-thumbs::-webkit-scrollbar { display: block; width: 3px; }
-      .gallery-thumbs::-webkit-scrollbar-thumb { background: var(--g300); border-radius: 3px; }
-      .gallery-thumb { min-width: 64px; width: 64px; height: 64px; border-radius: 6px; }
+      .gallery-thumb { min-width: 60px; width: 60px; height: 60px; border-radius: 6px; }
       .gallery-dots { display: none; }
       .product-info { padding: 0; }
       .product-title { font-size: 28px; }
       .highlight-box { font-size: 1.6rem; }
       .trust-badges { padding: 0; }
       .trust-badge { font-size: 1rem; padding: 0.6em 0.8em; }
-      .emoji-benefits { padding: 0; }
-      .emoji-benefits p { font-size: 1.1rem; }
+      .benefits-list { padding: 0; }
+      .benefit-item { font-size: 1rem; }
       .pricing-section { padding: 0; }
       .cta-wrap { padding: 16px 0; }
       .info-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 24px; }
@@ -832,7 +833,8 @@
       .product-title { font-size: 18px; }
       .highlight-box { font-size: 1.1rem; padding: 0.5em 0.8em; }
       .trust-badge { font-size: 0.78rem; padding: 0.4em 0.5em; gap: 0.3em; }
-      .emoji-benefits p { font-size: 0.9rem; }
+      .benefit-item { font-size: 0.85rem; }
+      .benefit-item .material-symbols-outlined { font-size: 18px; }
       .price-card { padding: 12px 10px 12px 44px; }
       .price-card .c-name { font-size: 16px; }
       .price-card .p-now { font-size: 18px; }
@@ -919,17 +921,44 @@
         </div>
       </div>
 
-      <!-- Emoji benefits -->
-      <div class="emoji-benefits">
-        <p>&#128168; <strong>Secagem super r&aacute;pida</strong> com motor digital</p>
-        <p>&#10024; <strong>Brilho imediato</strong> e <strong>menos frizz</strong> com &iacute;ons negativos</p>
-        <p>&#128293; <strong>Prote&ccedil;&atilde;o t&eacute;rmica inteligente</strong> que cuida dos fios</p>
-        <p>&#127919; <strong>Bico magn&eacute;tico 360&deg;</strong> para modelar com precis&atilde;o</p>
-        <p>&#129718; <strong>Ultra leve</strong>, ideal para uso di&aacute;rio</p>
-        <p>&#128263; <strong>Silencioso</strong> e confort&aacute;vel de usar</p>
-        <p>&#127788;&#65039; <strong>Perfeito para todos os tipos de cabelo</strong></p>
-        <p>&#128230; <strong>Acess&oacute;rios premium</strong> inclu&iacute;dos</p>
-        <p>&#128151; <strong>2 anos de Garantia</strong></p>
+      <!-- Benefits -->
+      <div class="benefits-list">
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">air</span>
+          <span><strong>Secagem super r&aacute;pida</strong> com motor digital de 110.000 rpm</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">auto_awesome</span>
+          <span><strong>Brilho imediato</strong> e <strong>redu&ccedil;&atilde;o de frizz</strong> com &iacute;ons negativos</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">thermostat</span>
+          <span><strong>Prote&ccedil;&atilde;o t&eacute;rmica inteligente</strong> que cuida dos fios enquanto seca</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">360</span>
+          <span><strong>Bico magn&eacute;tico 360&deg;</strong> para modelar com precis&atilde;o profissional</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">fitness_center</span>
+          <span><strong>Ultra leve (~300g)</strong>, ideal para uso di&aacute;rio sem cansar o bra&ccedil;o</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">volume_off</span>
+          <span><strong>Silencioso</strong> &mdash; at&eacute; 50% menos ru&iacute;do que secadores comuns</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">diversity_3</span>
+          <span><strong>Perfeito para todos os tipos de cabelo</strong> &mdash; lisos, ondulados, cacheados e crespos</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">inventory_2</span>
+          <span><strong>Acess&oacute;rios premium</strong> inclu&iacute;dos na caixa</span>
+        </div>
+        <div class="benefit-item">
+          <span class="material-symbols-outlined">verified_user</span>
+          <span><strong>2 anos de Garantia</strong> com troca sem custo</span>
+        </div>
       </div>
 
       <!-- PRICING -->
@@ -967,10 +996,10 @@
       <div class="cta-wrap">
         <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>Adicionar ao carrinho</button>
         <div class="cta-trust">
-          <span class="cta-trust-item">&#128666; Frete Gr&aacute;tis</span>
-          <span class="cta-trust-item">&#128274; Compra Segura</span>
-          <span class="cta-trust-item">&#128260; Troca Garantida</span>
-          <span class="cta-trust-item">&#128179; At&eacute; 12x</span>
+          <span class="cta-trust-item"><span class="material-symbols-outlined">local_shipping</span> Frete Gr&aacute;tis</span>
+          <span class="cta-trust-item"><span class="material-symbols-outlined">lock</span> Compra Segura</span>
+          <span class="cta-trust-item"><span class="material-symbols-outlined">swap_horiz</span> Troca Garantida</span>
+          <span class="cta-trust-item"><span class="material-symbols-outlined">credit_card</span> At&eacute; 12x</span>
         </div>
       </div>
 
@@ -1003,6 +1032,8 @@
   <!-- DESCRIPTION -->
   <div class="desc-block">
     <p>O <strong>Bettdow AirLux Pro</strong> combina motor digital de 110.000 rpm, tecnologia i&ocirc;nica avan&ccedil;ada e controle t&eacute;rmico inteligente para oferecer secagem r&aacute;pida, redu&ccedil;&atilde;o de frizz e brilho imediato. Leve, silencioso e potente &mdash; um secador premium para todos os tipos de cabelo.</p>
+    <p>Diferente dos secadores comuns que danificam os fios com calor excessivo, o AirLux Pro monitora a temperatura em tempo real, ajustando automaticamente para proteger a fibra capilar. O resultado &eacute; um cabelo mais saud&aacute;vel, macio e com brilho natural desde a primeira utiliza&ccedil;&atilde;o.</p>
+    <p>Com apenas ~300g, &eacute; um dos secadores mais leves do mercado. O bico magn&eacute;tico 360&deg; permite direcionar o fluxo de ar com precis&atilde;o, ideal para alisar, modelar ou definir cachos sem esfor&ccedil;o.</p>
   </div>
 
   <!-- INFOGRAPHICS -->
@@ -1023,11 +1054,11 @@
 
   <!-- CTA REPEAT -->
   <div class="cta-wrap" style="background:var(--g50);padding:28px 16px;">
-    <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>APROVEITAR OFERTA &#128293;</button>
+    <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>APROVEITAR OFERTA</button>
     <div class="cta-trust">
-      <span class="cta-trust-item">&#128666; Frete Gr&aacute;tis</span>
-      <span class="cta-trust-item">&#128274; Compra Segura</span>
-      <span class="cta-trust-item">&#128260; Troca Garantida</span>
+      <span class="cta-trust-item"><span class="material-symbols-outlined">local_shipping</span> Frete Gr&aacute;tis</span>
+      <span class="cta-trust-item"><span class="material-symbols-outlined">lock</span> Compra Segura</span>
+      <span class="cta-trust-item"><span class="material-symbols-outlined">swap_horiz</span> Troca Garantida</span>
     </div>
   </div>
 
@@ -1046,6 +1077,9 @@
         <tr><td>Bico magn&eacute;tico 360&deg;</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
         <tr><td>Ultra silencioso</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
         <tr><td>Peso leve (~300g)</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
+        <tr><td>Controle de temperatura autom&aacute;tico</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
+        <tr><td>Secagem em menos de 5 min</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
+        <tr><td>Seguro para fios tingidos</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
         <tr><td>Garantia de 2 anos</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
       </tbody>
     </table>
@@ -1055,9 +1089,9 @@
 
   <!-- WARRANTY -->
   <section class="warranty">
-    <div class="wi">&#128737;&#65039;</div>
+    <div class="wi"><span class="material-symbols-outlined">verified_user</span></div>
     <h2>2 Anos de Garantia</h2>
-    <p>Seu secador Bettdow AirLux Pro vem com 2 anos de garantia total. Se houver qualquer problema de f&aacute;brica, n&oacute;s trocamos sem custo algum.</p>
+    <p>Seu secador Bettdow AirLux Pro vem com 2 anos de garantia total contra defeitos de f&aacute;brica. Caso tenha qualquer problema, n&oacute;s trocamos sem custo &mdash; sem burocracia, sem complica&ccedil;&atilde;o.</p>
   </section>
 
   <div class="sep"></div>
@@ -1067,7 +1101,8 @@
     <div class="accordion-item">
       <button class="accordion-header">VIS&Atilde;O GERAL</button>
       <div class="accordion-content">
-        <p>O Bettdow AirLux Pro combina motor digital de 110.000 rpm, tecnologia i&ocirc;nica avan&ccedil;ada e controle t&eacute;rmico inteligente para oferecer secagem r&aacute;pida, redu&ccedil;&atilde;o de frizz e brilho imediato. Leve, silencioso e potente &mdash; um secador premium para todos os tipos de cabelo.</p>
+        <p>O Bettdow AirLux Pro combina motor digital de 110.000 rpm, tecnologia i&ocirc;nica avan&ccedil;ada e controle t&eacute;rmico inteligente para oferecer secagem r&aacute;pida, redu&ccedil;&atilde;o de frizz e brilho imediato. Leve, silencioso e potente &mdash; um secador premium projetado para todos os tipos de cabelo.</p>
+        <p style="margin-top:10px">Seu design ergon&ocirc;mico e peso de apenas ~300g tornam o uso di&aacute;rio confort&aacute;vel, sem cansar o bra&ccedil;o. O sistema de &iacute;ons negativos sela as cut&iacute;culas do cabelo, reduzindo o frizz e conferindo brilho natural desde a primeira secagem.</p>
       </div>
     </div>
     <div class="accordion-item">
@@ -1093,28 +1128,35 @@
     <div class="accordion-item">
       <button class="accordion-header">COMPATIBILIDADE COM TIPOS DE CABELO</button>
       <div class="accordion-content">
-        <p>Ideal para cabelos lisos, ondulados, cacheados e crespos. Seguro para fios tingidos, danificados ou quimicamente tratados.</p>
+        <p>Ideal para cabelos lisos, ondulados, cacheados e crespos. Seguro para fios tingidos, danificados ou quimicamente tratados. O controle de temperatura inteligente adapta o calor automaticamente, evitando danos mesmo nos fios mais fr&aacute;geis. Perfeito tamb&eacute;m para cabelos infantis, que exigem cuidado redobrado.</p>
       </div>
     </div>
     <div class="accordion-item">
       <button class="accordion-header">O QUE VEM NA CAIXA</button>
       <div class="accordion-content">
-        <p>&bull; Secador Bettdow AirLux Pro<br>
-        &bull; Bico magn&eacute;tico modelador<br>
-        &bull; Filtro remov&iacute;vel extra<br>
-        &bull; Manual de uso<br>
-        &bull; Cabo refor&ccedil;ado anti-desgaste</p>
+        <p>&bull; 1x Secador Bettdow AirLux Pro<br>
+        &bull; 1x Bico magn&eacute;tico modelador 360&deg;<br>
+        &bull; 1x Filtro remov&iacute;vel extra<br>
+        &bull; 1x Manual de uso em portugu&ecirc;s<br>
+        &bull; 1x Cabo refor&ccedil;ado anti-desgaste (1.8m)<br>
+        &bull; 1x Embalagem premium com prote&ccedil;&atilde;o interna</p>
       </div>
     </div>
     <div class="accordion-item">
       <button class="accordion-header">PERGUNTAS FREQUENTES</button>
       <div class="accordion-content">
         <p><strong>Ele esquenta muito?</strong><br>
-        N&atilde;o. O sensor t&eacute;rmico monitora e ajusta o calor automaticamente.</p>
+        N&atilde;o. O sensor t&eacute;rmico monitora e ajusta o calor automaticamente, protegendo os fios de danos.</p>
         <p style="margin-top:12px"><strong>&Eacute; barulhento?</strong><br>
-        N&atilde;o &mdash; a tecnologia de motor digital reduz o ru&iacute;do em at&eacute; 50%.</p>
+        N&atilde;o &mdash; a tecnologia de motor digital reduz o ru&iacute;do em at&eacute; 50% comparado a secadores comuns.</p>
         <p style="margin-top:12px"><strong>Funciona para cabelos curtos?</strong><br>
         Sim, o fluxo concentrado acelera a secagem de qualquer comprimento.</p>
+        <p style="margin-top:12px"><strong>Qual a voltagem?</strong><br>
+        O AirLux Pro &eacute; bivolt (110V/220V), compat&iacute;vel com qualquer tomada do Brasil.</p>
+        <p style="margin-top:12px"><strong>Posso usar em cabelo com progressiva ou tintura?</strong><br>
+        Sim. O controle t&eacute;rmico inteligente protege fios tratados quimicamente, mantendo a sa&uacute;de do cabelo.</p>
+        <p style="margin-top:12px"><strong>Quanto tempo dura a garantia?</strong><br>
+        2 anos de garantia total contra defeitos de f&aacute;brica, com troca sem custo.</p>
       </div>
     </div>
   </div>
@@ -1301,9 +1343,9 @@
   <div class="cta-wrap" style="background:var(--g100);padding:32px 16px;margin-top:24px;">
     <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>GARANTIR O MEU COM DESCONTO</button>
     <div class="cta-trust">
-      <span class="cta-trust-item">&#128666; Frete Gr&aacute;tis</span>
-      <span class="cta-trust-item">&#128737;&#65039; Garantia 2 Anos</span>
-      <span class="cta-trust-item">&#128274; Compra Segura</span>
+      <span class="cta-trust-item"><span class="material-symbols-outlined">local_shipping</span> Frete Gr&aacute;tis</span>
+      <span class="cta-trust-item"><span class="material-symbols-outlined">verified_user</span> Garantia 2 Anos</span>
+      <span class="cta-trust-item"><span class="material-symbols-outlined">lock</span> Compra Segura</span>
     </div>
   </div>
 
@@ -1334,6 +1376,7 @@
   <script>
     // ===== GALLERY =====
     var slides = [
+      { type: 'image', src: '/secador-rapidex.webp', thumb: '/secador-rapidex.webp', alt: 'Bettdow AirLux Pro' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=150', alt: 'Branco' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w2v4h0d.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w2v4h0d.jpg?v=1764562749&width=150', alt: 'Azul' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98lqdtaf.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98lqdtaf.jpg?v=1764562749&width=150', alt: 'Rosa' },
