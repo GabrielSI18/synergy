@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout Seguro — Synergy</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://api.bestfybr.com.br/v1/js"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17318558682"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17318558682');
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="checkout-header">
+    <div class="checkout-header__inner">
+      <img src="img/logo.png" alt="Synergy" class="checkout-header__logo-img">
+      <div class="checkout-header__secure">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div>
+          <span class="checkout-header__secure-label">PAGAMENTO</span>
+          <span class="checkout-header__secure-text">100% SEGURO</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <div class="checkout-banner">
+    Parcelamento em até 12x no cartão de crédito.<br>
+    <strong>PIX com 5% de desconto e envio prioritário.</strong> Aproveite!
+  </div>
+
+  <!-- Main Layout -->
+  <div class="checkout-container">
+    <!-- Left: Steps -->
+    <main class="checkout-steps">
+
+      <!-- Step 1: Dados pessoais -->
+      <section class="step-card step-card--active" id="section-customer" data-step="1">
+        <div class="step-card__header">
+          <h3 class="step-card__title">Dados pessoais</h3>
+          <span class="step-card__edit" id="edit-step-1" style="display:none;">Editar</span>
+        </div>
+        <p class="step-card__subtitle">Pedimos apenas as informações essenciais para concluir sua compra com segurança.</p>
+
+        <!-- Resumo (mostrado quando step está completo) -->
+        <div class="step-card__summary" id="summary-step-1" style="display:none;"></div>
+
+        <div class="step-card__body" id="body-step-1">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="customer-name">Nome completo</label>
+              <input type="text" id="customer-name" placeholder="Ex: Mariana Cardoso Silva" required>
+            </div>
+            <div class="form-group full">
+              <label for="customer-email">E-mail</label>
+              <input type="email" id="customer-email" placeholder="ex: marianacardoso@gmail.com" required>
+            </div>
+            <div class="form-group">
+              <label for="customer-cpf">CPF <svg class="info-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></label>
+              <input type="text" id="customer-cpf" placeholder="000.000.000-00" required>
+            </div>
+            <div class="form-group">
+              <label for="customer-phone">Celular/Whatsapp</label>
+              <div class="phone-input-wrapper">
+                <span class="phone-prefix">+55</span>
+                <input type="tel" id="customer-phone" placeholder="(00) 00000-0000" required>
+              </div>
+            </div>
+          </div>
+          <button class="btn-step" id="btn-step-1" type="button">
+            Continuar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2: Entrega -->
+      <section class="step-card step-card--locked" id="section-address" data-step="2">
+        <div class="step-card__header">
+          <h3 class="step-card__title">Entrega</h3>
+          <span class="step-card__edit" id="edit-step-2" style="display:none;">Editar</span>
+        </div>
+        <p class="step-card__subtitle step-card__locked-msg" id="locked-msg-2">Preencha suas informações pessoais para continuar</p>
+
+        <!-- Resumo -->
+        <div class="step-card__summary" id="summary-step-2" style="display:none;"></div>
+
+        <div class="step-card__body" id="body-step-2" style="display:none;">
+          <!-- CEP field (always visible) -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="address-cep">CEP</label>
+              <input type="text" id="address-cep" placeholder="00000-000" inputmode="numeric" maxlength="9" required>
+            </div>
+          </div>
+
+          <!-- Address fields (hidden until CEP is filled) -->
+          <div id="address-fields" style="display:none;">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label for="address-street">Rua</label>
+                <input type="text" id="address-street" placeholder="Nome da rua" required>
+              </div>
+              <div class="form-group small">
+                <label for="address-number">Número</label>
+                <input type="text" id="address-number" placeholder="123" required>
+              </div>
+              <div class="form-group">
+                <label for="address-complement">Complemento</label>
+                <input type="text" id="address-complement" placeholder="Apto, bloco...">
+              </div>
+              <div class="form-group">
+                <label for="address-neighborhood">Bairro</label>
+                <input type="text" id="address-neighborhood" placeholder="Bairro" required>
+              </div>
+              <div class="form-group">
+                <label for="address-city">Cidade</label>
+                <input type="text" id="address-city" placeholder="Cidade" required>
+              </div>
+              <div class="form-group small">
+                <label for="address-state">Estado</label>
+                <select id="address-state" required>
+                  <option value="">UF</option>
+                  <option value="AC">AC</option><option value="AL">AL</option>
+                  <option value="AP">AP</option><option value="AM">AM</option>
+                  <option value="BA">BA</option><option value="CE">CE</option>
+                  <option value="DF">DF</option><option value="ES">ES</option>
+                  <option value="GO">GO</option><option value="MA">MA</option>
+                  <option value="MT">MT</option><option value="MS">MS</option>
+                  <option value="MG">MG</option><option value="PA">PA</option>
+                  <option value="PB">PB</option><option value="PR">PR</option>
+                  <option value="PE">PE</option><option value="PI">PI</option>
+                  <option value="RJ">RJ</option><option value="RN">RN</option>
+                  <option value="RS">RS</option><option value="RO">RO</option>
+                  <option value="RR">RR</option><option value="SC">SC</option>
+                  <option value="SP">SP</option><option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Shipping options -->
+            <div id="shipping-options" class="shipping-options">
+              <p class="shipping-options__title">Escolha uma forma de entrega:</p>
+              <label class="shipping-option shipping-option--selected">
+                <input type="radio" name="shipping" value="pac" data-price="0" data-label="Correios-PAC" checked>
+                <span class="shipping-option__radio"></span>
+                <div class="shipping-option__info">
+                  <span class="shipping-option__name">Correios-PAC</span>
+                  <span class="shipping-option__days">3 a 9 dias <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/correios.png?v=1773700748" alt="Correios" class="shipping-option__logo"></span>
+                </div>
+                <span class="shipping-option__price shipping-option__price--free">Grátis</span>
+              </label>
+              <label class="shipping-option">
+                <input type="radio" name="shipping" value="sedex" data-price="2744" data-label="Correios-SEDEX">
+                <span class="shipping-option__radio"></span>
+                <div class="shipping-option__info">
+                  <span class="shipping-option__name">Correios-SEDEX</span>
+                  <span class="shipping-option__days">2 a 5 dias <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/sedex.png?v=1773700748" alt="SEDEX" class="shipping-option__logo"></span>
+                </div>
+                <span class="shipping-option__price">R$ 27,44</span>
+              </label>
+              <label class="shipping-option">
+                <input type="radio" name="shipping" value="full" data-price="3925" data-label="FULL-Dia Seguinte">
+                <span class="shipping-option__radio"></span>
+                <div class="shipping-option__info">
+                  <span class="shipping-option__name">FULL-Dia Seguinte</span>
+                  <span class="shipping-option__days">1 a 2 dias <svg class="shipping-option__logo-svg" width="41" height="13" viewBox="0 0 41 13" xmlns="http://www.w3.org/2000/svg"><path fill-rule="nonzero" fill="#00a650" d="M2.628 0h5.255L5.255 4.643h4.38L2.628 13l1.751-5.571H0L2.628 0zm11.589 9.533h-1.959l1.674-7.515H19.5l-.376 1.69h-3.61l-.25 1.172h3.519l-.376 1.69h-3.53l-.66 2.963zm9.468.136c-2.334 0-3.484-1.105-3.484-2.682 0-.124.034-.383.057-.496l1.002-4.473h1.992l-.99 4.428c-.012.057-.034.18-.034.316.011.62.49 1.217 1.457 1.217 1.048 0 1.583-.654 1.776-1.533l.991-4.428h1.981l-.99 4.462c-.41 1.825-1.412 3.189-3.758 3.189zm10.118-.136h-5.01l1.673-7.515h1.959l-1.287 5.825h3.04l-.375 1.69zm6.678 0h-5.01l1.674-7.515h1.959l-1.287 5.825h3.04l-.376 1.69z"/></svg></span>
+                </div>
+                <span class="shipping-option__price">R$ 39,25</span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-step" id="btn-step-2" type="button">
+            Continuar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 3: Pagamento -->
+      <section class="step-card step-card--locked" id="section-payment" data-step="3">
+        <div class="step-card__header">
+          <h3 class="step-card__title">Opção de pagamento</h3>
+        </div>
+        <p class="step-card__subtitle step-card__locked-msg" id="locked-msg-3">Preencha suas informações de entrega para continuar</p>
+
+        <div class="step-card__body" id="body-step-3" style="display:none;">
+          <!-- Tabs de método de pagamento -->
+          <div class="payment-tabs">
+            <label class="payment-tab active" data-method="credit_card">
+              <input type="radio" name="payment-method" value="credit_card" checked>
+              <span class="payment-tab__radio"></span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span class="payment-tab__label">Cartão de crédito</span>
+            </label>
+            <label class="payment-tab" data-method="pix">
+              <input type="radio" name="payment-method" value="pix">
+              <span class="payment-tab__radio"></span>
+              <svg width="20" height="20" viewBox="0 0 901 900" fill="#32BCAD" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0 900) scale(.1 -.1)"><path d="m4265 8986c-216-42-357-99-536-217-83-54-204-172-1001-968-500-498-908-909-908-913 0-5 92-8 204-8 288 0 449-33 646-132 186-94 194-101 985-889 413-411 766-755 785-765 49-26 181-26 230 0 19 10 368 350 775 755 642 640 752 746 834 800 241 159 431 218 735 228l178 6-888 889c-489 489-920 913-959 943-157 121-324 202-519 252-88 22-127 26-296 29-136 2-216-1-265-10z"/><path d="m861 5935c-485-487-577-584-630-664-102-154-154-272-199-450-25-99-27-121-27-321 0-191 3-225 24-310 49-199 134-377 256-535 30-38 299-315 598-614l544-543 359 1c403 2 467 8 607 55 204 69 179 48 1022 887 759 756 760 756 845 798 197 96 409 94 603-5 66-35 130-95 812-774 446-444 766-756 807-784 79-56 187-107 289-137 68-20 102-23 419-29 190-3 352-9 360-13 11-5 167 145 586 565 488 490 580 587 633 667 34 52 73 116 87 142 195 385 195 873 0 1258-14 26-53 90-87 142-53 80-145 177-633 667-419 420-575 570-586 565-8-4-170-10-360-13-317-6-351-9-419-29-102-30-210-81-289-137-40-28-364-343-812-789-802-798-778-776-930-823-175-53-368-27-525 70-29 18-367 347-805 782-837 833-813 812-1017 882-136 46-219 54-616 56l-348 3-568-570z"/><path d="m4465 3913c-47-14-101-65-805-767-796-793-804-800-990-894-196-99-359-132-647-132-112 0-203-3-203-8 0-4 408-415 908-913 797-796 918-914 1001-968 154-102 272-154 450-199 99-25 121-27 321-27 191 0 225 3 310 24 199 49 377 134 535 256 39 30 470 454 959 943l888 889-178 6c-304 10-494 69-735 228-82 54-193 161-839 805-722 719-747 743-799 758-67 19-110 19-176-1z"/></g></svg>
+              <span class="payment-tab__label">PIX</span>
+              <span class="payment-tab__badges">
+                <span class="badge badge--green">APROVAÇÃO IMEDIATA</span>
+                <span class="badge badge--red">5% DE DESCONTO</span>
+              </span>
+            </label>
+          </div>
+
+          <!-- Cartão de crédito -->
+          <div class="payment-content active" id="payment-credit_card">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label for="card-number">Número do cartão</label>
+                <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" required>
+              </div>
+              <div class="form-group full">
+                <label for="card-holder">Nome no cartão</label>
+                <input type="text" id="card-holder" placeholder="Como está no cartão" required>
+              </div>
+              <div class="form-group">
+                <label for="card-expiry">Validade</label>
+                <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" required>
+              </div>
+              <div class="form-group">
+                <label for="card-cvv">CVV</label>
+                <input type="text" id="card-cvv" placeholder="123" maxlength="4" required>
+              </div>
+              <div class="form-group full">
+                <label for="card-installments">Parcelas</label>
+                <select id="card-installments">
+                  <option value="1">1x sem juros</option>
+                  <option value="2">2x sem juros</option>
+                  <option value="3">3x sem juros</option>
+                  <option value="4">4x</option>
+                  <option value="5">5x</option>
+                  <option value="6">6x</option>
+                  <option value="7">7x</option>
+                  <option value="8">8x</option>
+                  <option value="9">9x</option>
+                  <option value="10">10x</option>
+                  <option value="11">11x</option>
+                  <option value="12">12x</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- PIX -->
+          <div class="payment-content" id="payment-pix">
+            <div class="pix-info">
+              <h4 class="pix-info__title">A confirmação do seu pagamento é mais rápida</h4>
+              <p>Após clicar em 'Finalizar Compra' você terá 30 minutos para pagar com Pix usando QR Code ou código que será exibido. A confirmação é instantânea.</p>
+              <p class="pix-info__value">Valor no Pix: <strong id="pix-discount-value">R$ 0,00</strong></p>
+            </div>
+          </div>
+
+
+
+          <!-- Botão de finalizar -->
+          <button class="btn-pay" id="btn-pay" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span class="btn-text">Finalizar Compra</span>
+            <span class="btn-loading" style="display:none;">
+              <span class="spinner"></span> Processando...
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Mensagem de erro -->
+      <div class="error-message" id="error-message" style="display:none;"></div>
+
+      <!-- Resultado do pagamento -->
+      <div class="payment-result" id="payment-result" style="display:none;">
+        <div class="result-icon success" id="result-icon-success" style="display:none;">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div class="result-icon waiting" id="result-icon-waiting" style="display:none;">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        </div>
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+
+        <!-- Detalhes do pedido (cartão aprovado/processando) -->
+        <div id="card-result-details" style="display:none;">
+          <div class="result-summary">
+            <div class="result-summary__section">
+              <h4>Produtos</h4>
+              <div class="result-summary__items" id="result-summary-items"></div>
+            </div>
+            <div class="result-summary__section">
+              <h4>Recebedor</h4>
+              <p id="result-summary-customer"></p>
+            </div>
+            <div class="result-summary__section">
+              <h4>Entrega</h4>
+              <p id="result-summary-address"></p>
+              <p id="result-summary-shipping" class="result-summary__shipping"></p>
+            </div>
+            <div class="result-summary__totals">
+              <div class="result-summary__row">
+                <span>Subtotal</span>
+                <span id="result-summary-subtotal"></span>
+              </div>
+              <div class="result-summary__row">
+                <span>Frete</span>
+                <span id="result-summary-frete"></span>
+              </div>
+              <div class="result-summary__row result-summary__row--total">
+                <span>Total</span>
+                <span id="result-summary-total"></span>
+              </div>
+            </div>
+          </div>
+          <a href="/lp-secador-bettdow" class="btn-back-store">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+            Voltar para a loja
+          </a>
+        </div>
+
+        <!-- QR Code PIX -->
+        <div id="pix-result" style="display:none;">
+          <div class="pix-screen">
+            <!-- Header -->
+            <h2 class="pix-screen__title">Já é quase seu...</h2>
+            <p class="pix-screen__subtitle">Pague seu pix dentro de <strong id="pix-timer">30:00</strong> para garantir sua compra.</p>
+
+            <!-- Illustration -->
+            <div class="pix-screen__illustration">
+              <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/pix-checkout.png?v=1773702273" alt="PIX" width="140" height="140">
+            </div>
+
+            <!-- Waiting badge -->
+            <div class="pix-screen__waiting">
+              Aguardando pagamento <span class="pix-screen__dots"></span>
+            </div>
+
+            <!-- QR Code -->
+            <div class="pix-screen__qr">
+              <div class="qr-code-container">
+                <img id="pix-qrcode-img" alt="QR Code PIX">
+              </div>
+            </div>
+
+            <!-- Code + Copy -->
+            <div class="pix-screen__copy-section">
+              <div class="copy-code">
+                <input type="text" id="pix-code" readonly>
+              </div>
+              <button class="pix-screen__btn-copy" id="btn-copy-pix">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar código pix
+              </button>
+              <p class="pix-screen__pix-value">Valor do Pix: <strong id="pix-discount-display">R$ 0,00</strong></p>
+            </div>
+
+            <!-- Tutorial -->
+            <div class="pix-screen__tutorial">
+              <h3 class="pix-screen__tutorial-title">Como pagar o pix:</h3>
+              <div class="pix-screen__steps">
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">1</span>
+                  <p>Clique em copiar o código PIX, logo acima</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">2</span>
+                  <p>Acesse o app do seu banco</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">3</span>
+                  <p>Vá até a opção PIX</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">4</span>
+                  <p>Escolha a opção "COPIA E COLA"</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">5</span>
+                  <p>Insira o código copiado e finalize seu pagamento</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resumo do pedido inline (PIX) -->
+            <div class="pix-order-summary">
+              <h3 class="pix-order-summary__title">Resumo do pedido</h3>
+              <div class="pix-order-summary__items" id="pix-summary-items"></div>
+              <div class="pix-order-summary__section">
+                <h4>Entrega</h4>
+                <p id="pix-summary-address"></p>
+                <p id="pix-summary-shipping" class="pix-order-summary__shipping"></p>
+              </div>
+              <div class="pix-order-summary__totals">
+                <div class="pix-order-summary__row">
+                  <span>Subtotal</span>
+                  <span id="pix-summary-subtotal"></span>
+                </div>
+                <div class="pix-order-summary__row">
+                  <span>Frete</span>
+                  <span id="pix-summary-frete"></span>
+                </div>
+                <div class="pix-order-summary__row pix-order-summary__row--total">
+                  <span>Total</span>
+                  <span id="pix-summary-total"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </main>
+
+    <!-- Right: Resumo do pedido -->
+    <aside class="order-summary">
+      <h2>Resumo do pedido</h2>
+      <div class="order-summary__totals">
+        <div class="order-summary__row">
+          <span>Subtotal</span>
+          <span id="order-subtotal-value">R$ 0,00</span>
+        </div>
+        <div class="order-summary__row">
+          <span>Frete</span>
+          <span id="order-shipping-value">--</span>
+        </div>
+        <div class="order-summary__row order-summary__row--total">
+          <span>Total</span>
+          <span id="order-total-value">R$ 0,00</span>
+        </div>
+      </div>
+      <div class="order-summary__items" id="order-items">
+        <!-- Items serão inseridos via JS -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- Counter Section -->
+  <section class="checkout-counter-section">
+    <div class="checkout-counter-grid">
+      <div class="checkout-counter-item">
+        <h3><span class="counter-number" data-target="100">0</span> Mil</h3>
+        <h4>Pedidos Enviados</h4>
+        <p>Enviamos para você onde você estiver <strong>com qualidade e agilidade comprovada!</strong></p>
+      </div>
+      <div class="checkout-counter-item">
+        <h3><span class="counter-number" data-target="5">0</span> anos</h3>
+        <h4>De experiência</h4>
+        <p>Há anos, a <strong>Synergy</strong> seleciona os melhores produtos de beleza e <strong>entrega excelência em cada compra.</strong></p>
+      </div>
+      <div class="checkout-counter-item">
+        <h3><span class="counter-number" data-target="80">0</span> Mil</h3>
+        <h4>Clientes Satisfeitos</h4>
+        <p>20% dos clientes <strong>voltam para novas compras</strong>, comprovando a confiança e a satisfação em cada pedido.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="checkout-footer">
+    <div class="checkout-footer__top">
+      <div class="checkout-footer__col">
+        <strong>Endereço</strong>
+        <p>Rodovia José Carlos Daux, 5500, Sala 211, Saco Grande<br>Santa Catarina, Rio Grande do Sul<br>CEP: 88032-005<br>CNPJ: Em processo de cadastro</p>
+      </div>
+      <div class="checkout-footer__col">
+        <strong>Contato</strong>
+        <p>suporte@synergy.com.br</p>
+      </div>
+      <div class="checkout-footer__col checkout-footer__col--secure">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div>
+          <strong>PAGAMENTO</strong>
+          <span>100% SEGURO</span>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-footer__bottom">
+      <p class="checkout-footer__label">Formas de pagamento:</p>
+      <div class="checkout-footer__cards">
+        <!-- Visa -->
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"/></svg>
+        <!-- Mastercard -->
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/><circle fill="#EB001B" cx="15" cy="12" r="7"/><circle fill="#F79E1B" cx="23" cy="12" r="7"/><path fill="#FF5F00" d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z"/></svg>
+        <!-- Amex -->
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path fill="#000" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3Z" opacity=".07"/><path fill="#006FCF" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32Z"/><path fill="#FFF" d="M22.012 19.936v-8.421L37 11.528v2.326l-1.732 1.852L37 17.573v2.375h-2.766l-1.47-1.622-1.46 1.628-9.292-.02Z"/><path fill="#006FCF" d="M23.013 19.012v-6.57h5.572v1.513h-3.768v1.028h3.678v1.488h-3.678v1.01h3.768v1.531h-5.572Z"/><path fill="#006FCF" d="m28.557 19.012 3.083-3.289-3.083-3.282h2.386l1.884 2.083 1.89-2.082H37v.051l-3.017 3.23L37 18.92v.093h-2.307l-1.917-2.103-1.898 2.104h-2.321Z"/><path fill="#FFF" d="M22.71 4.04h3.614l1.269 2.881V4.04h4.46l.77 2.159.771-2.159H37v8.421H19l3.71-8.421Z"/><path fill="#006FCF" d="m23.395 4.955-2.916 6.566h2l.55-1.315h2.98l.55 1.315h2.05l-2.904-6.566h-2.31Zm.25 3.777.875-2.09.873 2.09h-1.748Z"/><path fill="#006FCF" d="M28.581 11.52V4.953l2.811.01L32.84 9l1.456-4.046H37v6.565l-1.74.016v-4.51l-1.644 4.494h-1.59L30.35 7.01v4.51h-1.768Z"/></svg>
+        <!-- Diners -->
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/><path d="M12 12v3.7c0 .3-.2.3-.5.2-1.9-.8-3-3.3-2.3-5.4.4-1.1 1.2-2 2.3-2.4.4-.2.5-.1.5.2V12zm2 0V8.3c0-.3 0-.3.3-.2 2.1.8 3.2 3.3 2.4 5.4-.4 1.1-1.2 2-2.3 2.4-.4.2-.4.1-.4-.2V12zm7.2-7H13c3.8 0 6.8 3.1 6.8 7s-3 7-6.8 7h8.2c3.8 0 6.8-3.1 6.8-7s-3-7-6.8-7z" fill="#3086C8"/></svg>
+        <!-- Discover -->
+        <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#000" opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32z" fill="#fff"/><path d="M3.57 7.16H2v5.5h1.57c.83 0 1.43-.2 1.96-.63.63-.52 1-1.3 1-2.11-.01-1.63-1.22-2.76-2.96-2.76zm1.26 4.14c-.34.3-.77.44-1.47.44h-.29V8.1h.29c.69 0 1.11.12 1.47.44.37.33.59.84.59 1.37 0 .53-.22 1.06-.59 1.39zm2.19-4.14h1.07v5.5H7.02v-5.5zm3.69 2.11c-.64-.24-.83-.4-.83-.69 0-.35.34-.61.8-.61.32 0 .59.13.86.45l.56-.73c-.46-.4-1.01-.61-1.62-.61-.97 0-1.72.68-1.72 1.58 0 .76.35 1.15 1.35 1.51.42.15.63.25.74.31.21.14.32.34.32.57 0 .45-.35.78-.83.78-.51 0-.92-.26-1.17-.73l-.69.67c.49.73 1.09 1.05 1.9 1.05 1.11 0 1.9-.74 1.9-1.81.02-.89-.35-1.29-1.57-1.74zm1.92.65c0 1.62 1.27 2.87 2.9 2.87.46 0 .86-.09 1.34-.32v-1.26c-.43.43-.81.6-1.29.6-1.08 0-1.85-.78-1.85-1.9 0-1.06.79-1.89 1.8-1.89.51 0 .9.18 1.34.62V7.38c-.47-.24-.86-.34-1.32-.34-1.61 0-2.92 1.28-2.92 2.88zm12.76.94l-1.47-3.7h-1.17l2.33 5.64h.58l2.37-5.64h-1.16l-1.48 3.7zm3.13 1.8h3.04v-.93h-1.97v-1.48h1.9v-.93h-1.9V8.1h1.97v-.94h-3.04v5.5zm7.29-3.87c0-1.03-.71-1.62-1.95-1.62h-1.59v5.5h1.07v-2.21h.14l1.48 2.21h1.32l-1.73-2.32c.81-.17 1.26-.72 1.26-1.56zm-2.16.91h-.31V8.03h.33c.67 0 1.03.28 1.03.82 0 .55-.36.85-1.05.85z" fill="#231F20"/><circle cx="20.16" cy="9.93" r="2.93" fill="#F48120"/><path d="M37 12.984S27.09 19.873 8.976 23h26.023a2 2 0 002-1.984l.024-3.02L37 12.985z" fill="#F48120"/></svg>
+        <!-- Elo -->
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><g fill-rule="nonzero" fill="none"><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" fill="#000" opacity=".07"/><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#FFF"/><path fill="#003933" d="M2.68 11.09h2.41c.43-2.28 2.42-4.11 4.97-4.11s4.91 2.04 4.91 5.13q.01.39-.06.83h-7.78c.37 1.4 1.53 2.22 2.92 2.22s2.09-.46 2.81-1.27l1.43 1.3c-.95 1.07-2.36 1.81-4.24 1.81s-4.53-1.8-4.96-4.07H2.68v-1.85zm10.23 0c-.1-.58-.37-1.1-.75-1.48-.5-.5-1.23-.81-2.11-.81s-1.6.3-2.13.83c-.36.36-.66.86-.82 1.47h5.8zM16.42 7.05h2.09v7.91h3.78v1.98h-3.75c-1.38 0-2.13-.74-2.13-2.11v-7.78zm6.28 4.94c0-2.69 2.21-5.01 5.13-5.01s4.62 1.81 5.05 4.11h2.41v1.85h-2.41c-.45 2.28-2.47 4.07-5.05 4.07-2.94 0-5.13-2.31-5.13-5.01zm5.13 3.07c1.75 0 3.04-1.32 3.04-3.05s-1.33-3.08-3.04-3.08-3.04 1.32-3.04 3.07c0 1.7 1.33 3.07 3.04 3.07z"/></g></svg>
+        <!-- PIX -->
+        <span class="badge-card badge-card--pix">
+          <svg version="1.0" width="16" height="16" viewBox="0 0 901 900" xmlns="http://www.w3.org/2000/svg" fill="#32BCAD"><g transform="translate(0 900) scale(.1 -.1)"><path d="m4265 8986c-216-42-357-99-536-217-83-54-204-172-1001-968-500-498-908-909-908-913 0-5 92-8 204-8 288 0 449-33 646-132 186-94 194-101 985-889 413-411 766-755 785-765 49-26 181-26 230 0 19 10 368 350 775 755 642 640 752 746 834 800 241 159 431 218 735 228l178 6-888 889c-489 489-920 913-959 943-157 121-324 202-519 252-88 22-127 26-296 29-136 2-216-1-265-10z"/><path d="m861 5935c-485-487-577-584-630-664-102-154-154-272-199-450-25-99-27-121-27-321 0-191 3-225 24-310 49-199 134-377 256-535 30-38 299-315 598-614l544-543 359 1c403 2 467 8 607 55 204 69 179 48 1022 887 759 756 760 756 845 798 197 96 409 94 603-5 66-35 130-95 812-774 446-444 766-756 807-784 79-56 187-107 289-137 68-20 102-23 419-29 190-3 352-9 360-13 11-5 167 145 586 565 488 490 580 587 633 667 34 52 73 116 87 142 195 385 195 873 0 1258-14 26-53 90-87 142-53 80-145 177-633 667-419 420-575 570-586 565-8-4-170-10-360-13-317-6-351-9-419-29-102-30-210-81-289-137-40-28-364-343-812-789-802-798-778-776-930-823-175-53-368-27-525 70-29 18-367 347-805 782-837 833-813 812-1017 882-136 46-219 54-616 56l-348 3-568-570z"/><path d="m4465 3913c-47-14-101-65-805-767-796-793-804-800-990-894-196-99-359-132-647-132-112 0-203-3-203-8 0-4 408-415 908-913 797-796 918-914 1001-968 154-102 272-154 450-199 99-25 121-27 321-27 191 0 225 3 310 24 199 49 377 134 535 256 39 30 470 454 959 943l888 889-178 6c-304 10-494 69-735 228-82 54-193 161-839 805-722 719-747 743-799 758-67 19-110 19-176-1z"/></g></svg>
+          PIX
+        </span>
+      </div>
+      <p class="checkout-footer__copy">Synergy | Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <script src="js/checkout.js"></script>
+</body>
+</html>

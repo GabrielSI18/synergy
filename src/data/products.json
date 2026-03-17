@@ -1,0 +1,43 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Secador BettDow AirLux Pro",
+      "description": "Secador profissional com motor digital de alta velocidade, proteção de íons negativos e design ultracompacto.",
+      "price": 19990,
+      "comparePrice": 39990,
+      "tangible": true,
+      "hasVariants": false,
+      "variants": [],
+      "images": [
+        "https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=1000"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Secador BettDow AirLux Pro — 2 Unidades",
+      "description": "Leve 2 secadores BettDow AirLux Pro com desconto especial.",
+      "price": 34990,
+      "comparePrice": 69980,
+      "tangible": true,
+      "hasVariants": false,
+      "variants": [],
+      "images": [
+        "https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=1000"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Kit Profissional BettDow AirLux Pro",
+      "description": "Secador BettDow AirLux Pro + acessórios exclusivos. O kit completo para um resultado de salão em casa.",
+      "price": 24990,
+      "comparePrice": 57790,
+      "tangible": true,
+      "hasVariants": false,
+      "variants": [],
+      "images": [
+        "https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=1000"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "synergy-checkout",
+  "version": "1.0.0",
+  "description": "Checkout personalizado usando API Bestfy",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.5.0"
+  }
+}
