@@ -157,11 +157,10 @@
     .gallery-thumbs {
       display: flex;
       gap: 6px;
-      padding: 6px 16px 10px;
+      padding: 6px 12px 10px;
       overflow-x: auto;
       scrollbar-width: none;
       background: var(--white);
-      justify-content: center;
     }
     .gallery-thumbs::-webkit-scrollbar { display: none; }
     .gallery-thumb {
@@ -409,34 +408,36 @@
     .trust-badges {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.6em;
+      gap: 0.5em;
       padding: 0 16px;
-      margin: 1.5rem 0;
+      margin: 1.2rem 0;
     }
     .trust-badge {
       display: flex;
       align-items: center;
-      gap: 0.6em;
+      gap: 0.5em;
       background: #f3f3f3;
       border-radius: 0.4em;
-      padding: 0.6em 0.8em;
-      font-size: 1.4rem;
+      padding: 0.5em 0.6em;
+      font-size: 0.85rem;
       color: var(--black);
-      font-weight: 400;
+      font-weight: 500;
+      line-height: 1.3;
     }
     .trust-badge .material-symbols-outlined {
-      font-size: 1.3em;
+      font-size: 1.2em;
       color: var(--black);
+      flex-shrink: 0;
     }
 
     /* ===== DUAL VIDEO ===== */
     .dual-video {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap: 10px;
       padding: 0 16px;
       max-width: 1200px;
-      margin: 0 auto 40px;
+      margin: 0 auto 32px;
     }
     .dv-video {
       width: 100%;
@@ -790,7 +791,7 @@
       .product-title { font-size: 28px; }
       .highlight-box { font-size: 1.6rem; }
       .trust-badges { padding: 0; }
-      .trust-badge { font-size: 1.6rem; }
+      .trust-badge { font-size: 1rem; padding: 0.6em 0.8em; }
       .emoji-benefits { padding: 0; }
       .emoji-benefits p { font-size: 1.1rem; }
       .pricing-section { padding: 0; }
@@ -806,33 +807,68 @@
     }
     @media (max-width: 767px) {
       .footer { padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)); }
+      .product-layout { overflow-x: hidden; }
     }
 
     /* ===== TELAS PEQUENAS ===== */
     @media (max-width: 420px) {
-      .review-img { height: 160px; }
-      .review-name { font-size: 14px; }
-      .review-text { font-size: 13px; }
+      .review-img { height: 140px; }
+      .review-name { font-size: 13px; }
+      .review-text { font-size: 12px; line-height: 1.4; }
+      .review-date { font-size: 12px; }
+      .review-stars { font-size: 14px; }
+      .review-card { padding: 8px; border-radius: 8px; }
       .page-btn { padding: 6px 9px; font-size: 13px; border-radius: 6px; }
       .reviews-header { gap: 8px; margin: 12px 0; }
+      .dual-video { gap: 8px; }
+      .dv-video { border-radius: 8px; }
+      .cta-trust { gap: 8px; }
+      .cta-trust-item { font-size: 11px; }
     }
     @media (max-width: 380px) {
       .topbar { font-size: 11px; padding: 8px 12px; }
       .gallery-nav { width: 32px; height: 32px; font-size: 14px; }
       .gallery-thumb { min-width: 40px; width: 40px; height: 40px; }
       .product-title { font-size: 18px; }
-      .highlight-box { font-size: 1.2rem; }
-      .trust-badge { font-size: 1.1rem; }
-      .price-card { padding: 14px 10px 14px 46px; }
-      .price-card .c-name { font-size: 17px; }
-      .price-card .p-now { font-size: 19px; }
+      .highlight-box { font-size: 1.1rem; padding: 0.5em 0.8em; }
+      .trust-badge { font-size: 0.78rem; padding: 0.4em 0.5em; gap: 0.3em; }
+      .emoji-benefits p { font-size: 0.9rem; }
+      .price-card { padding: 12px 10px 12px 44px; }
+      .price-card .c-name { font-size: 16px; }
+      .price-card .p-now { font-size: 18px; }
+      .price-card .c-desc { font-size: 13px; }
+      .price-card .c-gift { font-size: 12px; padding: 6px; }
+      .price-card .c-gift img { width: 24px; height: 24px; }
+      .price-card .radio { left: 12px; top: 18px; width: 20px; height: 20px; }
+      .price-card.selected .radio::after { width: 10px; height: 10px; }
       .cta-btn { font-size: 15px; padding: 15px; }
       .fl-pr { font-size: 17px; }
-      .fl-btn { padding: 12px 20px; font-size: 13px; }
+      .fl-ws { font-size: 11px; }
+      .fl-btn { padding: 12px 18px; font-size: 13px; }
       .warranty h2 { font-size: 20px; }
       .warranty p { font-size: 14px; }
       .s-title { font-size: 19px; }
+      .cmp-tbl th { font-size: 10px; padding: 10px 6px; }
+      .cmp-tbl td { font-size: 12px; padding: 8px 6px; }
       .xsell-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+      .reviews-grid { gap: 10px; }
+      .review-img { height: 120px; }
+      .review-card { padding: 6px; }
+      .dual-video { gap: 6px; padding: 0 12px; }
+      .dv-video { border-radius: 6px; }
+      .accordion-header { font-size: 12px; padding: 14px 0; letter-spacing: 0.5px; }
+    }
+    /* Telas muito pequenas (320px e similares) */
+    @media (max-width: 340px) {
+      .gallery-thumb { min-width: 36px; width: 36px; height: 36px; }
+      .trust-badges { grid-template-columns: 1fr; }
+      .trust-badge { font-size: 0.8rem; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .product-title { font-size: 16px; }
+      .price-card .c-name { font-size: 15px; }
+      .price-card .p-now { font-size: 16px; }
+      .fl-btn { padding: 10px 14px; font-size: 12px; }
+      .fl-pr { font-size: 15px; }
     }
   </style>
 </head>
