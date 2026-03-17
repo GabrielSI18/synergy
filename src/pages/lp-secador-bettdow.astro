@@ -92,13 +92,11 @@
       background: var(--white);
       position: relative;
       overflow: hidden;
-      aspect-ratio: 1 / 1;
     }
     .gallery-slider {
       display: flex;
       transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       will-change: transform;
-      height: 100%;
     }
     .gallery-slide {
       min-width: 100%;
@@ -107,12 +105,11 @@
       justify-content: center;
       overflow: hidden;
       background: var(--white);
-      height: 100%;
     }
     .gallery-slide img, .gallery-slide video {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
+      height: auto;
+      display: block;
     }
     .gallery-nav {
       position: absolute;
@@ -780,7 +777,7 @@
         padding: 32px 32px;
         align-items: start;
       }
-      .gallery-wrap { border-radius: 16px; overflow: hidden; aspect-ratio: 1/1; }
+      .gallery-wrap { border-radius: 16px; overflow: hidden; }
       .gallery-thumbs {
         padding: 10px 0 0;
         justify-content: center;
@@ -1376,7 +1373,6 @@
   <script>
     // ===== GALLERY =====
     var slides = [
-      { type: 'image', src: '/secador-rapidex.webp', thumb: '/secador-rapidex.webp', alt: 'Bettdow AirLux Pro' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=150', alt: 'Branco' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w2v4h0d.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w2v4h0d.jpg?v=1764562749&width=150', alt: 'Azul' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98lqdtaf.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98lqdtaf.jpg?v=1764562749&width=150', alt: 'Rosa' },
