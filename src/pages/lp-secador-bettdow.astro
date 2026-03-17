@@ -763,8 +763,91 @@
     .footer-links a { font-size: 14px; color: var(--g400); transition: color 0.2s; }
     .footer-links a:hover { color: var(--white); }
     .footer-pay { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-    .pi { background: var(--g800); padding: 5px 10px; border-radius: 4px; font-size: 11px; color: var(--g400); font-weight: 600; }
+    .pi {
+      background: var(--g800);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0;
+      line-height: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pi svg { height: 22px; width: auto; display: block; }
     .footer-cp { font-size: 12px; color: var(--g600); }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: var(--white);
+      border-radius: 16px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px 24px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: modalIn 0.25s ease-out;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: var(--g100);
+      border-radius: 50%;
+      font-size: 20px;
+      color: var(--g700);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--g200); color: var(--black); }
+    .modal-box h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 16px;
+      padding-right: 36px;
+    }
+    .modal-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--g800);
+      margin: 20px 0 8px;
+    }
+    .modal-box p, .modal-box li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--g700);
+    }
+    .modal-box ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+    .modal-box ul li { margin-bottom: 4px; }
 
     /* ===== DESKTOP ===== */
     @media (min-width: 768px) {
@@ -1349,17 +1432,154 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-links">
-      <a href="#">Pol&iacute;tica de privacidade</a>
-      <a href="#">Pol&iacute;tica de Reembolso</a>
-      <a href="#">Pol&iacute;tica de envio</a>
-      <a href="#">Termos de Servi&ccedil;o</a>
-      <a href="#">Informa&ccedil;&otilde;es de contato</a>
+      <a href="#" onclick="event.preventDefault();openModal('modalPrivacidade')">Política de privacidade</a>
+      <a href="#" onclick="event.preventDefault();openModal('modalReembolso')">Política de Reembolso</a>
+      <a href="#" onclick="event.preventDefault();openModal('modalEnvio')">Política de envio</a>
+      <a href="#" onclick="event.preventDefault();openModal('modalTermos')">Termos de Serviço</a>
+      <a href="#" onclick="event.preventDefault();openModal('modalContato')">Informações de contato</a>
     </div>
     <div class="footer-pay">
-      <span class="pi">Visa</span><span class="pi">Mastercard</span><span class="pi">Elo</span><span class="pi">Amex</span><span class="pi">Discover</span><span class="pi">JCB</span><span class="pi">Diners</span>
+      <!-- Visa -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#1a1f71"/><path d="M19.5 21h-2.7l1.7-10.5h2.7L19.5 21zm11.4-10.2c-.5-.2-1.4-.4-2.4-.4-2.7 0-4.6 1.4-4.6 3.4 0 1.5 1.4 2.3 2.4 2.8 1 .5 1.4.8 1.4 1.3 0 .7-.8 1-1.6 1-1.1 0-1.6-.2-2.5-.5l-.3-.2-.4 2.2c.6.3 1.8.5 3 .5 2.9 0 4.7-1.4 4.7-3.5 0-1.2-.7-2.1-2.3-2.8-.9-.5-1.5-.8-1.5-1.3 0-.4.5-.9 1.5-.9.9 0 1.5.2 2 .4l.2.1.4-2.1zm7.1 0h-2.1c-.7 0-1.1.2-1.4.8L31 21h2.9l.6-1.6h3.5l.3 1.6H41l-2.2-10.3h-1.8l.1.1zM35.2 17l1.1-3 .3-.8.2.8.6 3h-2.2zM16.8 10.5L14.1 18l-.3-1.4c-.5-1.6-2-3.4-3.7-4.3l2.5 8.7h2.9l4.3-10.5h-3z" fill="#fff"/><path d="M11.5 10.5H7.1l0 .2c3.4.8 5.6 2.9 6.5 5.3l-.9-4.7c-.2-.6-.6-.8-1.2-.8z" fill="#f9a533"/></svg></span>
+      <!-- Mastercard -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#252525"/><circle cx="19" cy="16" r="8" fill="#eb001b"/><circle cx="29" cy="16" r="8" fill="#f79e1b"/><path d="M24 9.8a8 8 0 0 1 3 6.2 8 8 0 0 1-3 6.2 8 8 0 0 1-3-6.2 8 8 0 0 1 3-6.2z" fill="#ff5f00"/></svg></span>
+      <!-- Elo -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#000"/><path d="M15.3 12.5c-.6.2-1 .8-1 1.5 0 .7.4 1.3 1 1.5l-.4 1.2c-1.2-.4-2-1.5-2-2.7s.8-2.3 2-2.7l.4 1.2z" fill="#ffcb05"/><path d="M20 10.6l-.9.9c-.7-.6-1.6-1-2.6-1-2.2 0-4 1.8-4 4s1.8 4 4 4c1 0 1.9-.4 2.6-1l.9.9c-.9.8-2.2 1.4-3.5 1.4-3 0-5.3-2.4-5.3-5.3s2.3-5.3 5.3-5.3c1.3 0 2.6.5 3.5 1.4z" fill="#00a3e0"/><path d="M21.5 18.3c.6-.2 1-.8 1-1.5s-.4-1.3-1-1.5l.4-1.2c1.2.4 2 1.5 2 2.7s-.8 2.3-2 2.7l-.4-1.2z" fill="#ef4123"/><text x="26" y="19" font-family="Arial,sans-serif" font-weight="700" font-size="9" fill="#fff">elo</text></svg></span>
+      <!-- Amex -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#006fcf"/><text x="24" y="19" font-family="Arial,sans-serif" font-weight="700" font-size="8" fill="#fff" text-anchor="middle">AMEX</text></svg></span>
+      <!-- Discover -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#fff"/><rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#ddd"/><circle cx="29" cy="16" r="6" fill="#f76e10"/><text x="14" y="19" font-family="Arial,sans-serif" font-weight="700" font-size="7" fill="#231f20">DISC</text><text x="35" y="19" font-family="Arial,sans-serif" font-weight="700" font-size="7" fill="#231f20">VER</text></svg></span>
+      <!-- JCB -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#fff"/><rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#ddd"/><rect x="12" y="7" width="8" height="18" rx="3" fill="#0e4c96"/><rect x="20" y="7" width="8" height="18" rx="3" fill="#e0142f"/><rect x="28" y="7" width="8" height="18" rx="3" fill="#00873a"/><text x="16" y="19" font-family="Arial,sans-serif" font-weight="700" font-size="5" fill="#fff" text-anchor="middle">J</text><text x="24" y="19" font-family="Arial,sans-serif" font-weight="700" font-size="5" fill="#fff" text-anchor="middle">C</text><text x="32" y="19" font-family="Arial,sans-serif" font-weight="700" font-size="5" fill="#fff" text-anchor="middle">B</text></svg></span>
+      <!-- Diners -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#fff"/><rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#ddd"/><circle cx="22" cy="16" r="9" fill="none" stroke="#0079be" stroke-width="2"/><path d="M18 11.5v9a7 7 0 0 1 0-9zm8 0a7 7 0 0 1 0 9v-9z" fill="#0079be"/><text x="36" y="19" font-family="Arial,sans-serif" font-weight="600" font-size="5" fill="#0079be" text-anchor="middle">DC</text></svg></span>
+      <!-- Pix -->
+      <span class="pi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#fff"/><rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#ddd"/><path d="M28.3 21.3l-3.6-3.6a1 1 0 0 1 0-1.4l3.6-3.6a3.2 3.2 0 0 1 4.5 0l1.5 1.5-2.3 2.3-1.5-1.5a.5.5 0 0 0-.7 0l-2.9 2.9 2.9 2.9a.5.5 0 0 0 .7 0l1.5-1.5 2.3 2.3-1.5 1.5a3.2 3.2 0 0 1-4.5 0zm-8.6 0a3.2 3.2 0 0 1-4.5 0l-1.5-1.5 2.3-2.3 1.5 1.5a.5.5 0 0 0 .7 0l2.9-2.9-2.9-2.9a.5.5 0 0 0-.7 0l-1.5 1.5-2.3-2.3 1.5-1.5a3.2 3.2 0 0 1 4.5 0l3.6 3.6a1 1 0 0 1 0 1.4l-3.6 3.6z" fill="#32bcad"/></svg></span>
     </div>
     <p class="footer-cp">&copy; 2026, Madelie. Todos os direitos reservados.</p>
   </footer>
+
+  <!-- MODAIS DO FOOTER -->
+  <!-- Política de Privacidade -->
+  <div class="modal-overlay" id="modalPrivacidade">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modalPrivacidade')">&times;</button>
+      <h2>Política de Privacidade</h2>
+      <p>A sua privacidade é importante para nós. Esta política descreve como coletamos, utilizamos e protegemos as suas informações pessoais.</p>
+      <h3>1. Informações Coletadas</h3>
+      <p>Coletamos as informações que você nos fornece diretamente ao realizar uma compra, como:</p>
+      <ul>
+        <li>Nome completo</li>
+        <li>Endereço de e-mail</li>
+        <li>Endereço de entrega</li>
+        <li>Número de telefone</li>
+        <li>Dados de pagamento (processados de forma segura por terceiros)</li>
+      </ul>
+      <h3>2. Uso das Informações</h3>
+      <p>Utilizamos suas informações exclusivamente para:</p>
+      <ul>
+        <li>Processar e enviar seus pedidos</li>
+        <li>Enviar atualizações sobre o status da entrega</li>
+        <li>Prestar suporte ao cliente</li>
+        <li>Cumprir obrigações legais</li>
+      </ul>
+      <h3>3. Compartilhamento de Dados</h3>
+      <p>Não vendemos, alugamos ou compartilhamos suas informações pessoais com terceiros, exceto quando necessário para processar pagamentos e realizar entregas (transportadoras e gateways de pagamento).</p>
+      <h3>4. Segurança</h3>
+      <p>Adotamos medidas de segurança técnicas e organizacionais para proteger seus dados contra acesso não autorizado, alteração, divulgação ou destruição.</p>
+      <h3>5. Cookies</h3>
+      <p>Nosso site pode utilizar cookies para melhorar a experiência de navegação. Você pode desativá-los nas configurações do seu navegador, embora isso possa afetar algumas funcionalidades.</p>
+      <h3>6. Seus Direitos</h3>
+      <p>Você pode solicitar acesso, correção ou exclusão dos seus dados pessoais a qualquer momento, entrando em contato conosco pelo e-mail informado na seção de contato.</p>
+    </div>
+  </div>
+
+  <!-- Política de Reembolso -->
+  <div class="modal-overlay" id="modalReembolso">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modalReembolso')">&times;</button>
+      <h2>Política de Reembolso</h2>
+      <p>Queremos que você fique 100% satisfeito com sua compra. Caso não esteja, oferecemos as seguintes condições:</p>
+      <h3>1. Prazo para Devolução</h3>
+      <p>Você tem até <strong>7 dias corridos</strong> após o recebimento do produto para solicitar a devolução, conforme o Código de Defesa do Consumidor (Art. 49).</p>
+      <h3>2. Condições para Devolução</h3>
+      <ul>
+        <li>O produto deve estar em sua embalagem original, sem sinais de uso</li>
+        <li>Todos os acessórios e manuais devem ser devolvidos junto ao produto</li>
+        <li>A nota fiscal ou comprovante de compra deve ser apresentado</li>
+      </ul>
+      <h3>3. Como Solicitar</h3>
+      <p>Entre em contato com nosso suporte informando o número do pedido e o motivo da devolução. Nossa equipe responderá em até 24 horas úteis com as instruções de envio.</p>
+      <h3>4. Reembolso</h3>
+      <p>Após recebermos e verificarmos o produto devolvido, o reembolso será processado no mesmo método de pagamento utilizado na compra, em até <strong>10 dias úteis</strong>.</p>
+      <h3>5. Produtos com Defeito</h3>
+      <p>Caso o produto apresente defeito de fabricação, realizamos a troca sem custo adicional. O frete de devolução será por nossa conta.</p>
+    </div>
+  </div>
+
+  <!-- Política de Envio -->
+  <div class="modal-overlay" id="modalEnvio">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modalEnvio')">&times;</button>
+      <h2>Política de Envio</h2>
+      <p>Trabalhamos para que seu pedido chegue o mais rápido possível, com segurança e rastreio completo.</p>
+      <h3>1. Prazo de Processamento</h3>
+      <p>Após a confirmação do pagamento, seu pedido será processado e despachado em até <strong>2 dias úteis</strong>.</p>
+      <h3>2. Prazo de Entrega</h3>
+      <ul>
+        <li><strong>Capitais e regiões metropolitanas:</strong> 5 a 12 dias úteis</li>
+        <li><strong>Interior:</strong> 8 a 18 dias úteis</li>
+        <li><strong>Regiões Norte e Nordeste:</strong> 10 a 22 dias úteis</li>
+      </ul>
+      <p>Os prazos são estimativas e podem variar conforme a localidade e a transportadora.</p>
+      <h3>3. Rastreamento</h3>
+      <p>Após o despacho, você receberá o código de rastreio por e-mail e/ou WhatsApp para acompanhar a entrega em tempo real.</p>
+      <h3>4. Frete</h3>
+      <p>Oferecemos <strong>frete grátis</strong> para todo o Brasil em todas as compras realizadas em nosso site.</p>
+      <h3>5. Tentativas de Entrega</h3>
+      <p>A transportadora realizará até 3 tentativas de entrega no endereço informado. Caso não haja ninguém para receber, o pedido poderá ser retirado na agência mais próxima.</p>
+    </div>
+  </div>
+
+  <!-- Termos de Serviço -->
+  <div class="modal-overlay" id="modalTermos">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modalTermos')">&times;</button>
+      <h2>Termos de Serviço</h2>
+      <p>Ao acessar e utilizar este site, você concorda com os seguintes termos e condições:</p>
+      <h3>1. Uso do Site</h3>
+      <p>Este site destina-se exclusivamente à venda de produtos ao consumidor final. É proibido o uso do site para qualquer finalidade ilegal ou não autorizada.</p>
+      <h3>2. Produtos e Preços</h3>
+      <p>Todos os preços são exibidos em Reais (R$) e podem ser alterados sem aviso prévio. As fotos são ilustrativas e podem apresentar pequenas variações em relação ao produto real.</p>
+      <h3>3. Pedidos</h3>
+      <p>Ao realizar um pedido, você declara que todas as informações fornecidas são verdadeiras e completas. Reservamo-nos o direito de cancelar pedidos em caso de informações incorretas ou suspeita de fraude.</p>
+      <h3>4. Propriedade Intelectual</h3>
+      <p>Todo o conteúdo deste site (textos, imagens, logos e layouts) é de propriedade exclusiva e protegido por leis de direitos autorais. É proibida a reprodução sem autorização prévia.</p>
+      <h3>5. Limitação de Responsabilidade</h3>
+      <p>Não nos responsabilizamos por danos indiretos, incidentais ou consequenciais decorrentes do uso dos produtos adquiridos, exceto nos casos previstos em lei.</p>
+      <h3>6. Alterações nos Termos</h3>
+      <p>Estes termos podem ser atualizados periodicamente. Recomendamos que você os revise regularmente. O uso contínuo do site após alterações constitui aceitação dos novos termos.</p>
+    </div>
+  </div>
+
+  <!-- Informações de Contato -->
+  <div class="modal-overlay" id="modalContato">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modalContato')">&times;</button>
+      <h2>Informações de Contato</h2>
+      <p>Estamos à disposição para ajudá-lo. Entre em contato conosco por qualquer um dos canais abaixo:</p>
+      <h3>E-mail</h3>
+      <p><strong>suporte@madelie.com.br</strong></p>
+      <p>Respondemos em até 24 horas úteis.</p>
+      <h3>WhatsApp</h3>
+      <p><strong>(11) 99999-9999</strong></p>
+      <p>Atendimento de segunda a sexta, das 9h às 18h.</p>
+      <h3>Horário de Atendimento</h3>
+      <p>Segunda a sexta-feira: 9h às 18h<br>Sábados: 9h às 13h<br>Domingos e feriados: fechado</p>
+      <h3>Prazo de Resposta</h3>
+      <p>Nosso compromisso é responder todas as solicitações em até <strong>24 horas úteis</strong>. Em períodos de alta demanda (promoções, feriados), o prazo pode se estender para até 48 horas.</p>
+    </div>
+  </div>
 
   <!-- FLOATING CTA -->
   <div class="float-cta" id="floatCta">
@@ -1519,6 +1739,34 @@
           this.animate([{opacity:1},{opacity:0.6},{opacity:1}], {duration:260});
         }
       });
+    });
+
+    // ===== MODAIS DO FOOTER =====
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Fechar ao clicar fora do box
+    document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+    // Fechar com ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(function(m) {
+          m.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+      }
     });
   </script>
 
