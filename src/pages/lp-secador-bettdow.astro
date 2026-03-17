@@ -87,11 +87,12 @@
     }
 
     /* ===== GALLERY ===== */
-    .gallery-area { position: relative; }
+    .gallery-area { position: relative; width: 100%; }
     .gallery-wrap {
       background: var(--white);
       position: relative;
       overflow: hidden;
+      width: 100%;
     }
     .gallery-slider {
       display: flex;
@@ -99,17 +100,16 @@
       will-change: transform;
     }
     .gallery-slide {
-      min-width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-shrink: 0;
       overflow: hidden;
       background: var(--white);
+      box-sizing: border-box;
     }
     .gallery-slide img, .gallery-slide video {
       width: 100%;
       height: auto;
       display: block;
+      object-fit: contain;
     }
     .gallery-nav {
       position: absolute;
@@ -777,7 +777,7 @@
         padding: 32px 32px;
         align-items: start;
       }
-      .gallery-wrap { border-radius: 16px; overflow: hidden; }
+      .gallery-wrap { border-radius: 16px; overflow: hidden; width: 100%; }
       .gallery-thumbs {
         padding: 10px 0 0;
         justify-content: center;
@@ -1395,6 +1395,14 @@
     var sliderEl = document.getElementById('gallerySlider');
     var dotsEl = document.getElementById('galleryDots');
     var thumbsEl = document.getElementById('galleryThumbs');
+    var wrapEl = document.getElementById('galleryWrap');
+
+    function setSlideWidths() {
+      var w = wrapEl.offsetWidth;
+      sliderEl.style.width = (w * slides.length) + 'px';
+      var allSlides = sliderEl.querySelectorAll('.gallery-slide');
+      allSlides.forEach(function(s) { s.style.width = w + 'px'; });
+    }
 
     slides.forEach(function(s, i) {
       var d = document.createElement('div');
@@ -1418,9 +1426,13 @@
       thumbsEl.appendChild(th);
     });
 
+    setSlideWidths();
+    window.addEventListener('resize', function() { setSlideWidths(); goTo(cur); });
+
     function goTo(i) {
       cur = i;
-      sliderEl.style.transform = 'translateX(-' + (i * 100) + '%)';
+      var wrapWidth = document.getElementById('galleryWrap').offsetWidth;
+      sliderEl.style.transform = 'translateX(-' + (i * wrapWidth) + 'px)';
       document.querySelectorAll('.gallery-dot').forEach(function(d, j) { d.classList.toggle('active', j === i); });
       document.querySelectorAll('.gallery-thumb').forEach(function(t, j) { t.classList.toggle('active', j === i); });
       sliderEl.querySelectorAll('video').forEach(function(v, j) { j === i ? v.play() : v.pause(); });
