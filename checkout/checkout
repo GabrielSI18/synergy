@@ -1,0 +1,119 @@
+// =============================================================
+// REFERÊNCIA DE INTEGRAÇÃO — API BESTFY
+// Arquivo: checkout/checkout
+// =============================================================
+// Este arquivo serve como documentação e referência do fluxo
+// de integração com a Bestfy. O código real fica em:
+//   src/pages/api/criar-transacao.ts   ← servidor (SECRET_KEY aqui)
+//   src/pages/checkout/[produto].astro ← formulário do cliente
+//   src/pages/checkout/obrigado.astro  ← página de confirmação
+// =============================================================
+
+// ── AUTENTICAÇÃO ──────────────────────────────────────────────
+// A Bestfy usa HTTP Basic Auth com:
+//   usuário: SECRET_KEY
+//   senha:   x  (literal "x")
+//
+// Em Node.js / Cloudflare Workers:
+const SECRET_KEY = 'SUA_SECRET_KEY_AQUI'; // substitua quando tiver
+
+const options = {
+  method: 'POST',
+  url: 'https://api.bestfybr.com.br/v1/transactions',
+  headers: {
+    authorization: 'Basic ' + btoa(`${SECRET_KEY}:x`),
+    'Content-Type': 'application/json',
+  },
+};
+
+// ── PAYLOAD — PIX ─────────────────────────────────────────────
+const payloadPix = {
+  amount: 24990,              // valor em centavos (R$ 249,90)
+  payment_method: 'pix',
+  description: 'Kit Profissional BettDow AirLux Pro',
+  customer: {
+    name: 'João da Silva',
+    email: 'joao@email.com',
+    document: '12345678901',  // CPF sem formatação
+    phone: '11999999999',     // telefone sem formatação
+  },
+};
+
+// Resposta esperada (PIX):
+// {
+//   id: "txn_abc123",
+//   status: "pending",
+//   pix_copia_cola: "00020126...",   ← código copia e cola
+//   qr_code_url: "https://...",      ← imagem do QR Code
+//   expires_at: "2026-03-17T16:00:00Z"
+// }
+
+// ── PAYLOAD — CARTÃO DE CRÉDITO ───────────────────────────────
+const payloadCartao = {
+  amount: 24990,
+  payment_method: 'credit_card',
+  description: 'Kit Profissional BettDow AirLux Pro',
+  installments: 12,
+  customer: {
+    name: 'João da Silva',
+    email: 'joao@email.com',
+    document: '12345678901',
+    phone: '11999999999',
+  },
+  card: {
+    number: '4111111111111111',
+    expiration_date: '12/29',   // MM/AA
+    cvv: '123',
+    holder_name: 'JOAO DA SILVA',
+  },
+};
+
+// Resposta esperada (cartão aprovado):
+// {
+//   id: "txn_xyz789",
+//   status: "approved",   // ou "refused"
+//   authorization_code: "123456",
+//   installments: 12
+// }
+
+// ── WEBHOOK ───────────────────────────────────────────────────
+// A Bestfy envia um POST para a sua URL de webhook quando o
+// status da transação muda. Configure em: app.bestfybr.com.br
+//
+// Payload do webhook:
+// {
+//   event: "transaction.paid",     // ou transaction.refused
+//   data: {
+//     id: "txn_abc123",
+//     status: "paid",
+//     amount: 24990,
+//     customer: { name, email, document }
+//   }
+// }
+//
+// TODO: criar src/pages/api/webhook-bestfy.ts para receber isso
+
+// ── PRODUTOS MAPEADOS ─────────────────────────────────────────
+const PRODUTOS = {
+  '1-unidade':       { valor: 19990, nome: 'Secador BettDow AirLux Pro — 1 Unidade' },
+  '2-unidades':      { valor: 34990, nome: 'Secador BettDow AirLux Pro — 2 Unidades' },
+  'kit-profissional':{ valor: 24990, nome: 'Kit Profissional BettDow AirLux Pro' },
+};
+
+// ── FLUXO COMPLETO ────────────────────────────────────────────
+//
+//  [LP] → /checkout/kit-profissional
+//           ↓ (usuário preenche dados)
+//         POST /api/criar-transacao  (server-side, SECRET_KEY não exposta)
+//           ↓
+//         Bestfy API → retorna QR Code ou status do cartão
+//           ↓
+//         PIX:    mostra QR Code no modal
+//         Cartão: redireciona para /checkout/obrigado?id=txn_...
+//
+// ── PRÓXIMOS PASSOS ───────────────────────────────────────────
+// [ ] Adicionar SECRET_KEY como variável de ambiente (.env / Cloudflare secret)
+// [ ] Criar endpoint /api/webhook-bestfy.ts para receber notificações
+// [ ] Criar sistema de verificação de pagamento PIX por polling
+// [ ] Adicionar Order Bump / Upsell no checkout
+// [ ] Integrar endereço de entrega (para produtos físicos)
