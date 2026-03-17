@@ -613,10 +613,15 @@
 
     /* ===== CROSS-SELL ===== */
     .xsell { padding: 28px 16px; background: var(--g50); }
-    .xsell h2 { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 16px; color: var(--black); }
+    .xsell h2 { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 4px; color: var(--black); }
+    .xsell-sub { font-size: 13px; color: var(--g400); text-align: center; margin-bottom: 16px; }
     .xsell-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .xc { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); transition: transform 0.2s; }
+    .xc { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; position: relative; }
+    .xc:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.10); }
     .xc:active { transform: scale(0.98); }
+    .xc-badge { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; z-index: 1; text-transform: uppercase; letter-spacing: 0.3px; }
+    .xc-badge.gift { background: #16a34a; color: #fff; }
+    .xc-badge.bundle { background: #1d4ed8; color: #fff; }
     .xc-img { aspect-ratio: 1; overflow: hidden; background: var(--g100); }
     .xc-img img { width: 100%; height: 100%; object-fit: cover; }
     .xc-info { padding: 10px 12px; }
@@ -624,6 +629,7 @@
     .xc-info .xp { display: flex; align-items: baseline; gap: 6px; }
     .xc-info .xpn { font-size: 15px; font-weight: 800; color: var(--black); }
     .xc-info .xpw { font-size: 12px; color: var(--g400); text-decoration: line-through; }
+    .xc-cta { display: block; margin: 8px 12px 10px; background: var(--black); color: var(--white); font-size: 11px; font-weight: 700; text-align: center; padding: 7px 0; border-radius: 8px; letter-spacing: 0.2px; }
 
     /* ===== REVIEWS ===== */
     .reviews-wrapper {
@@ -1264,27 +1270,34 @@
   <!-- CROSS-SELL -->
   <section class="xsell">
     <h2>Para um tratamento completo</h2>
+    <p class="xsell-sub">Compre junto com o secador e economize ainda mais</p>
     <div class="xsell-grid">
-      <div class="xc">
+      <div class="xc" onclick="xsellGo(1)">
+        <span class="xc-badge bundle">+ Secador</span>
         <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/5_ff8c210d-c7d4-4a29-adf8-74256fbd5e1d.png?v=1773343219&width=500" alt="Mise en Sc&egrave;ne" loading="lazy"></div>
         <div class="xc-info">
           <p class="xn">Mise en Sc&egrave;ne - Royal Jelly Protein - Shampoo 1000ml + Tratamento 1000ml</p>
           <div class="xp"><span class="xpn">R$ 100,00</span><span class="xpw">R$ 199,90</span></div>
         </div>
+        <span class="xc-cta">Comprar junto com o Secador</span>
       </div>
-      <div class="xc">
+      <div class="xc" onclick="xsellGo(1)">
+        <span class="xc-badge bundle">+ Secador</span>
         <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/6_aeed60d3-2000-4499-840e-c633cf7f2fff.png?v=1773343219&width=500" alt="S&eacute;rum" loading="lazy"></div>
         <div class="xc-info">
           <p class="xn">Mise en Sc&egrave;ne - Perfect Serum Original - S&eacute;rum de Hidrata&ccedil;&atilde;o e Brilho 80ml</p>
           <div class="xp"><span class="xpn">R$ 49,90</span><span class="xpw">R$ 89,90</span></div>
         </div>
+        <span class="xc-cta">Comprar junto com o Secador</span>
       </div>
-      <div class="xc">
+      <div class="xc" onclick="xsellGo(2)">
+        <span class="xc-badge gift">🎁 Grátis no Kit</span>
         <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/IMG_1312.jpg?v=1764797603&width=500" alt="Kit Tratamento" loading="lazy"></div>
         <div class="xc-info">
           <p class="xn">Kit Tratamento Capilar Completo - M&aacute;scara + S&eacute;rum Reparador</p>
           <div class="xp"><span class="xpn">R$ 79,90</span><span class="xpw">R$ 149,90</span></div>
         </div>
+        <span class="xc-cta">Ganhar Grátis no Kit Profissional</span>
       </div>
     </div>
   </section>
@@ -1725,6 +1738,15 @@
         if (c.classList.contains('selected')) idx = i;
       });
       window.location.href = CHECKOUT_URLS[idx];
+    };
+
+    // ===== CROSS-SELL: redireciona selecionando o card correto =====
+    // cardIdx: 1 = "2 Unidades" (comprar junto), 2 = "Kit Profissional" (brinde grátis)
+    window.xsellGo = function(cardIdx) {
+      var cards = document.querySelectorAll('.price-card');
+      cards.forEach(function(c) { c.classList.remove('selected'); });
+      if (cards[cardIdx]) cards[cardIdx].classList.add('selected');
+      window.location.href = CHECKOUT_URLS[cardIdx];
     };
 
     // ===== FLOAT CTA VISIBILITY =====
