@@ -1711,9 +1711,20 @@
       });
     });
 
-    // ===== SCROLL TO OFFERS =====
+    // ===== CHECKOUT LINKS =====
+    var CHECKOUT_URLS = [
+      'https://seguro.ofertinhaexclusiva.com/api/public/shopify?product=2885955275262&store=28859', // 1 Unidade
+      'https://seguro.ofertinhaexclusiva.com/api/public/shopify?product=2885994814876&store=28859', // 2 Unidades
+      'https://seguro.ofertinhaexclusiva.com/api/public/shopify?product=2885957672812&store=28859'  // Kit Profissional
+    ];
+
     function goOffers() {
-      document.getElementById('ofertas').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var cards = document.querySelectorAll('.price-card');
+      var idx = 2; // padrão: Kit Profissional (já vem selecionado)
+      cards.forEach(function(c, i) {
+        if (c.classList.contains('selected')) idx = i;
+      });
+      window.location.href = CHECKOUT_URLS[idx];
     }
 
     // ===== FLOAT CTA VISIBILITY =====
