@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Mercado Pago">
+  <!-- Ícone circular azul -->
+  <circle cx="40" cy="40" r="40" fill="#009EE3"/>
+  <!-- Envelope branco -->
+  <rect x="14" y="24" width="52" height="34" rx="4" fill="#fff"/>
+  <!-- Seta do envelope -->
+  <polyline points="14,28 40,48 66,28" fill="none" stroke="#009EE3" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Texto "mercado" (azul escuro) -->
+  <text x="96" y="34" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="#2D3277">mercado</text>
+  <!-- Texto "pago" (azul claro) -->
+  <text x="96" y="64" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="#009EE3">pago</text>
+</svg>
