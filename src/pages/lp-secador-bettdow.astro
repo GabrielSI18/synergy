@@ -1,5 +1,5 @@
 ---
-// Bettdow AirLux Pro - Landing Page
+// Bettdow AirLux Pro - Landing Page (Clone fiel do original)
 ---
 
 <!DOCTYPE html>
@@ -12,9 +12,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <style>
     :root {
-      --black: #1a1a1a;
+      --black: #121212;
       --white: #ffffff;
       --g50: #fafafa;
       --g100: #f5f5f5;
@@ -26,15 +27,13 @@
       --g700: #404040;
       --g800: #262626;
       --g900: #171717;
-      --green: #22c55e;
-      --green-light: #f0fdf4;
+      --green: #16a34a;
+      --green-light: #dcfae6;
       --red: #ef4444;
-      --gold: #f5a623;
-      --yellow: #f0c040;
+      --gold: #f6b700;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -57,12 +56,12 @@
       color: var(--white);
       text-align: center;
       padding: 10px 16px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.3px;
       line-height: 1.4;
     }
-    .topbar span { color: var(--yellow); font-weight: 700; }
+    .topbar span { color: #f0c040; font-weight: 700; }
 
     /* ===== HEADER ===== */
     .header {
@@ -88,6 +87,7 @@
     }
 
     /* ===== GALLERY ===== */
+    .gallery-area { position: relative; }
     .gallery-wrap {
       background: var(--white);
       position: relative;
@@ -175,7 +175,7 @@
     .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .gallery-thumb.is-video { position: relative; }
     .gallery-thumb.is-video::after {
-      content: '▶';
+      content: '\25B6';
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -185,146 +185,191 @@
     }
 
     /* ===== PRODUCT INFO ===== */
-    .product-info { padding: 16px 16px 8px; }
-    .rating-row {
-      display: flex;
+    .product-info { padding: 20px 16px 8px; }
+
+    /* Rating component */
+    .rating {
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 12px;
+      margin-bottom: 12px;
     }
-    .stars { color: var(--gold); font-size: 15px; letter-spacing: 1px; }
-    .rating-text { font-size: 13px; color: var(--g500); font-weight: 500; }
+    .rating .stars-r {
+      font-size: 16px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #000 96%, #e6e6e6 96%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .rating .meta {
+      font-size: 14px;
+      color: #222;
+    }
+
     .product-title {
-      font-size: 19px;
+      font-size: 22px;
       font-weight: 700;
       line-height: 1.35;
       color: var(--black);
-      margin-bottom: 10px;
-    }
-    .product-desc {
-      font-size: 14px;
-      color: var(--g600);
-      line-height: 1.6;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    /* ===== BENEFITS ===== */
-    .benefits {
-      list-style: none;
-      padding: 0 16px 20px;
+    /* Highlight box */
+    .highlight-box {
+      background: #f3f3f3;
+      border-radius: 0.4em;
+      padding: 0.6em 1em;
+      margin: 1.5rem 0;
+      font-size: 1.4rem;
+      line-height: 1.5;
+      color: var(--black);
+    }
+
+    /* ===== BENEFITS (emoji) ===== */
+    .emoji-benefits {
+      padding: 0 16px;
+      margin: 1.5rem 0;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
     }
-    .benefits li {
-      font-size: 14px;
-      color: var(--g700);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      background: var(--g50);
-      border-radius: 10px;
+    .emoji-benefits p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--black);
     }
-    .benefits li .em { font-size: 18px; flex-shrink: 0; }
 
     /* ===== PRICING ===== */
     .pricing-section {
-      padding: 28px 16px;
-      background: var(--g100);
+      padding: 0 16px;
+      margin: 24px 0 16px;
     }
     .pricing-header {
-      text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
     .pricing-header h2 {
-      font-size: 20px;
-      font-weight: 800;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--black);
     }
     .pricing-cards {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
     }
     .price-card {
-      background: var(--white);
-      border: 2px solid var(--g200);
-      border-radius: 14px;
-      padding: 16px 14px 16px 48px;
+      background: #ededed;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 14px 14px 14px 52px;
       position: relative;
       transition: all 0.25s;
       cursor: pointer;
     }
     .price-card.selected {
+      background: var(--white);
       border-color: var(--black);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     }
     .price-card .bdg {
       position: absolute;
       top: -11px;
       right: 16px;
       padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 10px;
+      border-radius: 4px;
+      font-size: 11px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      color: white;
+      background: var(--black);
     }
-    .bdg-gr { background: var(--green); color: white; }
-    .bdg-dk { background: var(--black); color: white; }
     .price-card .c-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 2px;
+    }
+    .price-card .c-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .price-card .c-eco {
+      font-size: 12px;
+      font-weight: 500;
+      color: #555;
       margin-bottom: 4px;
     }
-    .price-card .c-name { font-size: 16px; font-weight: 700; color: var(--black); }
-    .price-card .c-eco {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--green);
-      background: var(--green-light);
-      padding: 3px 10px;
-      border-radius: 6px;
+    .price-card .c-desc {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 4px;
     }
-    .price-card .c-desc { font-size: 12px; color: var(--g500); margin-bottom: 8px; }
-    .price-card .c-prices { display: flex; align-items: baseline; gap: 10px; }
-    .price-card .p-now { font-size: 24px; font-weight: 800; color: var(--black); }
-    .price-card .p-was { font-size: 14px; color: var(--g400); text-decoration: line-through; }
+    .price-card .c-prices {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .price-card .p-now {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    .price-card .p-was {
+      font-size: 14px;
+      color: #555;
+      text-decoration: line-through;
+    }
+    .price-card .c-gift {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 8px;
+      background: #b3b3b3;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .price-card .c-gift img {
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
     .price-card .radio {
       position: absolute;
       left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 20px; height: 20px;
+      top: 22px;
+      width: 22px; height: 22px;
       border-radius: 50%;
       border: 2px solid var(--g300);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
+      background: var(--white);
     }
     .price-card.selected .radio { border-color: var(--black); }
     .price-card.selected .radio::after {
       content: '';
-      width: 10px; height: 10px;
+      width: 12px; height: 12px;
       border-radius: 50%;
       background: var(--black);
     }
 
-    /* ===== CTA ===== */
-    .cta-wrap { padding: 20px 16px; }
+    /* ===== CTA BUTTON ===== */
+    .cta-wrap { padding: 16px 16px; }
     .cta-btn {
       display: block;
       width: 100%;
-      padding: 16px;
+      padding: 18px;
       background: var(--black);
       color: var(--white);
       text-align: center;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      border-radius: 14px;
+      border-radius: 8px;
       letter-spacing: 0.3px;
       transition: all 0.2s;
       position: relative;
@@ -352,12 +397,80 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      font-size: 11px;
+      font-size: 12px;
       color: var(--g500);
       font-weight: 500;
     }
 
-    /* ===== TRUST BADGES ===== */
+    /* ===== BADGES (Frete + Garantia) ===== */
+    .trust-badges {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6em;
+      padding: 0 16px;
+      margin: 1.5rem 0;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      background: #f3f3f3;
+      border-radius: 0.4em;
+      padding: 0.6em 0.8em;
+      font-size: 1.4rem;
+      color: var(--black);
+      font-weight: 400;
+    }
+    .trust-badge .material-symbols-outlined {
+      font-size: 1.3em;
+      color: var(--black);
+    }
+
+    /* ===== DUAL VIDEO ===== */
+    .dual-video {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding: 0 16px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+    .dv-video {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9/16;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+      background: #f5f5f5;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    /* ===== DESC ===== */
+    .desc-block {
+      padding: 24px 16px 4px;
+      font-size: 15px;
+      color: var(--g600);
+      line-height: 1.7;
+    }
+    .desc-block p { margin-bottom: 16px; }
+
+    /* ===== INFOGRAPHICS ===== */
+    .info-grid {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .info-grid img, .info-grid video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
+    /* ===== TRUST ROW (4 icons) ===== */
     .badges-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -368,32 +481,15 @@
     .bi .bi-i { font-size: 26px; }
     .bi span { font-size: 9px; color: var(--g500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
 
-    /* ===== DESC ===== */
-    .desc-block {
-      padding: 24px 16px 4px;
-      font-size: 14px;
-      color: var(--g600);
-      line-height: 1.7;
-    }
-    .desc-block p { margin-bottom: 16px; }
-
-    /* ===== VIDEO ===== */
-    .vid-section { padding: 0; max-height: 500px; overflow: hidden; }
-    .vid-section video { width: 100%; display: block; max-height: 500px; object-fit: cover; }
-
-    /* ===== INFOGRAPHICS ===== */
-    .infographics { padding: 0; }
-    .infographics img { width: 100%; display: block; }
-
     /* ===== COMPARE ===== */
     .compare-section { padding: 32px 16px; }
-    .s-title { font-size: 20px; font-weight: 800; text-align: center; color: var(--black); margin-bottom: 4px; }
-    .s-sub { text-align: center; font-size: 13px; color: var(--g500); margin-bottom: 20px; }
+    .s-title { font-size: 22px; font-weight: 800; text-align: center; color: var(--black); margin-bottom: 4px; }
+    .s-sub { text-align: center; font-size: 14px; color: var(--g500); margin-bottom: 20px; }
     .cmp-tbl {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      font-size: 13px;
+      font-size: 14px;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 1px 8px rgba(0,0,0,0.05);
@@ -405,7 +501,7 @@
       padding: 12px 8px;
       text-align: center;
       font-weight: 600;
-      font-size: 10px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
       word-break: break-word;
@@ -415,7 +511,7 @@
       padding: 10px 8px;
       border-bottom: 1px solid var(--g100);
       text-align: center;
-      font-size: 11px;
+      font-size: 13px;
       color: var(--g600);
       background: var(--white);
       word-break: break-word;
@@ -432,77 +528,174 @@
       background: var(--green-light);
     }
     .warranty .wi { font-size: 52px; margin-bottom: 12px; }
-    .warranty h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; color: var(--black); }
-    .warranty p { font-size: 14px; color: var(--g600); max-width: 480px; margin: 0 auto; line-height: 1.6; }
+    .warranty h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: var(--black); }
+    .warranty p { font-size: 15px; color: var(--g600); max-width: 480px; margin: 0 auto; line-height: 1.6; }
 
     /* ===== ACCORDION ===== */
-    .acc-section { padding: 24px 16px; }
-    .acc { border-bottom: 1px solid var(--g200); }
-    .acc-head {
+    .accordion {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .accordion-item {
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .accordion-header {
+      width: 100%;
+      padding: 18px 0;
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 0;
-      cursor: pointer;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      color: var(--black);
+      font-family: inherit;
     }
-    .acc-head h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--black); }
-    .acc-ic {
-      width: 24px; height: 24px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: var(--g400);
-      transition: transform 0.3s; font-weight: 300;
+    .accordion-header::after {
+      content: "+";
+      font-size: 22px;
+      font-weight: 300;
+      transition: transform 0.3s;
     }
-    .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-    .acc.open .acc-body { max-height: 800px; }
-    .acc.open .acc-ic { transform: rotate(45deg); }
-    .acc-in { padding: 0 0 16px; font-size: 14px; color: var(--g600); line-height: 1.7; }
-    .acc-in ul { list-style: none; padding: 0; }
-    .acc-in ul li { padding: 4px 0 4px 18px; position: relative; }
-    .acc-in ul li::before { content: '•'; position: absolute; left: 0; color: var(--black); font-weight: 700; }
-    .acc-in ol { padding-left: 20px; }
-    .acc-in ol li { padding: 4px 0; }
-    .fq { font-weight: 600; color: var(--black); margin-bottom: 2px; }
-    .fa { color: var(--g500); margin-bottom: 12px; }
+    .accordion-item.active .accordion-header::after {
+      content: "\2212";
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      font-size: 15px;
+      color: var(--g600);
+      line-height: 1.7;
+    }
+    .accordion-item.active .accordion-content {
+      padding: 12px 0 20px;
+    }
 
     /* ===== CROSS-SELL ===== */
     .xsell { padding: 28px 16px; background: var(--g50); }
-    .xsell h2 { font-size: 18px; font-weight: 800; text-align: center; margin-bottom: 16px; color: var(--black); }
+    .xsell h2 { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 16px; color: var(--black); }
     .xsell-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .xc { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); transition: transform 0.2s; }
     .xc:active { transform: scale(0.98); }
     .xc-img { aspect-ratio: 1; overflow: hidden; background: var(--g100); }
     .xc-img img { width: 100%; height: 100%; object-fit: cover; }
     .xc-info { padding: 10px 12px; }
-    .xc-info .xn { font-size: 11px; font-weight: 600; color: var(--black); line-height: 1.3; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .xc-info .xn { font-size: 12px; font-weight: 600; color: var(--black); line-height: 1.3; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .xc-info .xp { display: flex; align-items: baseline; gap: 6px; }
-    .xc-info .xpn { font-size: 14px; font-weight: 800; color: var(--black); }
-    .xc-info .xpw { font-size: 11px; color: var(--g400); text-decoration: line-through; }
+    .xc-info .xpn { font-size: 15px; font-weight: 800; color: var(--black); }
+    .xc-info .xpw { font-size: 12px; color: var(--g400); text-decoration: line-through; }
 
     /* ===== REVIEWS ===== */
-    .reviews { padding: 32px 16px; }
-    .rv-head { text-align: center; margin-bottom: 24px; }
-    .rv-head .rv-s { color: var(--gold); font-size: 22px; letter-spacing: 2px; }
-    .rv-head .rv-sc { font-size: 32px; font-weight: 800; color: var(--black); margin: 4px 0 2px; }
-    .rv-head .rv-ct { font-size: 13px; color: var(--g500); }
-    .rv-list { display: flex; flex-direction: column; gap: 14px; }
-    .rv {
-      background: var(--white);
-      border: 1px solid var(--g200);
-      border-radius: 14px;
-      padding: 16px;
+    .reviews-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 12px;
     }
-    .rv-top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-    .rv-av { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-    .rv-mt { flex: 1; }
-    .rv-nm { font-size: 14px; font-weight: 600; color: var(--black); }
-    .rv-vf { font-size: 11px; color: var(--green); font-weight: 600; margin-left: 4px; }
-    .rv-dt { font-size: 11px; color: var(--g400); }
-    .rv-st { color: var(--gold); font-size: 13px; letter-spacing: 1px; margin-bottom: 6px; }
-    .rv-tx { font-size: 13px; color: var(--g600); line-height: 1.5; }
-    .rv-ph { margin-top: 10px; border-radius: 10px; overflow: hidden; max-width: min(200px, 60%); }
-    .rv-ph img { width: 100%; border-radius: 10px; aspect-ratio: 3/4; object-fit: cover; }
+    .reviews-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .reviews-stars {
+      color: #000;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+    .reviews-score {
+      font-size: 16px;
+      color: #333;
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .review-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .review-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .review-name {
+      font-weight: 600;
+      margin: 4px 0 2px;
+      font-size: 15px;
+    }
+    .verified {
+      color: #16a34a;
+      font-weight: 600;
+      font-size: 13px;
+      margin-left: 8px;
+    }
+    .review-date {
+      color: #777;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .review-stars {
+      color: #f6b700;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .review-text {
+      color: #444;
+      font-size: 14px;
+      line-height: 1.45;
+      margin-top: auto;
+    }
+    .reviews-pagination {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      overflow: hidden;
+    }
+    .pages-inner {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .pages-inner::-webkit-scrollbar { display: none; }
+    .page-btn {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #333;
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .page-btn.current {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+      font-weight: 600;
+    }
 
     /* ===== SEPARATOR ===== */
     .sep { height: 1px; background: var(--g200); }
@@ -528,7 +721,7 @@
       background: var(--black);
       color: var(--white);
       padding: 14px 28px;
-      border-radius: 12px;
+      border-radius: 8px;
       font-size: 14px;
       font-weight: 700;
       white-space: nowrap;
@@ -553,10 +746,10 @@
       text-align: center;
     }
     .footer-links { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-    .footer-links a { font-size: 13px; color: var(--g400); transition: color 0.2s; }
+    .footer-links a { font-size: 14px; color: var(--g400); transition: color 0.2s; }
     .footer-links a:hover { color: var(--white); }
     .footer-pay { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-    .pi { background: var(--g800); padding: 5px 10px; border-radius: 4px; font-size: 10px; color: var(--g400); font-weight: 600; }
+    .pi { background: var(--g800); padding: 5px 10px; border-radius: 4px; font-size: 11px; color: var(--g400); font-weight: 600; }
     .footer-cp { font-size: 12px; color: var(--g600); }
 
     /* ===== DESKTOP ===== */
@@ -572,65 +765,72 @@
       }
       .gallery-wrap { border-radius: 16px; overflow: hidden; }
       .gallery-slide img, .gallery-slide video { max-height: 520px; }
-      .gallery-thumbs { padding: 10px 0; }
+      .gallery-area {
+        display: grid;
+        grid-template-columns: 74px 1fr;
+        gap: 12px;
+      }
+      .gallery-thumbs {
+        flex-direction: column;
+        padding: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 520px;
+        scrollbar-width: thin;
+        order: -1;
+      }
+      .gallery-thumbs::-webkit-scrollbar { display: block; width: 3px; }
+      .gallery-thumbs::-webkit-scrollbar-thumb { background: var(--g300); border-radius: 3px; }
+      .gallery-thumb { min-width: 64px; width: 64px; height: 64px; border-radius: 6px; }
       .gallery-dots { display: none; }
       .product-info { padding: 0; }
-      .product-title { font-size: 26px; }
-      .benefits { padding: 0 0 20px; }
-      .pricing-section { padding: 40px 24px; }
-      .pricing-cards { flex-direction: row; justify-content: center; }
-      .price-card { flex: 1; max-width: 340px; }
-      .rv-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-      .infographics { max-width: 900px; margin: 0 auto; }
+      .product-title { font-size: 28px; }
+      .highlight-box { font-size: 1.6rem; }
+      .trust-badges { padding: 0; }
+      .trust-badge { font-size: 1.6rem; }
+      .emoji-benefits { padding: 0; }
+      .emoji-benefits p { font-size: 1.1rem; }
+      .pricing-section { padding: 0; }
+      .cta-wrap { padding: 16px 0; }
+      .info-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 24px; }
       .compare-section { max-width: 700px; margin: 0 auto; }
-      .acc-section { max-width: 700px; margin: 0 auto; padding: 40px 24px; }
+      .accordion { max-width: 700px; padding: 40px 24px; }
       .xsell { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
       .xsell-grid { grid-template-columns: repeat(3, 1fr); }
-      .vid-section { max-width: 900px; margin: 0 auto; }
       .float-cta { display: none; }
       .footer { padding-bottom: 40px; }
-    }
-    @media (min-width: 1024px) {
-      .rv-list { grid-template-columns: repeat(3, 1fr); }
-      .pricing-cards { gap: 20px; }
+      .reviews-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
     }
     @media (max-width: 767px) {
       .footer { padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)); }
     }
 
-    /* ===== TELAS MUITO PEQUENAS (320-380px) ===== */
+    /* ===== TELAS PEQUENAS ===== */
+    @media (max-width: 420px) {
+      .review-img { height: 160px; }
+      .review-name { font-size: 14px; }
+      .review-text { font-size: 13px; }
+      .page-btn { padding: 6px 9px; font-size: 13px; border-radius: 6px; }
+      .reviews-header { gap: 8px; margin: 12px 0; }
+    }
     @media (max-width: 380px) {
       .topbar { font-size: 11px; padding: 8px 12px; }
       .gallery-slide img, .gallery-slide video { max-height: 55vh; }
       .gallery-nav { width: 32px; height: 32px; font-size: 14px; }
       .gallery-thumb { min-width: 44px; width: 44px; height: 44px; }
-      .product-title { font-size: 17px; }
-      .product-desc { font-size: 13px; }
-      .benefits li { font-size: 13px; padding: 7px 10px; }
-      .pricing-header h2 { font-size: 18px; }
-      .price-card { padding: 14px 10px 14px 42px; }
-      .price-card .c-name { font-size: 14px; }
-      .price-card .p-now { font-size: 20px; }
-      .price-card .p-was { font-size: 12px; }
-      .price-card .radio { left: 12px; }
-      .xsell-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
-      .cta-btn { font-size: 14px; padding: 14px; }
+      .product-title { font-size: 18px; }
+      .highlight-box { font-size: 1.2rem; }
+      .trust-badge { font-size: 1.1rem; }
+      .price-card { padding: 14px 10px 14px 46px; }
+      .price-card .c-name { font-size: 17px; }
+      .price-card .p-now { font-size: 19px; }
+      .cta-btn { font-size: 15px; padding: 15px; }
       .fl-pr { font-size: 17px; }
       .fl-btn { padding: 12px 20px; font-size: 13px; }
-      .rv-av { width: 38px; height: 38px; }
-      .rv-nm { font-size: 13px; }
-      .rv-tx { font-size: 12px; }
-      .cmp-tbl th { font-size: 9px; padding: 10px 6px; }
-      .cmp-tbl td { font-size: 10px; padding: 8px 6px; }
-      .warranty h2 { font-size: 19px; }
-      .warranty p { font-size: 13px; }
-      .s-title { font-size: 18px; }
-      .vid-section, .vid-section video { max-height: 350px; }
-    }
-
-    /* ===== TELAS INTERMEDIÁRIAS (381-480px) ===== */
-    @media (min-width: 381px) and (max-width: 480px) {
-      .product-title { font-size: 18px; }
+      .warranty h2 { font-size: 20px; }
+      .warranty p { font-size: 14px; }
+      .s-title { font-size: 19px; }
+      .xsell-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
     }
   </style>
 </head>
@@ -638,7 +838,7 @@
 
   <!-- TOPBAR -->
   <div class="topbar">
-    🔥 <span>OFERTA LIMITADA</span> — Frete Grátis para todo o Brasil + Garantia de 2 Anos 🛡️
+    <span>OFERTA LIMITADA</span> &mdash; Frete Gr&aacute;tis para todo o Brasil + Garantia de 2 Anos
   </div>
 
   <!-- HEADER -->
@@ -651,134 +851,145 @@
   <!-- PRODUCT LAYOUT -->
   <div class="product-layout">
     <!-- GALLERY -->
-    <div>
+    <div class="gallery-area">
       <div class="gallery-wrap" id="galleryWrap">
         <div class="gallery-slider" id="gallerySlider"></div>
         <button class="gallery-nav prev" id="prevBtn" aria-label="Anterior">&#8249;</button>
-        <button class="gallery-nav next" id="nextBtn" aria-label="Próximo">&#8250;</button>
+        <button class="gallery-nav next" id="nextBtn" aria-label="Pr&oacute;ximo">&#8250;</button>
       </div>
       <div class="gallery-dots" id="galleryDots"></div>
       <div class="gallery-thumbs" id="galleryThumbs"></div>
     </div>
 
-    <!-- INFO -->
+    <!-- INFO COLUMN -->
     <div>
       <div class="product-info">
-        <div class="rating-row">
-          <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          <span class="rating-text">4,8/5 &bull; 3.781 avaliações</span>
+        <!-- Rating -->
+        <div class="rating" role="img" aria-label="4,8 de 5 estrelas">
+          <div class="stars-r" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="meta">
+            <span class="score"><strong>4,8</strong>/5</span>
+            <span class="reviews">&bull; 3.781 avalia&ccedil;&otilde;es</span>
+          </div>
         </div>
-        <h1 class="product-title">Bettdow AirLux Pro - Secador de Alta Velocidade com Íons Negativos, 1500W, 110.000 rpm</h1>
-        <p class="product-desc">Tenha fios mais brilhantes, sem frizz, com secagem rápida, proteção térmica inteligente e acabamento profissional todos os dias.</p>
+
+        <h1 class="product-title">Bettdow AirLux Pro &ndash; Secador de Alta Velocidade com &Iacute;ons Negativos, 1500W, 110.000 rpm</h1>
+
+        <!-- Highlight box -->
+        <div class="highlight-box">
+          <strong>Tenha fios mais brilhantes, sem frizz, com secagem r&aacute;pida, prote&ccedil;&atilde;o t&eacute;rmica inteligente e acabamento profissional todos os dias.</strong>
+        </div>
       </div>
 
-      <ul class="benefits">
-        <li><span class="em">💨</span> Secagem super rápida com motor digital</li>
-        <li><span class="em">✨</span> Brilho imediato e menos frizz com íons negativos</li>
-        <li><span class="em">🔥</span> Proteção térmica inteligente que cuida dos fios</li>
-        <li><span class="em">🎯</span> Bico magnético 360° para modelar com precisão</li>
-        <li><span class="em">🪶</span> Ultra leve, ideal para uso diário</li>
-        <li><span class="em">🔇</span> Silencioso e confortável de usar</li>
-        <li><span class="em">🌬️</span> Perfeito para todos os tipos de cabelo</li>
-        <li><span class="em">📦</span> Acessórios premium incluídos</li>
-        <li><span class="em">💗</span> 2 anos de Garantia</li>
-      </ul>
+      <!-- Emoji benefits -->
+      <div class="emoji-benefits">
+        <p>&#128168; <strong>Secagem super r&aacute;pida</strong> com motor digital</p>
+        <p>&#10024; <strong>Brilho imediato</strong> e <strong>menos frizz</strong> com &iacute;ons negativos</p>
+        <p>&#128293; <strong>Prote&ccedil;&atilde;o t&eacute;rmica inteligente</strong> que cuida dos fios</p>
+        <p>&#127919; <strong>Bico magn&eacute;tico 360&deg;</strong> para modelar com precis&atilde;o</p>
+        <p>&#129718; <strong>Ultra leve</strong>, ideal para uso di&aacute;rio</p>
+        <p>&#128263; <strong>Silencioso</strong> e confort&aacute;vel de usar</p>
+        <p>&#127788;&#65039; <strong>Perfeito para todos os tipos de cabelo</strong></p>
+        <p>&#128230; <strong>Acess&oacute;rios premium</strong> inclu&iacute;dos</p>
+        <p>&#128151; <strong>2 anos de Garantia</strong></p>
+      </div>
+
+      <!-- PRICING -->
+      <section class="pricing-section" id="ofertas">
+        <div class="pricing-header"><h2>Leve mais e pague menos</h2></div>
+        <div class="pricing-cards">
+          <div class="price-card" data-label="R$ 149,90" data-was="R$ 378,00">
+            <div class="radio"></div>
+            <div class="c-top"><span class="c-name">1 Unidade</span></div>
+            <div class="c-prices"><span class="p-now">R$ 149,90</span><span class="p-was">R$ 378,00</span></div>
+          </div>
+          <div class="price-card" data-label="R$ 199,90" data-was="R$ 756,00">
+            <span class="bdg">Mais Barato</span>
+            <div class="radio"></div>
+            <div class="c-top"><span class="c-name">2 Unidades</span></div>
+            <p class="c-desc">Economize <strong>74%</strong></p>
+            <div class="c-prices"><span class="p-now">R$ 199,90</span><span class="p-was">R$ 756,00</span></div>
+          </div>
+          <div class="price-card selected" data-label="R$ 249,90" data-was="R$ 577,90">
+            <span class="bdg" style="background:#16a34a;">Mais Vendido</span>
+            <div class="radio"></div>
+            <div class="c-top"><span class="c-name">Kit Profissional</span></div>
+            <p class="c-desc">O combo perfeito: Secador + tratamento completo + s&eacute;rum.</p>
+            <p class="c-eco">Economize R$ 328,00</p>
+            <div class="c-prices"><span class="p-now">R$ 249,90</span><span class="p-was">R$ 577,90</span></div>
+            <div class="c-gift">
+              <img src="https://madeliebrasil.com/cdn/shop/files/6_aeed60d3-2000-4499-840e-c633cf7f2fff.png?v=1773343219&width=100" alt="Brinde">
+              + BRINDE Mise en Scene S&eacute;rum de Hidrata&ccedil;&atilde;o e Brilho 80ml
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="cta-wrap">
+        <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>Adicionar ao carrinho</button>
+        <div class="cta-trust">
+          <span class="cta-trust-item">&#128666; Frete Gr&aacute;tis</span>
+          <span class="cta-trust-item">&#128274; Compra Segura</span>
+          <span class="cta-trust-item">&#128260; Troca Garantida</span>
+          <span class="cta-trust-item">&#128179; At&eacute; 12x</span>
+        </div>
+      </div>
+
+      <!-- Trust badges: Frete + Garantia -->
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <span class="material-symbols-outlined">local_shipping</span>
+          <span>Frete Gr&aacute;tis Hoje</span>
+        </div>
+        <div class="trust-badge">
+          <span class="material-symbols-outlined">replay</span>
+          <span>2 Anos de Garantia</span>
+        </div>
+      </div>
+
+      <!-- Dual video (sempre 2 colunas) -->
+      <div class="dual-video" aria-label="Demonstra&ccedil;&otilde;es do produto">
+        <video class="dv-video" id="video1" playsinline muted loop preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/808e25a9448e4ea5b2b53965eef7da2c.mp4" type="video/mp4">
+        </video>
+        <video class="dv-video" id="video2" playsinline muted loop preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/23d17c1bfa954fb09d854cdbce308f03.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
-  </div>
-
-  <!-- PRICING -->
-  <section class="pricing-section" id="ofertas">
-    <div class="pricing-header"><h2>Leve mais e pague menos</h2></div>
-    <div class="pricing-cards">
-      <div class="price-card" data-label="R$ 149,90" data-was="R$ 378,00">
-        <span class="bdg bdg-gr">Mais Barato</span>
-        <div class="radio"></div>
-        <div class="c-top"><span class="c-name">1 Unidade</span></div>
-        <div class="c-prices"><span class="p-now">R$ 149,90</span><span class="p-was">R$ 378,00</span></div>
-      </div>
-      <div class="price-card selected" data-label="R$ 199,90" data-was="R$ 756,00">
-        <span class="bdg bdg-dk">Mais Vendido</span>
-        <div class="radio"></div>
-        <div class="c-top"><span class="c-name">2 Unidades</span><span class="c-eco">Economize 74%</span></div>
-        <div class="c-prices"><span class="p-now">R$ 199,90</span><span class="p-was">R$ 756,00</span></div>
-      </div>
-      <div class="price-card" data-label="R$ 249,90" data-was="R$ 577,90">
-        <span class="bdg bdg-dk">Kit Profissional</span>
-        <div class="radio"></div>
-        <div class="c-top"><span class="c-name">Kit Profissional</span><span class="c-eco">Economize R$ 328,00</span></div>
-        <p class="c-desc">O combo perfeito: Secador + tratamento completo + sérum.</p>
-        <div class="c-prices"><span class="p-now">R$ 249,90</span><span class="p-was">R$ 577,90</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <div class="cta-wrap">
-    <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>COMPRAR AGORA</button>
-    <div class="cta-trust">
-      <span class="cta-trust-item">🚚 Frete Grátis</span>
-      <span class="cta-trust-item">🔒 Compra Segura</span>
-      <span class="cta-trust-item">🔄 Troca Garantida</span>
-      <span class="cta-trust-item">💳 Até 12x</span>
-    </div>
-  </div>
-
-  <!-- TRUST BADGES -->
-  <div class="badges-row">
-    <div class="bi"><span class="bi-i">🛡️</span><span>Compra Segura</span></div>
-    <div class="bi"><span class="bi-i">🚚</span><span>Frete Grátis</span></div>
-    <div class="bi"><span class="bi-i">🔄</span><span>Troca Fácil</span></div>
-    <div class="bi"><span class="bi-i">⏱️</span><span>Entrega Rápida</span></div>
   </div>
 
   <div class="sep"></div>
 
   <!-- DESCRIPTION -->
   <div class="desc-block">
-    <p>O <strong>Bettdow AirLux Pro</strong> combina motor digital de 110.000 rpm, tecnologia iônica avançada e controle térmico inteligente para oferecer secagem rápida, redução de frizz e brilho imediato. Leve, silencioso e potente — um secador premium para todos os tipos de cabelo.</p>
+    <p>O <strong>Bettdow AirLux Pro</strong> combina motor digital de 110.000 rpm, tecnologia i&ocirc;nica avan&ccedil;ada e controle t&eacute;rmico inteligente para oferecer secagem r&aacute;pida, redu&ccedil;&atilde;o de frizz e brilho imediato. Leve, silencioso e potente &mdash; um secador premium para todos os tipos de cabelo.</p>
   </div>
 
-  <!-- VIDEO 1 -->
-  <section class="vid-section">
-    <video autoplay loop muted playsinline>
-      <source src="https://cdn.shopify.com/videos/c/o/v/23d17c1bfa954fb09d854cdbce308f03.mp4" type="video/mp4">
-    </video>
-  </section>
-
-  <!-- INFOGRAPHICS PART 1 -->
-  <section class="infographics">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta1.png?v=1764562750&width=1200" alt="Tecnologia de íons negativos" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta2.png?v=1764562751&width=1200" alt="Motor digital de alta velocidade" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta3.png?v=1764562750&width=1200" alt="Design premium" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta4.png?v=1764562751&width=1200" alt="Proteção térmica inteligente" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta5.png?v=1764562750&width=1200" alt="Acessórios inclusos" loading="lazy">
-  </section>
-
-  <!-- VIDEO 2 -->
-  <section class="vid-section">
-    <video autoplay loop muted playsinline>
-      <source src="https://cdn.shopify.com/videos/c/o/v/808e25a9448e4ea5b2b53965eef7da2c.mp4" type="video/mp4">
-    </video>
-  </section>
-
-  <!-- INFOGRAPHICS PART 2 -->
-  <section class="infographics">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta6.png?v=1764562752&width=1200" alt="Especificações técnicas" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta7.png?v=1764562751&width=1200" alt="Bico magnético 360°" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta8.png?v=1764562751&width=1200" alt="Ultra leve" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta9.png?v=1764562752&width=1200" alt="Resultados" loading="lazy">
-    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta10.png?v=1764562751&width=1200" alt="Comparativo" loading="lazy">
+  <!-- INFOGRAPHICS -->
+  <section class="info-grid">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta1.png?v=1764562750&width=800" alt="Tecnologia" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta2.png?v=1764562751&width=800" alt="Motor digital" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta3.png?v=1764562750&width=800" alt="Design premium" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta4.png?v=1764562751&width=800" alt="Prote&ccedil;&atilde;o t&eacute;rmica" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta5.png?v=1764562750&width=800" alt="Acess&oacute;rios" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta6.png?v=1764562752&width=800" alt="Especifica&ccedil;&otilde;es" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta7.png?v=1764562751&width=800" alt="Bico magn&eacute;tico" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta8.png?v=1764562751&width=800" alt="Ultra leve" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta9.png?v=1764562752&width=800" alt="Resultados" loading="lazy">
+    <img src="https://madeliebrasil.com/cdn/shop/files/Prancheta10.png?v=1764562751&width=800" alt="Comparativo" loading="lazy">
   </section>
 
   <div class="sep"></div>
 
   <!-- CTA REPEAT -->
-  <div class="cta-wrap" style="background: var(--g50); padding: 28px 16px;">
-    <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>APROVEITAR OFERTA 🔥</button>
+  <div class="cta-wrap" style="background:var(--g50);padding:28px 16px;">
+    <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>APROVEITAR OFERTA &#128293;</button>
     <div class="cta-trust">
-      <span class="cta-trust-item">🚚 Frete Grátis</span>
-      <span class="cta-trust-item">🔒 Compra Segura</span>
-      <span class="cta-trust-item">🔄 Troca Garantida</span>
+      <span class="cta-trust-item">&#128666; Frete Gr&aacute;tis</span>
+      <span class="cta-trust-item">&#128274; Compra Segura</span>
+      <span class="cta-trust-item">&#128260; Troca Garantida</span>
     </div>
   </div>
 
@@ -787,14 +998,14 @@
   <!-- COMPARE -->
   <section class="compare-section">
     <h2 class="s-title">Por que o AirLux Pro?</h2>
-    <p class="s-sub">Compare e veja a diferença</p>
+    <p class="s-sub">Compare e veja a diferen&ccedil;a</p>
     <table class="cmp-tbl">
-      <thead><tr><th>Característica</th><th>AirLux Pro</th><th>Secadores Comuns</th></tr></thead>
+      <thead><tr><th>Caracter&iacute;stica</th><th>AirLux Pro</th><th>Secadores Comuns</th></tr></thead>
       <tbody>
         <tr><td>Motor digital 110.000 rpm</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
-        <tr><td>Íons negativos anti-frizz</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
-        <tr><td>Sensor térmico inteligente</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
-        <tr><td>Bico magnético 360°</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
+        <tr><td>&Iacute;ons negativos anti-frizz</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
+        <tr><td>Sensor t&eacute;rmico inteligente</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
+        <tr><td>Bico magn&eacute;tico 360&deg;</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
         <tr><td>Ultra silencioso</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
         <tr><td>Peso leve (~300g)</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
         <tr><td>Garantia de 2 anos</td><td><span class="tc">&#10004;</span></td><td><span class="tx">&#10008;</span></td></tr>
@@ -806,94 +1017,94 @@
 
   <!-- WARRANTY -->
   <section class="warranty">
-    <div class="wi">🛡️</div>
+    <div class="wi">&#128737;&#65039;</div>
     <h2>2 Anos de Garantia</h2>
-    <p>Seu secador Bettdow AirLux Pro vem com 2 anos de garantia total. Se houver qualquer problema de fábrica, nós trocamos sem custo algum.</p>
+    <p>Seu secador Bettdow AirLux Pro vem com 2 anos de garantia total. Se houver qualquer problema de f&aacute;brica, n&oacute;s trocamos sem custo algum.</p>
   </section>
 
   <div class="sep"></div>
 
   <!-- ACCORDION -->
-  <section class="acc-section">
-    <div class="acc">
-      <div class="acc-head" onclick="toggleAcc(this)"><h3>Como Usar</h3><span class="acc-ic">+</span></div>
-      <div class="acc-body"><div class="acc-in">
-        <ol>
-          <li>Ligue o secador e selecione a velocidade desejada.</li>
-          <li>Escolha o modo de temperatura no display inteligente.</li>
-          <li>Use o bico magnético para direcionar o fluxo de ar.</li>
-          <li>Para brilho extra, finalize com o modo frio.</li>
-          <li>Limpe o filtro removível regularmente para melhor desempenho.</li>
-        </ol>
-      </div></div>
+  <div class="accordion">
+    <div class="accordion-item">
+      <button class="accordion-header">VIS&Atilde;O GERAL</button>
+      <div class="accordion-content">
+        <p>O Bettdow AirLux Pro combina motor digital de 110.000 rpm, tecnologia i&ocirc;nica avan&ccedil;ada e controle t&eacute;rmico inteligente para oferecer secagem r&aacute;pida, redu&ccedil;&atilde;o de frizz e brilho imediato. Leve, silencioso e potente &mdash; um secador premium para todos os tipos de cabelo.</p>
+      </div>
     </div>
-    <div class="acc">
-      <div class="acc-head" onclick="toggleAcc(this)"><h3>Tecnologia e Mecanismo</h3><span class="acc-ic">+</span></div>
-      <div class="acc-body"><div class="acc-in">
-        <ul>
-          <li>Motor digital de alta velocidade (110.000 rpm)</li>
-          <li>Sistema inteligente que monitora a temperatura em tempo real</li>
-          <li>Tecnologia de íons negativos para redução de frizz</li>
-          <li>Bico magnético 360° para fluxo preciso</li>
-          <li>Estrutura de ruído reduzido para operação silenciosa</li>
-        </ul>
-      </div></div>
+    <div class="accordion-item">
+      <button class="accordion-header">COMO USAR</button>
+      <div class="accordion-content">
+        <p>1. Ligue o secador e selecione a velocidade desejada.<br>
+        2. Escolha o modo de temperatura no display inteligente.<br>
+        3. Use o bico magn&eacute;tico para direcionar o fluxo de ar.<br>
+        4. Para brilho extra, finalize com o modo frio.<br>
+        5. Limpe o filtro remov&iacute;vel regularmente para melhor desempenho.</p>
+      </div>
     </div>
-    <div class="acc">
-      <div class="acc-head" onclick="toggleAcc(this)"><h3>Compatibilidade com Tipos de Cabelo</h3><span class="acc-ic">+</span></div>
-      <div class="acc-body"><div class="acc-in">
+    <div class="accordion-item">
+      <button class="accordion-header">TECNOLOGIA E MECANISMO</button>
+      <div class="accordion-content">
+        <p>&bull; Motor digital de alta velocidade (110.000 rpm)<br>
+        &bull; Sistema inteligente que monitora a temperatura em tempo real<br>
+        &bull; Tecnologia de &iacute;ons negativos para redu&ccedil;&atilde;o de frizz<br>
+        &bull; Bico magn&eacute;tico 360&deg; para fluxo preciso<br>
+        &bull; Estrutura de ru&iacute;do reduzido para opera&ccedil;&atilde;o silenciosa</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-header">COMPATIBILIDADE COM TIPOS DE CABELO</button>
+      <div class="accordion-content">
         <p>Ideal para cabelos lisos, ondulados, cacheados e crespos. Seguro para fios tingidos, danificados ou quimicamente tratados.</p>
-      </div></div>
+      </div>
     </div>
-    <div class="acc">
-      <div class="acc-head" onclick="toggleAcc(this)"><h3>O Que Vem na Caixa</h3><span class="acc-ic">+</span></div>
-      <div class="acc-body"><div class="acc-in">
-        <ul>
-          <li>Secador Bettdow AirLux Pro</li>
-          <li>Bico magnético modelador</li>
-          <li>Filtro removível extra</li>
-          <li>Manual de uso</li>
-          <li>Cabo reforçado anti-desgaste</li>
-        </ul>
-      </div></div>
+    <div class="accordion-item">
+      <button class="accordion-header">O QUE VEM NA CAIXA</button>
+      <div class="accordion-content">
+        <p>&bull; Secador Bettdow AirLux Pro<br>
+        &bull; Bico magn&eacute;tico modelador<br>
+        &bull; Filtro remov&iacute;vel extra<br>
+        &bull; Manual de uso<br>
+        &bull; Cabo refor&ccedil;ado anti-desgaste</p>
+      </div>
     </div>
-    <div class="acc">
-      <div class="acc-head" onclick="toggleAcc(this)"><h3>Perguntas Frequentes</h3><span class="acc-ic">+</span></div>
-      <div class="acc-body"><div class="acc-in">
-        <p class="fq">Ele esquenta muito?</p>
-        <p class="fa">Não. O sensor térmico monitora e ajusta o calor automaticamente.</p>
-        <p class="fq">É barulhento?</p>
-        <p class="fa">Não — a tecnologia de motor digital reduz o ruído em até 50%.</p>
-        <p class="fq">Funciona para cabelos curtos?</p>
-        <p class="fa">Sim, o fluxo concentrado acelera a secagem de qualquer comprimento.</p>
-      </div></div>
+    <div class="accordion-item">
+      <button class="accordion-header">PERGUNTAS FREQUENTES</button>
+      <div class="accordion-content">
+        <p><strong>Ele esquenta muito?</strong><br>
+        N&atilde;o. O sensor t&eacute;rmico monitora e ajusta o calor automaticamente.</p>
+        <p style="margin-top:12px"><strong>&Eacute; barulhento?</strong><br>
+        N&atilde;o &mdash; a tecnologia de motor digital reduz o ru&iacute;do em at&eacute; 50%.</p>
+        <p style="margin-top:12px"><strong>Funciona para cabelos curtos?</strong><br>
+        Sim, o fluxo concentrado acelera a secagem de qualquer comprimento.</p>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <div class="sep"></div>
+  <div class="sep" style="margin-top:24px"></div>
 
   <!-- CROSS-SELL -->
   <section class="xsell">
-    <h2>Você também pode gostar</h2>
+    <h2>Para um tratamento completo</h2>
     <div class="xsell-grid">
       <div class="xc">
-        <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/5_ff8c210d-c7d4-4a29-adf8-74256fbd5e1d.png?v=1773343219&width=500" alt="Mise en Scène - Royal Jelly Protein" loading="lazy"></div>
+        <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/5_ff8c210d-c7d4-4a29-adf8-74256fbd5e1d.png?v=1773343219&width=500" alt="Mise en Sc&egrave;ne" loading="lazy"></div>
         <div class="xc-info">
-          <p class="xn">Mise en Scène - Royal Jelly Protein - Shampoo 1000ml + Tratamento 1000ml</p>
+          <p class="xn">Mise en Sc&egrave;ne - Royal Jelly Protein - Shampoo 1000ml + Tratamento 1000ml</p>
           <div class="xp"><span class="xpn">R$ 100,00</span><span class="xpw">R$ 199,90</span></div>
         </div>
       </div>
       <div class="xc">
-        <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/6_aeed60d3-2000-4499-840e-c633cf7f2fff.png?v=1773343219&width=500" alt="Mise en Scène - Perfect Serum Original" loading="lazy"></div>
+        <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/6_aeed60d3-2000-4499-840e-c633cf7f2fff.png?v=1773343219&width=500" alt="S&eacute;rum" loading="lazy"></div>
         <div class="xc-info">
-          <p class="xn">Mise en Scène - Perfect Serum Original - Sérum de Hidratação e Brilho 80ml</p>
+          <p class="xn">Mise en Sc&egrave;ne - Perfect Serum Original - S&eacute;rum de Hidrata&ccedil;&atilde;o e Brilho 80ml</p>
           <div class="xp"><span class="xpn">R$ 49,90</span><span class="xpw">R$ 89,90</span></div>
         </div>
       </div>
       <div class="xc">
-        <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/IMG_1312.jpg?v=1764797603&width=500" alt="Kit Tratamento Capilar" loading="lazy"></div>
+        <div class="xc-img"><img src="https://madeliebrasil.com/cdn/shop/files/IMG_1312.jpg?v=1764797603&width=500" alt="Kit Tratamento" loading="lazy"></div>
         <div class="xc-info">
-          <p class="xn">Kit Tratamento Capilar Completo - Máscara + Sérum Reparador</p>
+          <p class="xn">Kit Tratamento Capilar Completo - M&aacute;scara + S&eacute;rum Reparador</p>
           <div class="xp"><span class="xpn">R$ 79,90</span><span class="xpw">R$ 149,90</span></div>
         </div>
       </div>
@@ -902,173 +1113,170 @@
 
   <div class="sep"></div>
 
-  <!-- REVIEWS -->
-  <section class="reviews" id="avaliacoes">
-    <div class="rv-head">
-      <div class="rv-s">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <div class="rv-sc">4,8/5</div>
-      <div class="rv-ct">3.781 avaliações verificadas</div>
+  <!-- REVIEWS (grid cards com foto grande, 2 col mobile / 3 col desktop) -->
+  <section class="reviews-wrapper" id="avaliacoes">
+    <div class="reviews-header">
+      <div class="reviews-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="reviews-score"><strong>4,8/5</strong> &bull; 3.781 avalia&ccedil;&otilde;es</div>
     </div>
 
-    <div class="rv-list">
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/96afedc01447404281f709449856e786~tplv-aphluv4xwc-crop-webp:300:300.webp?dr=15592&t=555f072d&ps=933b5bde&shp=8dbd94bf&shcp=e1be8f53&idc=my2&from=2378011839" alt="Larissa M." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Larissa M. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">28/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Meu cabelo secou muito mais rápido e ficou com um brilho que eu nunca tinha visto. Amei demais!</p>
-        <div class="rv-ph"><img src="https://madeliebrasil.com/cdn/shop/files/02157a95-892b-4d36-9d49-151056d53007.png?v=1764797606&width=500" alt="Resultado Larissa" loading="lazy"></div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <img src="https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/96afedc01447404281f709449856e786~tplv-aphluv4xwc-crop-webp:300:300.webp?dr=15592&t=555f072d&ps=933b5bde&shp=8dbd94bf&shcp=e1be8f53&idc=my2&from=2378011839" class="review-img" alt="Larissa" loading="lazy"/>
+        <p class="review-name">Larissa M. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">28/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Meu cabelo secou muito mais r&aacute;pido e ficou com um brilho que eu nunca tinha visto. Amei demais!</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m5ne0hbkmy7mfe.webp" alt="Camila R." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Camila R. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">26/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Nunca experimentei um secador tão leve! Seco meu cabelo todo sem cansar o braço.</p>
-        <div class="rv-ph"><img src="https://madeliebrasil.com/cdn/shop/files/5bf162c4-0699-47d8-b1d3-7ffc18a57eab_-_Copia.png?v=1764797602&width=500" alt="Resultado Camila" loading="lazy"></div>
+      <div class="review-card">
+        <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m5ne0hbkmy7mfe.webp" class="review-img" alt="Camila" loading="lazy"/>
+        <p class="review-name">Camila R. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">26/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Nunca experimentei um secador t&atilde;o leve! Seco meu cabelo todo sem cansar o bra&ccedil;o.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m9u47laj3nzt2b.webp" alt="Isabela P." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Isabela P. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">24/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Reduziu MUITO o frizz. Parece até escova de salão! Resultado impecável.</p>
-        <div class="rv-ph"><img src="https://madeliebrasil.com/cdn/shop/files/IMG_1312.jpg?v=1764797603&width=500" alt="Resultado Isabela" loading="lazy"></div>
+      <div class="review-card">
+        <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m9u47laj3nzt2b.webp" class="review-img" alt="Isabela" loading="lazy"/>
+        <p class="review-name">Isabela P. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">24/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Reduziu MUITO o frizz. Parece at&eacute; escova de sal&atilde;o! Resultado impec&aacute;vel.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m4ryx3cgxhdh8a.webp" alt="Bianca S." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Bianca S. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">22/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Meu cabelo é bem armado e volumoso, mas esse secador deixou super alinhado. Sensacional.</p>
+      <div class="review-card">
+        <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m4ryx3cgxhdh8a.webp" class="review-img" alt="Bianca" loading="lazy"/>
+        <p class="review-name">Bianca S. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">22/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Meu cabelo &eacute; bem armado e volumoso, mas esse secador deixou super alinhado. Sensacional.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m2o0olgs889haa.webp" alt="Juliana D." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Juliana D. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">20/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Muito silencioso, seca rápido e não deixa meu cabelo ressecado como os outros.</p>
+      <div class="review-card">
+        <img src="https://down-br.img.susercontent.com/file/br-11134103-7r98o-m2o0olgs889haa.webp" class="review-img" alt="Juliana" loading="lazy"/>
+        <p class="review-name">Juliana D. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">20/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Muito silencioso, seca r&aacute;pido e n&atilde;o deixa meu cabelo ressecado como os outros.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_635672-MLA93972469431_102025-F.webp" alt="Renata F." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Renata F. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">18/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Não esquenta demais e não danifica o cabelo. Amei a tecnologia térmica inteligente.</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_635672-MLA93972469431_102025-F.webp" class="review-img" alt="Renata" loading="lazy"/>
+        <p class="review-name">Renata F. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">18/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">N&atilde;o esquenta demais e n&atilde;o danifica o cabelo. Amei a tecnologia t&eacute;rmica inteligente.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_825283-MLA93631270933_092025-F.webp" alt="Michele A." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Michele A. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">15/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Melhor compra que fiz! Leve, rápido e deixa um brilho surreal!</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_825283-MLA93631270933_092025-F.webp" class="review-img" alt="Michele" loading="lazy"/>
+        <p class="review-name">Michele A. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">15/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Melhor compra que fiz! Leve, r&aacute;pido e deixa um brilho surreal!</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_638617-MLA93924495802_102025-O.webp" alt="Amanda C." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Amanda C. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">14/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Meu cabelo é cacheado e ele secou sem deixar armado. Muito bom mesmo!</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_638617-MLA93924495802_102025-O.webp" class="review-img" alt="Amanda" loading="lazy"/>
+        <p class="review-name">Amanda C. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">14/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Meu cabelo &eacute; cacheado e ele secou sem deixar armado. Muito bom mesmo!</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_884724-MLA89967077594_082025-O.webp" alt="Tatiane L." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Tatiane L. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">12/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Seca rápido e deixa macio. Ótimo para quem tem pouco tempo!</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_884724-MLA89967077594_082025-O.webp" class="review-img" alt="Tatiane" loading="lazy"/>
+        <p class="review-name">Tatiane L. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">12/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Seca r&aacute;pido e deixa macio. &Oacute;timo para quem tem pouco tempo!</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_861327-MLA97408781234_112025-O.webp" alt="Patrícia M." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Patrícia M. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">10/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Achei maravilhoso! Super leve, silencioso e deixa o cabelo com movimento.</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_861327-MLA97408781234_112025-O.webp" class="review-img" alt="Patr&iacute;cia" loading="lazy"/>
+        <p class="review-name">Patr&iacute;cia M. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">10/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Achei maravilhoso! Super leve, silencioso e deixa o cabelo com movimento.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_735649-MLA97460131423_112025-O.webp" alt="Daniela V." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Daniela V. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">08/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Tecnologia incrível. Meu cabelo nunca ficou tão alinhado sem chapinha.</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_735649-MLA97460131423_112025-O.webp" class="review-img" alt="Daniela" loading="lazy"/>
+        <p class="review-name">Daniela V. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">08/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Tecnologia incr&iacute;vel. Meu cabelo nunca ficou t&atilde;o alinhado sem chapinha.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_632546-MLA96942669423_112025-O.webp" alt="Fernanda P." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Fernanda P. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">06/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Design lindo, moderno e muito funcional. Amei cada detalhe!</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_632546-MLA96942669423_112025-O.webp" class="review-img" alt="Fernanda" loading="lazy"/>
+        <p class="review-name">Fernanda P. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">06/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Design lindo, moderno e muito funcional. Amei cada detalhe!</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_916672-MLA94206480079_102025-O.webp" alt="Cláudia E." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Cláudia E. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">04/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Melhor custo-benefício. Seca rápido, não pesa e dá brilho.</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_916672-MLA94206480079_102025-O.webp" class="review-img" alt="Cl&aacute;udia" loading="lazy"/>
+        <p class="review-name">Cl&aacute;udia E. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">04/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Melhor custo-benef&iacute;cio. Seca r&aacute;pido, n&atilde;o pesa e d&aacute; brilho.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_881673-MLA98480202759_112025-O.webp" alt="Viviane H." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Viviane H. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">03/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Amei! Meu cabelo ficou super macio e com brilho de salão.</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_881673-MLA98480202759_112025-O.webp" class="review-img" alt="Viviane" loading="lazy"/>
+        <p class="review-name">Viviane H. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">03/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Amei! Meu cabelo ficou super macio e com brilho de sal&atilde;o.</p>
       </div>
 
-      <div class="rv">
-        <div class="rv-top">
-          <img src="https://http2.mlstatic.com/D_NQ_NP_2X_933750-MLA96895868306_112025-O.webp" alt="Nicole R." class="rv-av" loading="lazy">
-          <div class="rv-mt"><div class="rv-nm">Nicole R. <span class="rv-vf">&#10004; verificado</span></div><div class="rv-dt">02/01/2025</div></div>
-        </div>
-        <div class="rv-st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="rv-tx">Secador leve, potente e extremamente bonito. Vale cada centavo!</p>
+      <div class="review-card">
+        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_933750-MLA96895868306_112025-O.webp" class="review-img" alt="Nicole" loading="lazy"/>
+        <p class="review-name">Nicole R. <span class="verified">&#10004; verificado</span></p>
+        <p class="review-date">02/01/2025</p>
+        <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Secador leve, potente e extremamente bonito. Vale cada centavo!</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="reviews-pagination" role="navigation" aria-label="P&aacute;ginas">
+      <div class="pages-inner">
+        <button class="page-btn current" aria-current="page">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">4</button>
+        <button class="page-btn">5</button>
+        <button class="page-btn">6</button>
+        <button class="page-btn">7</button>
+        <button class="page-btn">8</button>
+        <button class="page-btn">9</button>
+        <button class="page-btn">10</button>
       </div>
     </div>
   </section>
 
   <!-- CTA FINAL -->
-  <div class="cta-wrap" style="background: var(--g100); padding: 32px 16px;">
+  <div class="cta-wrap" style="background:var(--g100);padding:32px 16px;margin-top:24px;">
     <button class="cta-btn" onclick="goOffers()"><span class="sh"></span>GARANTIR O MEU COM DESCONTO</button>
     <div class="cta-trust">
-      <span class="cta-trust-item">🚚 Frete Grátis</span>
-      <span class="cta-trust-item">🛡️ Garantia 2 Anos</span>
-      <span class="cta-trust-item">🔒 Compra Segura</span>
+      <span class="cta-trust-item">&#128666; Frete Gr&aacute;tis</span>
+      <span class="cta-trust-item">&#128737;&#65039; Garantia 2 Anos</span>
+      <span class="cta-trust-item">&#128274; Compra Segura</span>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-links">
-      <a href="#">Política de privacidade</a>
-      <a href="#">Política de Reembolso</a>
-      <a href="#">Política de envio</a>
-      <a href="#">Termos de Serviço</a>
-      <a href="#">Informações de contato</a>
+      <a href="#">Pol&iacute;tica de privacidade</a>
+      <a href="#">Pol&iacute;tica de Reembolso</a>
+      <a href="#">Pol&iacute;tica de envio</a>
+      <a href="#">Termos de Servi&ccedil;o</a>
+      <a href="#">Informa&ccedil;&otilde;es de contato</a>
     </div>
     <div class="footer-pay">
       <span class="pi">Visa</span><span class="pi">Mastercard</span><span class="pi">Elo</span><span class="pi">Amex</span><span class="pi">Discover</span><span class="pi">JCB</span><span class="pi">Diners</span>
@@ -1079,8 +1287,8 @@
   <!-- FLOATING CTA -->
   <div class="float-cta" id="floatCta">
     <div class="fl-info">
-      <div class="fl-pr" id="flPr">R$ 199,90</div>
-      <div class="fl-ws" id="flWs">R$ 756,00</div>
+      <div class="fl-pr" id="flPr">R$ 249,90</div>
+      <div class="fl-ws" id="flWs">R$ 577,90</div>
     </div>
     <button class="fl-btn" onclick="goOffers()"><span class="sh"></span>COMPRAR AGORA</button>
   </div>
@@ -1092,7 +1300,18 @@
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w2v4h0d.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w2v4h0d.jpg?v=1764562749&width=150', alt: 'Azul' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98lqdtaf.jpg?v=1764562749&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98lqdtaf.jpg?v=1764562749&width=150', alt: 'Rosa' },
       { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98n4y988.jpg?v=1764562750&width=1000', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-mdo9os98n4y988.jpg?v=1764562750&width=150', alt: 'Roxo' },
-      { type: 'video', src: 'https://cdn.shopify.com/videos/c/o/v/23d17c1bfa954fb09d854cdbce308f03.mp4', thumb: 'https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=150', alt: 'Vídeo' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta1.png?v=1764562750&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta1.png?v=1764562750&width=150', alt: 'Prancheta 1' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta2.png?v=1764562751&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta2.png?v=1764562751&width=150', alt: 'Prancheta 2' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta3.png?v=1764562750&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta3.png?v=1764562750&width=150', alt: 'Prancheta 3' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta4.png?v=1764562751&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta4.png?v=1764562751&width=150', alt: 'Prancheta 4' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta5.png?v=1764562750&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta5.png?v=1764562750&width=150', alt: 'Prancheta 5' },
+      { type: 'video', src: 'https://cdn.shopify.com/videos/c/o/v/23d17c1bfa954fb09d854cdbce308f03.mp4', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta5.png?v=1764562750&width=150', alt: 'Video 1' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta6.png?v=1764562752&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta6.png?v=1764562752&width=150', alt: 'Prancheta 6' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta7.png?v=1764562751&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta7.png?v=1764562751&width=150', alt: 'Prancheta 7' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta8.png?v=1764562751&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta8.png?v=1764562751&width=150', alt: 'Prancheta 8' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta9.png?v=1764562752&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta9.png?v=1764562752&width=150', alt: 'Prancheta 9' },
+      { type: 'image', src: 'https://madeliebrasil.com/cdn/shop/files/Prancheta10.png?v=1764562751&width=800', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta10.png?v=1764562751&width=150', alt: 'Prancheta 10' },
+      { type: 'video', src: 'https://cdn.shopify.com/videos/c/o/v/808e25a9448e4ea5b2b53965eef7da2c.mp4', thumb: 'https://madeliebrasil.com/cdn/shop/files/Prancheta10.png?v=1764562751&width=150', alt: 'Video 2' },
     ];
 
     var cur = 0;
@@ -1145,7 +1364,18 @@
     }, { passive: true });
 
     // ===== ACCORDION =====
-    function toggleAcc(el) { el.parentElement.classList.toggle('open'); }
+    document.querySelectorAll('.accordion-header').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var item = button.parentElement;
+        item.classList.toggle('active');
+        var content = item.querySelector('.accordion-content');
+        if (item.classList.contains('active')) {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+          content.style.maxHeight = null;
+        }
+      });
+    });
 
     // ===== PRICING =====
     document.querySelectorAll('.price-card').forEach(function(card) {
@@ -1174,6 +1404,33 @@
       window.addEventListener('scroll', chk, { passive: true });
       chk();
     }
+
+    // ===== AUTO-PLAY DUAL VIDEOS =====
+    (function() {
+      function safePlay(v) {
+        try {
+          v.muted = true;
+          v.playsInline = true;
+          v.setAttribute('playsinline', '');
+          v.setAttribute('muted', '');
+          var p = v.play();
+          if (p !== undefined) p.catch(function(){});
+        } catch(e) {}
+      }
+      var v1 = document.getElementById('video1');
+      var v2 = document.getElementById('video2');
+      if (v1) safePlay(v1);
+      if (v2) safePlay(v2);
+    })();
+
+    // ===== PAGINATION (visual only) =====
+    document.querySelectorAll('.reviews-pagination .page-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (!this.classList.contains('current')) {
+          this.animate([{opacity:1},{opacity:0.6},{opacity:1}], {duration:260});
+        }
+      });
+    });
   </script>
 
 </body>
