@@ -6,6 +6,9 @@
     "nodejs_compat",
     "global_fetch_strictly_public"
   ],
+	"vars": {
+		"BESTFY_API_URL": "https://api.bestfybr.com.br/v1"
+	},
 	"assets": {
 		"binding": "ASSETS",
 		"directory": "./dist"

@@ -6,10 +6,7 @@ import type { APIRoute } from 'astro';
 // na API da Bestfy. A SECRET_KEY fica apenas no servidor.
 // ============================================================
 
-const BESTFY_API = 'https://api.bestfybr.com.br/v1/transactions';
-
-// Coloque sua SECRET_KEY aqui (futuramente use variável de ambiente)
-const SECRET_KEY = 'SUA_SECRET_KEY_AQUI';
+// Lidas do ambiente Cloudflare (configurar via dashboard ou wrangler secret put)
 
 function basicAuth(key: string) {
   return 'Basic ' + btoa(`${key}:x`);
@@ -35,7 +32,17 @@ const PRODUTOS: Record<string, { nome: string; valor: number; parcelas: number }
   },
 };
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
+  const runtime = (locals as any).runtime;
+  const BESTFY_API = (runtime?.env?.BESTFY_API_URL ?? 'https://api.bestfybr.com.br/v1') + '/transactions';
+  const SECRET_KEY = runtime?.env?.BESTFY_SECRET_KEY ?? '';
+
+  if (!SECRET_KEY) {
+    return new Response(
+      JSON.stringify({ erro: 'SECRET_KEY não configurada no servidor.' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
   // Aceita JSON ou form-data
   let body: Record<string, string>;
   const contentType = request.headers.get('content-type') ?? '';
