@@ -1,694 +1,499 @@
 ---
 // Página de checkout: /checkout/1-unidade  /checkout/2-unidades  /checkout/kit-profissional
+// Serve o checkout completo (Bestfy + Mercado Pago) com 3 etapas
 const { produto } = Astro.params;
 
-const PRODUTOS: Record<string, { nome: string; preco: string; parcelas: string; desc: string }> = {
-  '1-unidade': {
-    nome: 'Secador BettDow AirLux Pro',
-    preco: 'R$ 199,90',
-    parcelas: '12x R$ 19,72',
-    desc: '1 Unidade',
-  },
-  '2-unidades': {
-    nome: 'Secador BettDow AirLux Pro',
-    preco: 'R$ 349,90',
-    parcelas: '12x R$ 34,57',
-    desc: '2 Unidades',
-  },
-  'kit-profissional': {
-    nome: 'Kit Profissional BettDow AirLux Pro',
-    preco: 'R$ 249,90',
-    parcelas: '12x R$ 24,72',
-    desc: 'Kit Profissional + Brinde',
-  },
+const SLUG_TO_ID: Record<string, number> = {
+  '1-unidade': 1,
+  '2-unidades': 2,
+  'kit-profissional': 3,
 };
 
-const prod = PRODUTOS[produto ?? ''];
+const productId = SLUG_TO_ID[produto ?? ''];
 
-// Redireciona para a LP se o produto não existir
-if (!prod) {
+if (!productId) {
   return Astro.redirect('/lp-secador-bettdow');
 }
 ---
 
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout Seguro — {prod.nome}</title>
+  <title>Checkout Seguro — Mercado Pago</title>
+  <link rel="icon" type="image/png" href="/ck/img/favicon.png">
   <meta name="robots" content="noindex, nofollow">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/ck/css/style.css">
+  <script src="https://api.bestfybr.com.br/v1/js"></script>
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #f0f2f5;
-      color: #1a1a2e;
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ── */
-    .ck-header {
-      background: #fff;
-      border-bottom: 1px solid #e8e8e8;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .ck-logo { font-weight: 800; font-size: 1.2rem; color: #2563eb; letter-spacing: -0.5px; }
-    .ck-secure {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      color: #16a34a;
-      font-weight: 600;
-    }
-    .ck-secure svg { flex-shrink: 0; }
-
-    /* ── LAYOUT ── */
-    .ck-wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 24px 16px 60px;
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 24px;
-      align-items: start;
-    }
-    @media (max-width: 700px) {
-      .ck-wrap { grid-template-columns: 1fr; }
-      .ck-side { order: -1; }
-    }
-
-    /* ── CARD PRODUTO (lateral) ── */
-    .ck-side {
-      background: #fff;
-      border-radius: 14px;
-      padding: 20px;
-      border: 1px solid #e8e8e8;
-      position: sticky;
-      top: 72px;
-    }
-    .ck-prod-badge {
-      background: #eff6ff;
-      color: #2563eb;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .ck-prod-nome { font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
-    .ck-prod-desc { font-size: 0.82rem; color: #64748b; margin-bottom: 14px; }
-    .ck-prod-preco {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #16a34a;
-    }
-    .ck-prod-parc { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
-    .ck-divider { border: none; border-top: 1px solid #f0f0f0; margin: 16px 0; }
-    .ck-garantia {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      background: #f0fdf4;
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 0.8rem;
-      color: #15803d;
-    }
-    .ck-garantia svg { flex-shrink: 0; margin-top: 1px; }
-    .ck-bandeiras {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 14px;
-    }
-    .ck-bandeiras span {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #475569;
-    }
-
-    /* ── FORMULÁRIO ── */
-    .ck-form-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 28px 24px;
-      border: 1px solid #e8e8e8;
-    }
-    .ck-step-title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .ck-step-num {
-      width: 26px;
-      height: 26px;
-      background: #2563eb;
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.78rem;
-      font-weight: 800;
-      flex-shrink: 0;
-    }
-
-    .ck-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .ck-field { margin-bottom: 14px; }
-    .ck-field label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #475569;
-      margin-bottom: 5px;
-    }
-    .ck-field input {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 9px;
-      font-size: 0.92rem;
-      color: #1a1a2e;
-      outline: none;
-      transition: border-color 0.2s;
-      background: #fff;
-    }
-    .ck-field input:focus { border-color: #2563eb; }
-    .ck-field input.erro { border-color: #ef4444; }
-    .msg-erro { font-size: 0.72rem; color: #ef4444; margin-top: 3px; display: none; }
-
-    /* ── TABS PAGAMENTO ── */
-    .ck-pay-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-    .ck-tab {
-      flex: 1;
-      padding: 10px;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      background: #fff;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #64748b;
-      transition: all 0.2s;
-    }
-    .ck-tab.ativo {
-      border-color: #2563eb;
-      background: #eff6ff;
-      color: #2563eb;
-    }
-    .ck-tab svg { width: 22px; height: 22px; }
-
-    /* Painéis por método */
-    .ck-panel { display: none; }
-    .ck-panel.ativo { display: block; }
-
-    /* PIX panel */
-    .ck-pix-info {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 10px;
-      padding: 14px;
-      font-size: 0.85rem;
-      color: #15803d;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-
-    /* ── BOTÃO PAGAR ── */
-    .ck-btn-pagar {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #16a34a, #15803d);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: opacity 0.2s, transform 0.15s;
-      letter-spacing: 0.3px;
-    }
-    .ck-btn-pagar:hover { opacity: 0.92; transform: translateY(-1px); }
-    .ck-btn-pagar:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-    /* ── LOADING OVERLAY ── */
-    #loadingOverlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 16px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-    #loadingOverlay.show { display: flex; }
-    .spinner {
-      width: 44px;
-      height: 44px;
-      border: 4px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── MODAL RESULTADO ── */
-    #modalResultado {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    #modalResultado.show { display: flex; }
-    .modal-box {
-      background: #fff;
-      border-radius: 18px;
-      padding: 32px 28px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-    }
-    .modal-icon { font-size: 3rem; margin-bottom: 12px; }
-    .modal-titulo { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
-    .modal-sub { font-size: 0.88rem; color: #64748b; margin-bottom: 20px; }
-
-    /* QR CODE */
-    #qrcodeContainer { margin: 16px auto; }
-    #qrcodeContainer img { max-width: 200px; border-radius: 10px; border: 1px solid #e2e8f0; }
-    .pix-copy-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 0.75rem;
-      word-break: break-all;
-      color: #1a1a2e;
-      margin-bottom: 12px;
-      text-align: left;
-      max-height: 80px;
-      overflow-y: auto;
-    }
-    .btn-copiar {
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 9px;
-      padding: 10px 22px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.88rem;
-    }
-    .btn-copiar:hover { opacity: 0.88; }
-  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17318558682"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17318558682');
+  </script>
 </head>
 <body>
-
-  <!-- HEADER -->
-  <header class="ck-header">
-    <div class="ck-logo">Synergy</div>
-    <div class="ck-secure">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Compra 100% segura
+  <!-- Header -->
+  <header class="checkout-header">
+    <div class="checkout-header__inner">
+      <img src="/ck/img/logo-mercadopago3.png" alt="Mercado Pago" class="checkout-header__logo-img">
+      <div class="checkout-header__secure">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div>
+          <span class="checkout-header__secure-label">PAGAMENTO</span>
+          <span class="checkout-header__secure-text">100% SEGURO</span>
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- LOADING OVERLAY -->
-  <div id="loadingOverlay">
-    <div class="spinner"></div>
-    Processando pagamento...
+  <!-- Banner -->
+  <div class="checkout-banner">
+    Parcelamento em até 12x no cartão de crédito.<br>
+    <strong>PIX com 5% de desconto e envio prioritário.</strong> Aproveite!
   </div>
 
-  <!-- MODAL RESULTADO -->
-  <div id="modalResultado">
-    <div class="modal-box" id="modalBox">
-      <div class="modal-icon" id="modalIcon">⏳</div>
-      <div class="modal-titulo" id="modalTitulo">Aguarde...</div>
-      <div class="modal-sub" id="modalSub"></div>
-      <!-- QR Code PIX (injetado via JS) -->
-      <div id="qrcodeContainer" style="display:none">
-        <img id="qrImg" src="" alt="QR Code PIX">
-      </div>
-      <div id="pixCopyBox" class="pix-copy-box" style="display:none"></div>
-      <button class="btn-copiar" id="btnCopiar" style="display:none" onclick="copiarPix()">📋 Copiar código PIX</button>
-      <br><br>
-      <button onclick="fecharModal()" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:0.85rem;text-decoration:underline;">Fechar</button>
-    </div>
-  </div>
+  <!-- Main Layout -->
+  <div class="checkout-container">
+    <main class="checkout-steps">
 
-  <!-- CONTEÚDO -->
-  <main class="ck-wrap">
-
-    <!-- FORMULÁRIO -->
-    <div>
-
-      <!-- BLOCO 1: Dados pessoais -->
-      <div class="ck-form-card" style="margin-bottom:16px">
-        <div class="ck-step-title">
-          <span class="ck-step-num">1</span>
-          Seus dados
+      <!-- Step 1: Dados pessoais -->
+      <section class="step-card step-card--active" id="section-customer" data-step="1">
+        <div class="step-card__header">
+          <h3 class="step-card__title">Dados pessoais</h3>
+          <span class="step-card__edit" id="edit-step-1" style="display:none;">Editar</span>
         </div>
-
-        <div class="ck-field">
-          <label for="nome">Nome completo *</label>
-          <input type="text" id="nome" placeholder="João da Silva" autocomplete="name">
-          <div class="msg-erro" id="erroNome">Informe seu nome completo.</div>
-        </div>
-
-        <div class="ck-field-row">
-          <div class="ck-field">
-            <label for="email">E-mail *</label>
-            <input type="email" id="email" placeholder="joao@email.com" autocomplete="email">
-            <div class="msg-erro" id="erroEmail">E-mail inválido.</div>
-          </div>
-          <div class="ck-field">
-            <label for="telefone">Telefone *</label>
-            <input type="tel" id="telefone" placeholder="(11) 99999-9999" autocomplete="tel">
-            <div class="msg-erro" id="erroTelefone">Informe o telefone.</div>
-          </div>
-        </div>
-
-        <div class="ck-field">
-          <label for="cpf">CPF *</label>
-          <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
-          <div class="msg-erro" id="erroCpf">CPF inválido.</div>
-        </div>
-      </div>
-
-      <!-- BLOCO 2: Pagamento -->
-      <div class="ck-form-card">
-        <div class="ck-step-title">
-          <span class="ck-step-num">2</span>
-          Forma de pagamento
-        </div>
-
-        <!-- Abas -->
-        <div class="ck-pay-tabs">
-          <button type="button" class="ck-tab ativo" id="tabPix" onclick="trocarAba('pix')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-            PIX
-          </button>
-          <button type="button" class="ck-tab" id="tabCartao" onclick="trocarAba('cartao')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <rect x="2" y="5" width="20" height="14" rx="2"/>
-              <path d="M2 10h20"/>
-            </svg>
-            Cartão
-          </button>
-        </div>
-
-        <!-- PAINEL PIX -->
-        <div class="ck-panel ativo" id="painelPix">
-          <div class="ck-pix-info">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <div>
-              Pagamento instantâneo via PIX.<br>
-              <strong>Aprovação imediata</strong> após o pagamento.
+        <p class="step-card__subtitle">Pedimos apenas as informações essenciais para concluir sua compra com segurança.</p>
+        <div class="step-card__summary" id="summary-step-1" style="display:none;"></div>
+        <div class="step-card__body" id="body-step-1">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="customer-name">Nome completo</label>
+              <input type="text" id="customer-name" placeholder="Ex: Mariana Cardoso Silva" required>
+            </div>
+            <div class="form-group full">
+              <label for="customer-email">E-mail</label>
+              <input type="email" id="customer-email" placeholder="ex: marianacardoso@gmail.com" required>
+            </div>
+            <div class="form-group">
+              <label for="customer-cpf">CPF <svg class="info-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></label>
+              <input type="text" id="customer-cpf" placeholder="000.000.000-00" required>
+            </div>
+            <div class="form-group">
+              <label for="customer-phone">Celular/Whatsapp</label>
+              <div class="phone-input-wrapper">
+                <span class="phone-prefix">+55</span>
+                <input type="tel" id="customer-phone" placeholder="(00) 00000-0000" required>
+              </div>
             </div>
           </div>
-          <button type="button" class="ck-btn-pagar" onclick="pagar('pix')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            Gerar QR Code PIX — {prod.preco}
+          <button class="btn-step" id="btn-step-1" type="button">
+            Continuar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>
+      </section>
 
-        <!-- PAINEL CARTÃO -->
-        <div class="ck-panel" id="painelCartao">
-          <div class="ck-field">
-            <label for="nomeCartao">Nome no cartão *</label>
-            <input type="text" id="nomeCartao" placeholder="JOAO DA SILVA" autocomplete="cc-name">
-          </div>
-          <div class="ck-field">
-            <label for="numeroCartao">Número do cartão *</label>
-            <input type="text" id="numeroCartao" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number">
-          </div>
-          <div class="ck-field-row">
-            <div class="ck-field">
-              <label for="validade">Validade *</label>
-              <input type="text" id="validade" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp">
-            </div>
-            <div class="ck-field">
-              <label for="cvv">CVV *</label>
-              <input type="text" id="cvv" placeholder="123" maxlength="4" autocomplete="cc-csc">
+      <!-- Step 2: Entrega -->
+      <section class="step-card step-card--locked" id="section-address" data-step="2">
+        <div class="step-card__header">
+          <h3 class="step-card__title">Entrega</h3>
+          <span class="step-card__edit" id="edit-step-2" style="display:none;">Editar</span>
+        </div>
+        <p class="step-card__subtitle step-card__locked-msg" id="locked-msg-2">Preencha suas informações pessoais para continuar</p>
+        <div class="step-card__summary" id="summary-step-2" style="display:none;"></div>
+        <div class="step-card__body" id="body-step-2" style="display:none;">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="address-cep">CEP</label>
+              <input type="text" id="address-cep" placeholder="00000-000" inputmode="numeric" maxlength="9" required>
             </div>
           </div>
-          <div class="ck-field">
-            <label for="parcelas">Parcelas</label>
-            <select id="parcelas" style="width:100%;padding:11px 14px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:0.92rem;color:#1a1a2e;outline:none;background:#fff">
-              <option value="1">1x {prod.preco} (à vista)</option>
-              <option value="2">2x de R$ {(parseFloat(prod.preco.replace('R$ ','').replace(',','.')) / 2).toFixed(2).replace('.',',')}</option>
-              <option value="3">3x sem juros</option>
-              <option value="6">6x sem juros</option>
-              <option value="12" selected>12x {prod.parcelas}</option>
-            </select>
+          <div id="address-fields" style="display:none;">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label for="address-street">Rua</label>
+                <input type="text" id="address-street" placeholder="Nome da rua" required>
+              </div>
+              <div class="form-group small">
+                <label for="address-number">Número</label>
+                <input type="text" id="address-number" placeholder="123" required>
+              </div>
+              <div class="form-group">
+                <label for="address-complement">Complemento</label>
+                <input type="text" id="address-complement" placeholder="Apto, bloco...">
+              </div>
+              <div class="form-group">
+                <label for="address-neighborhood">Bairro</label>
+                <input type="text" id="address-neighborhood" placeholder="Bairro" required>
+              </div>
+              <div class="form-group">
+                <label for="address-city">Cidade</label>
+                <input type="text" id="address-city" placeholder="Cidade" required>
+              </div>
+              <div class="form-group small">
+                <label for="address-state">Estado</label>
+                <select id="address-state" required>
+                  <option value="">UF</option>
+                  <option value="AC">AC</option><option value="AL">AL</option>
+                  <option value="AP">AP</option><option value="AM">AM</option>
+                  <option value="BA">BA</option><option value="CE">CE</option>
+                  <option value="DF">DF</option><option value="ES">ES</option>
+                  <option value="GO">GO</option><option value="MA">MA</option>
+                  <option value="MT">MT</option><option value="MS">MS</option>
+                  <option value="MG">MG</option><option value="PA">PA</option>
+                  <option value="PB">PB</option><option value="PR">PR</option>
+                  <option value="PE">PE</option><option value="PI">PI</option>
+                  <option value="RJ">RJ</option><option value="RN">RN</option>
+                  <option value="RS">RS</option><option value="RO">RO</option>
+                  <option value="RR">RR</option><option value="SC">SC</option>
+                  <option value="SP">SP</option><option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+            <div id="shipping-options" class="shipping-options">
+              <p class="shipping-options__title">Escolha uma forma de entrega:</p>
+              <label class="shipping-option shipping-option--selected">
+                <input type="radio" name="shipping" value="pac" data-price="0" data-label="Correios-PAC" checked>
+                <span class="shipping-option__radio"></span>
+                <div class="shipping-option__info">
+                  <span class="shipping-option__name">Correios-PAC</span>
+                  <span class="shipping-option__days">3 a 9 dias <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/correios.png?v=1773700748" alt="Correios" class="shipping-option__logo"></span>
+                </div>
+                <span class="shipping-option__price shipping-option__price--free">Grátis</span>
+              </label>
+              <label class="shipping-option">
+                <input type="radio" name="shipping" value="sedex" data-price="2744" data-label="Correios-SEDEX">
+                <span class="shipping-option__radio"></span>
+                <div class="shipping-option__info">
+                  <span class="shipping-option__name">Correios-SEDEX</span>
+                  <span class="shipping-option__days">2 a 5 dias <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/sedex.png?v=1773700748" alt="SEDEX" class="shipping-option__logo"></span>
+                </div>
+                <span class="shipping-option__price">R$ 27,44</span>
+              </label>
+              <label class="shipping-option">
+                <input type="radio" name="shipping" value="full" data-price="3925" data-label="FULL-Dia Seguinte">
+                <span class="shipping-option__radio"></span>
+                <div class="shipping-option__info">
+                  <span class="shipping-option__name">FULL-Dia Seguinte</span>
+                  <span class="shipping-option__days">1 a 2 dias <svg class="shipping-option__logo-svg" width="41" height="13" viewBox="0 0 41 13" xmlns="http://www.w3.org/2000/svg"><path fill-rule="nonzero" fill="#00a650" d="M2.628 0h5.255L5.255 4.643h4.38L2.628 13l1.751-5.571H0L2.628 0zm11.589 9.533h-1.959l1.674-7.515H19.5l-.376 1.69h-3.61l-.25 1.172h3.519l-.376 1.69h-3.53l-.66 2.963zm9.468.136c-2.334 0-3.484-1.105-3.484-2.682 0-.124.034-.383.057-.496l1.002-4.473h1.992l-.99 4.428c-.012.057-.034.18-.034.316.011.62.49 1.217 1.457 1.217 1.048 0 1.583-.654 1.776-1.533l.991-4.428h1.981l-.99 4.462c-.41 1.825-1.412 3.189-3.758 3.189zm10.118-.136h-5.01l1.673-7.515h1.959l-1.287 5.825h3.04l-.375 1.69zm6.678 0h-5.01l1.674-7.515h1.959l-1.287 5.825h3.04l-.376 1.69z"/></svg></span>
+                </div>
+                <span class="shipping-option__price">R$ 39,25</span>
+              </label>
+            </div>
           </div>
-          <button type="button" class="ck-btn-pagar" onclick="pagar('cartao')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-            Pagar com Cartão — {prod.preco}
+          <button class="btn-step" id="btn-step-2" type="button">
+            Continuar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>
+      </section>
 
+      <!-- Step 3: Pagamento -->
+      <section class="step-card step-card--locked" id="section-payment" data-step="3">
+        <div class="step-card__header">
+          <h3 class="step-card__title">Opção de pagamento</h3>
+        </div>
+        <p class="step-card__subtitle step-card__locked-msg" id="locked-msg-3">Preencha suas informações de entrega para continuar</p>
+        <div class="step-card__body" id="body-step-3" style="display:none;">
+          <div class="payment-tabs">
+            <label class="payment-tab active" data-method="credit_card">
+              <input type="radio" name="payment-method" value="credit_card" checked>
+              <span class="payment-tab__radio"></span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span class="payment-tab__label">Cartão de crédito</span>
+            </label>
+            <label class="payment-tab" data-method="pix">
+              <input type="radio" name="payment-method" value="pix">
+              <span class="payment-tab__radio"></span>
+              <svg width="20" height="20" viewBox="0 0 901 900" fill="#32BCAD" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0 900) scale(.1 -.1)"><path d="m4265 8986c-216-42-357-99-536-217-83-54-204-172-1001-968-500-498-908-909-908-913 0-5 92-8 204-8 288 0 449-33 646-132 186-94 194-101 985-889 413-411 766-755 785-765 49-26 181-26 230 0 19 10 368 350 775 755 642 640 752 746 834 800 241 159 431 218 735 228l178 6-888 889c-489 489-920 913-959 943-157 121-324 202-519 252-88 22-127 26-296 29-136 2-216-1-265-10z"/><path d="m861 5935c-485-487-577-584-630-664-102-154-154-272-199-450-25-99-27-121-27-321 0-191 3-225 24-310 49-199 134-377 256-535 30-38 299-315 598-614l544-543 359 1c403 2 467 8 607 55 204 69 179 48 1022 887 759 756 760 756 845 798 197 96 409 94 603-5 66-35 130-95 812-774 446-444 766-756 807-784 79-56 187-107 289-137 68-20 102-23 419-29 190-3 352-9 360-13 11-5 167 145 586 565 488 490 580 587 633 667 34 52 73 116 87 142 195 385 195 873 0 1258-14 26-53 90-87 142-53 80-145 177-633 667-419 420-575 570-586 565-8-4-170-10-360-13-317-6-351-9-419-29-102-30-210-81-289-137-40-28-364-343-812-789-802-798-778-776-930-823-175-53-368-27-525 70-29 18-367 347-805 782-837 833-813 812-1017 882-136 46-219 54-616 56l-348 3-568-570z"/><path d="m4465 3913c-47-14-101-65-805-767-796-793-804-800-990-894-196-99-359-132-647-132-112 0-203-3-203-8 0-4 408-415 908-913 797-796 918-914 1001-968 154-102 272-154 450-199 99-25 121-27 321-27 191 0 225 3 310 24 199 49 377 134 535 256 39 30 470 454 959 943l888 889-178 6c-304 10-494 69-735 228-82 54-193 161-839 805-722 719-747 743-799 758-67 19-110 19-176-1z"/></g></svg>
+              <span class="payment-tab__label">PIX</span>
+              <span class="payment-tab__badges">
+                <span class="badge badge--green">APROVAÇÃO IMEDIATA</span>
+                <span class="badge badge--red">5% DE DESCONTO</span>
+              </span>
+            </label>
+          </div>
+
+          <!-- Cartão de crédito -->
+          <div class="payment-content active" id="payment-credit_card">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label for="card-number">Número do cartão</label>
+                <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" required>
+              </div>
+              <div class="form-group full">
+                <label for="card-holder">Nome no cartão</label>
+                <input type="text" id="card-holder" placeholder="Como está no cartão" required>
+              </div>
+              <div class="form-group">
+                <label for="card-expiry">Validade</label>
+                <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" required>
+              </div>
+              <div class="form-group">
+                <label for="card-cvv">CVV</label>
+                <input type="text" id="card-cvv" placeholder="123" maxlength="4" required>
+              </div>
+              <div class="form-group full">
+                <label for="card-installments">Parcelas</label>
+                <select id="card-installments">
+                  <option value="1">1x sem juros</option>
+                  <option value="2">2x sem juros</option>
+                  <option value="3">3x sem juros</option>
+                  <option value="4">4x</option>
+                  <option value="5">5x</option>
+                  <option value="6">6x</option>
+                  <option value="7">7x</option>
+                  <option value="8">8x</option>
+                  <option value="9">9x</option>
+                  <option value="10">10x</option>
+                  <option value="11">11x</option>
+                  <option value="12">12x</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- PIX -->
+          <div class="payment-content" id="payment-pix">
+            <div class="pix-info">
+              <h4 class="pix-info__title">A confirmação do seu pagamento é mais rápida</h4>
+              <p>Após clicar em 'Finalizar Compra' você terá 30 minutos para pagar com Pix usando QR Code ou código que será exibido. A confirmação é instantânea.</p>
+              <p class="pix-info__value">Valor no Pix: <strong id="pix-discount-value">R$ 0,00</strong></p>
+            </div>
+          </div>
+
+          <button class="btn-pay" id="btn-pay" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span class="btn-text">Finalizar Compra</span>
+            <span class="btn-loading" style="display:none;">
+              <span class="spinner"></span> Processando...
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Mensagem de erro -->
+      <div class="error-message" id="error-message" style="display:none;"></div>
+
+      <!-- Resultado do pagamento -->
+      <div class="payment-result" id="payment-result" style="display:none;">
+        <div class="result-icon success" id="result-icon-success" style="display:none;">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div class="result-icon waiting" id="result-icon-waiting" style="display:none;">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        </div>
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+
+        <div id="card-result-details" style="display:none;">
+          <div class="result-summary">
+            <div class="result-summary__section">
+              <h4>Produtos</h4>
+              <div class="result-summary__items" id="result-summary-items"></div>
+            </div>
+            <div class="result-summary__section">
+              <h4>Recebedor</h4>
+              <p id="result-summary-customer"></p>
+            </div>
+            <div class="result-summary__section">
+              <h4>Entrega</h4>
+              <p id="result-summary-address"></p>
+              <p id="result-summary-shipping" class="result-summary__shipping"></p>
+            </div>
+            <div class="result-summary__totals">
+              <div class="result-summary__row">
+                <span>Subtotal</span>
+                <span id="result-summary-subtotal"></span>
+              </div>
+              <div class="result-summary__row">
+                <span>Frete</span>
+                <span id="result-summary-frete"></span>
+              </div>
+              <div class="result-summary__row result-summary__row--total">
+                <span>Total</span>
+                <span id="result-summary-total"></span>
+              </div>
+            </div>
+          </div>
+          <a href="/lp-secador-bettdow" class="btn-back-store">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+            Voltar para a loja
+          </a>
+        </div>
+
+        <!-- QR Code PIX -->
+        <div id="pix-result" style="display:none;">
+          <div class="pix-screen">
+            <h2 class="pix-screen__title">Já é quase seu...</h2>
+            <p class="pix-screen__subtitle">Pague seu pix dentro de <strong id="pix-timer">30:00</strong> para garantir sua compra.</p>
+            <div class="pix-screen__illustration">
+              <img src="https://cdn.shopify.com/s/files/1/0782/3186/3542/files/pix-checkout.png?v=1773702273" alt="PIX" width="140" height="140">
+            </div>
+            <div class="pix-screen__waiting">
+              Aguardando pagamento <span class="pix-screen__dots"></span>
+            </div>
+            <div class="pix-screen__qr">
+              <div class="qr-code-container">
+                <img id="pix-qrcode-img" alt="QR Code PIX">
+              </div>
+            </div>
+            <div class="pix-screen__copy-section">
+              <div class="copy-code">
+                <input type="text" id="pix-code" readonly>
+              </div>
+              <button class="pix-screen__btn-copy" id="btn-copy-pix">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar código pix
+              </button>
+              <p class="pix-screen__pix-value">Valor do Pix: <strong id="pix-discount-display">R$ 0,00</strong></p>
+            </div>
+            <div class="pix-screen__tutorial">
+              <h3 class="pix-screen__tutorial-title">Como pagar o pix:</h3>
+              <div class="pix-screen__steps">
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">1</span>
+                  <p>Clique em copiar o código PIX, logo acima</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">2</span>
+                  <p>Acesse o app do seu banco</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">3</span>
+                  <p>Vá até a opção PIX</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">4</span>
+                  <p>Escolha a opção "COPIA E COLA"</p>
+                </div>
+                <div class="pix-screen__step">
+                  <span class="pix-screen__step-num">5</span>
+                  <p>Insira o código copiado e finalize seu pagamento</p>
+                </div>
+              </div>
+            </div>
+            <div class="pix-order-summary">
+              <h3 class="pix-order-summary__title">Resumo do pedido</h3>
+              <div class="pix-order-summary__items" id="pix-summary-items"></div>
+              <div class="pix-order-summary__section">
+                <h4>Entrega</h4>
+                <p id="pix-summary-address"></p>
+                <p id="pix-summary-shipping" class="pix-order-summary__shipping"></p>
+              </div>
+              <div class="pix-order-summary__totals">
+                <div class="pix-order-summary__row">
+                  <span>Subtotal</span>
+                  <span id="pix-summary-subtotal"></span>
+                </div>
+                <div class="pix-order-summary__row">
+                  <span>Frete</span>
+                  <span id="pix-summary-frete"></span>
+                </div>
+                <div class="pix-order-summary__row pix-order-summary__row--total">
+                  <span>Total</span>
+                  <span id="pix-summary-total"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
 
-    <!-- LATERAL: Resumo do pedido -->
-    <aside class="ck-side">
-      <div class="ck-prod-badge">Resumo do pedido</div>
-      <div class="ck-prod-nome">{prod.nome}</div>
-      <div class="ck-prod-desc">{prod.desc}</div>
-      <div class="ck-prod-preco">{prod.preco}</div>
-      <div class="ck-prod-parc">ou {prod.parcelas} no cartão</div>
-
-      <hr class="ck-divider">
-
-      <div class="ck-garantia">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div><strong>Garantia de 7 dias</strong><br>Satisfação garantida ou seu dinheiro de volta.</div>
+    <!-- Right: Resumo do pedido -->
+    <aside class="order-summary">
+      <h2>Resumo do pedido</h2>
+      <div class="order-summary__totals">
+        <div class="order-summary__row">
+          <span>Subtotal</span>
+          <span id="order-subtotal-value">R$ 0,00</span>
+        </div>
+        <div class="order-summary__row">
+          <span>Frete</span>
+          <span id="order-shipping-value">--</span>
+        </div>
+        <div class="order-summary__row order-summary__row--total">
+          <span>Total</span>
+          <span id="order-total-value">R$ 0,00</span>
+        </div>
       </div>
-
-      <div class="ck-bandeiras">
-        <span>Visa</span>
-        <span>Mastercard</span>
-        <span>Elo</span>
-        <span>PIX</span>
-        <span>Amex</span>
-      </div>
+      <div class="order-summary__items" id="order-items"></div>
     </aside>
+  </div>
 
-  </main>
+  <!-- Counter Section -->
+  <section class="checkout-counter-section">
+    <div class="checkout-counter-grid">
+      <div class="checkout-counter-item">
+        <h3><span class="counter-number" data-target="100">0</span> Mil</h3>
+        <h4>Pedidos Enviados</h4>
+        <p>Enviamos para você onde você estiver <strong>com qualidade e agilidade comprovada!</strong></p>
+      </div>
+      <div class="checkout-counter-item">
+        <h3><span class="counter-number" data-target="5">0</span> anos</h3>
+        <h4>De experiência</h4>
+        <p>Há anos selecionamos os melhores produtos de beleza e <strong>entregamos excelência em cada compra.</strong></p>
+      </div>
+      <div class="checkout-counter-item">
+        <h3><span class="counter-number" data-target="80">0</span> Mil</h3>
+        <h4>Clientes Satisfeitos</h4>
+        <p>20% dos clientes <strong>voltam para novas compras</strong>, comprovando a confiança e a satisfação em cada pedido.</p>
+      </div>
+    </div>
+  </section>
 
-  <script define:vars={{ produto, prodNome: prod.nome }}>
-    // ── Formatação de inputs ──────────────────────────────
-    document.getElementById('cpf').addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '').slice(0, 11);
-      v = v.replace(/(\d{3})(\d)/, '$1.$2');
-      v = v.replace(/(\d{3})(\d)/, '$1.$2');
-      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-      this.value = v;
-    });
+  <!-- Footer -->
+  <footer class="checkout-footer">
+    <div class="checkout-footer__top">
+      <div class="checkout-footer__col">
+        <strong>Pagamento seguro por</strong>
+        <img src="/ck/img/logo-mercadopago3.png" alt="Mercado Pago" style="height:28px;width:auto;margin-top:6px;opacity:.85;">
+      </div>
+      <div class="checkout-footer__col">
+        <strong>Contato</strong>
+        <p>suporte@mercadopago.com.br</p>
+      </div>
+      <div class="checkout-footer__col checkout-footer__col--secure">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div>
+          <strong>PAGAMENTO</strong>
+          <span>100% SEGURO</span>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-footer__bottom">
+      <p class="checkout-footer__label">Formas de pagamento:</p>
+      <div class="checkout-footer__cards">
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"/></svg>
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/><circle fill="#EB001B" cx="15" cy="12" r="7"/><circle fill="#F79E1B" cx="23" cy="12" r="7"/><path fill="#FF5F00" d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z"/></svg>
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path fill="#000" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3Z" opacity=".07"/><path fill="#006FCF" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32Z"/><path fill="#FFF" d="M22.012 19.936v-8.421L37 11.528v2.326l-1.732 1.852L37 17.573v2.375h-2.766l-1.47-1.622-1.46 1.628-9.292-.02Z"/><path fill="#006FCF" d="M23.013 19.012v-6.57h5.572v1.513h-3.768v1.028h3.678v1.488h-3.678v1.01h3.768v1.531h-5.572Z"/><path fill="#006FCF" d="m28.557 19.012 3.083-3.289-3.083-3.282h2.386l1.884 2.083 1.89-2.082H37v.051l-3.017 3.23L37 18.92v.093h-2.307l-1.917-2.103-1.898 2.104h-2.321Z"/><path fill="#FFF" d="M22.71 4.04h3.614l1.269 2.881V4.04h4.46l.77 2.159.771-2.159H37v8.421H19l3.71-8.421Z"/><path fill="#006FCF" d="m23.395 4.955-2.916 6.566h2l.55-1.315h2.98l.55 1.315h2.05l-2.904-6.566h-2.31Zm.25 3.777.875-2.09.873 2.09h-1.748Z"/><path fill="#006FCF" d="M28.581 11.52V4.953l2.811.01L32.84 9l1.456-4.046H37v6.565l-1.74.016v-4.51l-1.644 4.494h-1.59L30.35 7.01v4.51h-1.768Z"/></svg>
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><g fill-rule="nonzero" fill="none"><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" fill="#000" opacity=".07"/><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#FFF"/><path fill="#003933" d="M2.68 11.09h2.41c.43-2.28 2.42-4.11 4.97-4.11s4.91 2.04 4.91 5.13q.01.39-.06.83h-7.78c.37 1.4 1.53 2.22 2.92 2.22s2.09-.46 2.81-1.27l1.43 1.3c-.95 1.07-2.36 1.81-4.24 1.81s-4.53-1.8-4.96-4.07H2.68v-1.85zm10.23 0c-.1-.58-.37-1.1-.75-1.48-.5-.5-1.23-.81-2.11-.81s-1.6.3-2.13.83c-.36.36-.66.86-.82 1.47h5.8zM16.42 7.05h2.09v7.91h3.78v1.98h-3.75c-1.38 0-2.13-.74-2.13-2.11v-7.78zm6.28 4.94c0-2.69 2.21-5.01 5.13-5.01s4.62 1.81 5.05 4.11h2.41v1.85h-2.41c-.45 2.28-2.47 4.07-5.05 4.07-2.94 0-5.13-2.31-5.13-5.01zm5.13 3.07c1.75 0 3.04-1.32 3.04-3.05s-1.33-3.08-3.04-3.08-3.04 1.32-3.04 3.07c0 1.7 1.33 3.07 3.04 3.07z"/></g></svg>
+        <svg width="38" height="24" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/><path fill="#B3131A" d="M19 6C12.4 6 7 9.6 7 14s5.4 8 12 8 12-3.6 12-8-5.4-8-12-8zm-2 11H14v-3h-3v3H8V9h3v3h3V9h3v8zm7-.3c-1 .5-2.1.5-2.9.1-.4-.2-.8-.5-1-.9-.3-.4-.4-.9-.4-1.4 0-.5.1-1 .4-1.4.2-.4.6-.7 1-.9.8-.4 1.9-.4 2.9.1v-1.6c-.5-.2-1-.3-1.5-.3-1 0-1.9.2-2.7.7-.7.5-1.2 1.2-1.2 2.4s.5 1.9 1.2 2.4c.8.5 1.7.7 2.7.7.5 0 1-.1 1.5-.3v-1.6z"/></svg>
+        <span class="badge-card badge-card--pix">
+          <svg version="1.0" width="16" height="16" viewBox="0 0 901 900" xmlns="http://www.w3.org/2000/svg" fill="#32BCAD"><g transform="translate(0 900) scale(.1 -.1)"><path d="m4265 8986c-216-42-357-99-536-217-83-54-204-172-1001-968-500-498-908-909-908-913 0-5 92-8 204-8 288 0 449-33 646-132 186-94 194-101 985-889 413-411 766-755 785-765 49-26 181-26 230 0 19 10 368 350 775 755 642 640 752 746 834 800 241 159 431 218 735 228l178 6-888 889c-489 489-920 913-959 943-157 121-324 202-519 252-88 22-127 26-296 29-136 2-216-1-265-10z"/><path d="m861 5935c-485-487-577-584-630-664-102-154-154-272-199-450-25-99-27-121-27-321 0-191 3-225 24-310 49-199 134-377 256-535 30-38 299-315 598-614l544-543 359 1c403 2 467 8 607 55 204 69 179 48 1022 887 759 756 760 756 845 798 197 96 409 94 603-5 66-35 130-95 812-774 446-444 766-756 807-784 79-56 187-107 289-137 68-20 102-23 419-29 190-3 352-9 360-13 11-5 167 145 586 565 488 490 580 587 633 667 34 52 73 116 87 142 195 385 195 873 0 1258-14 26-53 90-87 142-53 80-145 177-633 667-419 420-575 570-586 565-8-4-170-10-360-13-317-6-351-9-419-29-102-30-210-81-289-137-40-28-364-343-812-789-802-798-778-776-930-823-175-53-368-27-525 70-29 18-367 347-805 782-837 833-813 812-1017 882-136 46-219 54-616 56l-348 3-568-570z"/><path d="m4465 3913c-47-14-101-65-805-767-796-793-804-800-990-894-196-99-359-132-647-132-112 0-203-3-203-8 0-4 408-415 908-913 797-796 918-914 1001-968 154-102 272-154 450-199 99-25 121-27 321-27 191 0 225 3 310 24 199 49 377 134 535 256 39 30 470 454 959 943l888 889-178 6c-304 10-494 69-735 228-82 54-193 161-839 805-722 719-747 743-799 758-67 19-110 19-176-1z"/></g></svg>
+          PIX
+        </span>
+        <img src="/ck/img/logo-mercadopago3.png" alt="Mercado Pago" style="height:20px;width:auto;vertical-align:middle;opacity:.85;">
+      </div>
+      <p class="checkout-footer__copy">Todos os direitos reservados</p>
+    </div>
+  </footer>
 
-    document.getElementById('telefone').addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '').slice(0, 11);
-      if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-      else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d+)/, '($1) $2-$3');
-      else if (v.length > 2) v = v.replace(/(\d{2})(\d+)/, '($1) $2');
-      this.value = v;
-    });
-
-    document.getElementById('numeroCartao').addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '').slice(0, 16);
-      v = v.replace(/(\d{4})(?=\d)/g, '$1 ');
-      this.value = v;
-    });
-
-    document.getElementById('validade').addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '').slice(0, 4);
-      if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
-      this.value = v;
-    });
-
-    // ── Troca de abas ─────────────────────────────────────
-    function trocarAba(metodo) {
-      ['pix', 'cartao'].forEach(m => {
-        document.getElementById('tab' + (m === 'pix' ? 'Pix' : 'Cartao')).classList.toggle('ativo', m === metodo);
-        document.getElementById('painel' + (m === 'pix' ? 'Pix' : 'Cartao')).classList.toggle('ativo', m === metodo);
-      });
-    }
-
-    // ── Validação ────────────────────────────────────────
-    function validarCampos(metodo) {
-      let ok = true;
-
-      const campos = [
-        { id: 'nome', erroId: 'erroNome', check: v => v.trim().split(' ').length >= 2 },
-        { id: 'email', erroId: 'erroEmail', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-        { id: 'telefone', erroId: 'erroTelefone', check: v => v.replace(/\D/g,'').length >= 10 },
-        { id: 'cpf', erroId: 'erroCpf', check: v => v.replace(/\D/g,'').length === 11 },
-      ];
-
-      campos.forEach(({ id, erroId, check }) => {
-        const el = document.getElementById(id);
-        const erro = document.getElementById(erroId);
-        const valido = check(el.value);
-        el.classList.toggle('erro', !valido);
-        erro.style.display = valido ? 'none' : 'block';
-        if (!valido) ok = false;
-      });
-
-      if (metodo === 'cartao') {
-        const cartaoOk = document.getElementById('numeroCartao').value.replace(/\D/g,'').length === 16;
-        if (!cartaoOk) ok = false;
-      }
-
-      return ok;
-    }
-
-    // ── Envio do pagamento ────────────────────────────────
-    async function pagar(metodo) {
-      if (!validarCampos(metodo)) return;
-
-      const overlay = document.getElementById('loadingOverlay');
-      overlay.classList.add('show');
-
-      const payload = {
-        produto,
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        cpf: document.getElementById('cpf').value,
-        telefone: document.getElementById('telefone').value,
-        metodo,
-      };
-
-      if (metodo === 'cartao') {
-        payload.nome_cartao = document.getElementById('nomeCartao').value;
-        payload.numero_cartao = document.getElementById('numeroCartao').value;
-        payload.validade = document.getElementById('validade').value;
-        payload.cvv = document.getElementById('cvv').value;
-        payload.parcelas = document.getElementById('parcelas').value;
-      }
-
-      try {
-        const resp = await fetch('/api/criar-transacao', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-
-        const data = await resp.json();
-        overlay.classList.remove('show');
-
-        if (!resp.ok) {
-          mostrarModal('erro', data.erro ?? 'Erro ao processar pagamento.');
-          return;
-        }
-
-        if (metodo === 'pix') {
-          mostrarModalPix(data);
-        } else {
-          if (data.status === 'approved' || data.status === 'paid') {
-            window.location.href = '/checkout/obrigado?id=' + (data.id ?? '');
-          } else {
-            mostrarModal('erro', 'Pagamento recusado. Verifique os dados do cartão.');
-          }
-        }
-
-      } catch (err) {
-        overlay.classList.remove('show');
-        mostrarModal('erro', 'Falha de conexão. Tente novamente.');
-      }
-    }
-
-    // ── Modais ───────────────────────────────────────────
-    function mostrarModal(tipo, msg) {
-      const modal = document.getElementById('modalResultado');
-      document.getElementById('modalIcon').textContent = tipo === 'erro' ? '❌' : '✅';
-      document.getElementById('modalTitulo').textContent = tipo === 'erro' ? 'Pagamento não efetuado' : 'Sucesso!';
-      document.getElementById('modalSub').textContent = msg;
-      modal.classList.add('show');
-    }
-
-    function mostrarModalPix(data) {
-      const modal = document.getElementById('modalResultado');
-      document.getElementById('modalIcon').textContent = '📲';
-      document.getElementById('modalTitulo').textContent = 'Pague com PIX';
-      document.getElementById('modalSub').textContent = 'Escaneie o QR Code ou copie o código abaixo:';
-
-      // QR Code (campo pode variar: qr_code_url, pix_qr_code, etc.)
-      const qrUrl = data.qr_code_url ?? data.pix?.qr_code_url ?? null;
-      const pixCode = data.pix_copia_cola ?? data.pix?.pix_copia_cola ?? data.qr_code ?? null;
-
-      if (qrUrl) {
-        document.getElementById('qrImg').src = qrUrl;
-        document.getElementById('qrcodeContainer').style.display = 'block';
-      }
-      if (pixCode) {
-        document.getElementById('pixCopyBox').textContent = pixCode;
-        document.getElementById('pixCopyBox').style.display = 'block';
-        document.getElementById('btnCopiar').style.display = 'inline-block';
-        window._pixCode = pixCode;
-      }
-
-      modal.classList.add('show');
-    }
-
-    function fecharModal() {
-      document.getElementById('modalResultado').classList.remove('show');
-    }
-
-    function copiarPix() {
-      if (window._pixCode) {
-        navigator.clipboard.writeText(window._pixCode).then(() => {
-          const btn = document.getElementById('btnCopiar');
-          btn.textContent = '✅ Copiado!';
-          setTimeout(() => btn.textContent = '📋 Copiar código PIX', 2000);
-        });
-      }
+  <script is:inline define:vars={{ productId }}>
+    // Inject product ID into URL so checkout.js can read it via query params
+    if (!new URLSearchParams(window.location.search).get('product')) {
+      var url = new URL(window.location.href);
+      url.searchParams.set('product', String(productId));
+      history.replaceState(null, '', url.toString());
     }
   </script>
-
+  <script is:inline src="/ck/js/checkout.js"></script>
 </body>
 </html>
