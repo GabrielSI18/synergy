@@ -17,17 +17,17 @@ function basicAuth(key: string) {
 const PRODUTOS: Record<string, { nome: string; valor: number; parcelas: number }> = {
   '1-unidade': {
     nome: 'Secador BettDow AirLux Pro — 1 Unidade',
-    valor: 19990, // em centavos = R$ 199,90
+    valor: 9990, // em centavos = R$ 99,90
     parcelas: 12,
   },
   '2-unidades': {
     nome: 'Secador BettDow AirLux Pro — 2 Unidades',
-    valor: 34990, // R$ 349,90
+    valor: 12990, // R$ 129,90
     parcelas: 12,
   },
   'kit-profissional': {
     nome: 'Kit Profissional BettDow AirLux Pro',
-    valor: 24990, // R$ 249,90
+    valor: 16990, // R$ 169,90
     parcelas: 12,
   },
 };
