@@ -25,6 +25,18 @@
     }
   }
 
+  // Facebook Pixel Purchase helper
+  function fireFacebookPurchase(value, transactionId) {
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Purchase', {
+        value: value,
+        currency: 'BRL',
+        content_type: 'product',
+        transaction_id: transactionId || '',
+      });
+    }
+  }
+
   // Dados do produto (carregados dinamicamente via query params)
   let orderItems = [];
   let productData = null;
@@ -735,6 +747,7 @@
         const subtotal = orderItems.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
         const total = subtotal + selectedShipping.price;
         fireGoogleConversion(total / 100, data.id);
+        fireFacebookPurchase(total / 100, data.id);
       } else if (data.status === 'refused') {
         document.querySelectorAll('.step-card').forEach(c => c.style.display = '');
         showError('Pagamento recusado. Verifique os dados do cartão e tente novamente.');
@@ -815,6 +828,7 @@
           clearInterval(pixPollInterval);
           pixPollInterval = null;
           fireGoogleConversion(pixAmount / 100, pixTransactionId);
+          fireFacebookPurchase(pixAmount / 100, pixTransactionId);
         }
       } catch {
         // Silently ignore polling errors
