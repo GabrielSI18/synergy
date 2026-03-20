@@ -784,19 +784,16 @@
     .footer-links { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
     .footer-links a { font-size: 14px; color: var(--g400); transition: color 0.2s; }
     .footer-links a:hover { color: var(--white); }
-    .footer-pay { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+    .footer-pay { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
     .pi {
-      background: transparent;
-      padding: 0;
-      border-radius: 4px;
-      font-size: 0;
-      line-height: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      font-size: 0;
+      line-height: 0;
     }
-    .pi svg { height: 30px; width: 46px; display: block; border-radius: 4px; }
+    .pi img { height: 28px; width: auto; display: block; border-radius: 4px; filter: brightness(0.95); }
+    .pi svg { height: 28px; width: 44px; display: block; border-radius: 4px; }
     .footer-cp { font-size: 12px; color: var(--g600); }
 
     /* ===== MODAL ===== */
@@ -1484,104 +1481,18 @@
       <a href="#" onclick="event.preventDefault();openModal('modalContato')">Informações de contato</a>
     </div>
     <div class="footer-pay">
-      <!-- American Express -->
+      <span class="pi"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/amex.svg" alt="American Express" loading="lazy"></span>
+      <span class="pi"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/diners.svg" alt="Diners Club" loading="lazy"></span>
+      <span class="pi"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/discover.svg" alt="Discover" loading="lazy"></span>
+      <span class="pi"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/elo.svg" alt="Elo" loading="lazy"></span>
+      <span class="pi"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/jcb.svg" alt="JCB" loading="lazy"></span>
+      <span class="pi"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/mastercard.svg" alt="Mastercard" loading="lazy"></span>
+      <span class="pi"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.1.0/min/flat/visa.svg" alt="Visa" loading="lazy"></span>
       <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#007BC1"/>
-          <text x="24" y="13" font-family="Arial,sans-serif" font-weight="900" font-size="6.5" fill="#fff" text-anchor="middle" letter-spacing="0.5">AMERICAN</text>
-          <text x="24" y="21" font-family="Arial,sans-serif" font-weight="900" font-size="6.5" fill="#fff" text-anchor="middle" letter-spacing="0.5">EXPRESS</text>
-          <text x="24" y="28" font-family="Arial,sans-serif" font-weight="700" font-size="4.5" fill="rgba(255,255,255,0.75)" text-anchor="middle" letter-spacing="0.5">CENTURION</text>
-        </svg>
-      </span>
-      <!-- Diners Club -->
-      <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#fff"/>
-          <rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#e0e0e0"/>
-          <!-- left circle -->
-          <circle cx="18.5" cy="16" r="7.5" fill="none" stroke="#004A97" stroke-width="1.5"/>
-          <!-- right circle -->
-          <circle cx="25.5" cy="16" r="7.5" fill="none" stroke="#004A97" stroke-width="1.5"/>
-          <!-- overlap fill white to clean center -->
-          <path d="M18.5 9.2a7.5 7.5 0 0 1 4.5 6.8 7.5 7.5 0 0 1-4.5 6.8 7.5 7.5 0 0 1-4.5-6.8 7.5 7.5 0 0 1 4.5-6.8z" fill="#fff"/>
-          <path d="M25.5 9.2a7.5 7.5 0 0 1 4.5 6.8 7.5 7.5 0 0 1-4.5 6.8 7.5 7.5 0 0 1-4.5-6.8 7.5 7.5 0 0 1 4.5-6.8z" fill="#fff"/>
-          <!-- vertical bars inside -->
-          <path d="M22 10.5a7.5 7.5 0 0 0 0 11" fill="none" stroke="#004A97" stroke-width="1.3"/>
-          <path d="M22 10.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="#004A97" stroke-width="1.3"/>
-          <text x="40" y="21" font-family="Arial,sans-serif" font-weight="700" font-size="5" fill="#004A97" text-anchor="middle">DC</text>
-        </svg>
-      </span>
-      <!-- Discover -->
-      <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#fff"/>
-          <rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#e0e0e0"/>
-          <!-- orange gradient ball -->
-          <defs>
-            <radialGradient id="dscG" cx="45%" cy="40%" r="55%">
-              <stop offset="0%" stop-color="#ffd140"/>
-              <stop offset="100%" stop-color="#f76e10"/>
-            </radialGradient>
-          </defs>
-          <circle cx="31" cy="16" r="8" fill="url(#dscG)"/>
-          <text x="7" y="13" font-family="Arial,sans-serif" font-weight="800" font-size="5.5" fill="#231f20" letter-spacing="0.2">DIS</text>
-          <text x="7" y="21" font-family="Arial,sans-serif" font-weight="800" font-size="5.5" fill="#231f20" letter-spacing="0.2">COVER</text>
-        </svg>
-      </span>
-      <!-- Elo -->
-      <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#fff"/>
-          <rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#e0e0e0"/>
-          <!-- C arc - yellow -->
-          <path d="M13 16a6 6 0 1 1 3.5 5.4l1.5-2.8A3 3 0 1 0 16 16l-3 .2z" fill="#FFCC00"/>
-          <!-- check circle - blue -->
-          <circle cx="24" cy="16" r="5.5" fill="none" stroke="#00ADEF" stroke-width="2"/>
-          <path d="M21.5 16l2 2 3.5-4" fill="none" stroke="#00ADEF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- slash - red -->
-          <rect x="31.5" y="10" width="2.5" height="12" rx="1.2" fill="#EE1C25" transform="rotate(-25 32.75 16)"/>
-          <text x="24" y="28" font-family="Arial,sans-serif" font-weight="800" font-size="5" fill="#333" text-anchor="middle" letter-spacing="1">elo</text>
-        </svg>
-      </span>
-      <!-- JCB (635) -->
-      <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#fff"/>
-          <rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#e0e0e0"/>
-          <rect x="10" y="6" width="9" height="20" rx="4" fill="#003087"/>
-          <rect x="20" y="6" width="9" height="20" rx="4" fill="#CC0000"/>
-          <rect x="30" y="6" width="9" height="20" rx="4" fill="#009A44"/>
-          <text x="14.5" y="19" font-family="Arial,sans-serif" font-weight="900" font-size="7" fill="#fff" text-anchor="middle">J</text>
-          <text x="24.5" y="19" font-family="Arial,sans-serif" font-weight="900" font-size="7" fill="#fff" text-anchor="middle">C</text>
-          <text x="34.5" y="19" font-family="Arial,sans-serif" font-weight="900" font-size="7" fill="#fff" text-anchor="middle">B</text>
-        </svg>
-      </span>
-      <!-- Mastercard -->
-      <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#1a1a1a"/>
-          <circle cx="18" cy="16" r="9" fill="#EB001B"/>
-          <circle cx="30" cy="16" r="9" fill="#F79E1B"/>
-          <path d="M24 8.7a9 9 0 0 1 0 14.6A9 9 0 0 1 24 8.7z" fill="#FF5F00"/>
-        </svg>
-      </span>
-      <!-- Visa -->
-      <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#1A1F71"/>
-          <path d="M18.9 21.2h-2.8l1.7-10.4h2.8L18.9 21.2z" fill="#fff"/>
-          <path d="M29.5 11c-.6-.2-1.4-.4-2.5-.4-2.7 0-4.6 1.4-4.6 3.4 0 1.5 1.3 2.3 2.4 2.8 1 .5 1.4.8 1.4 1.3 0 .7-.9 1-1.7 1-1.1 0-1.7-.2-2.6-.5l-.4-.2-.4 2.3c.6.3 1.8.5 3 .5 2.9 0 4.8-1.4 4.8-3.6 0-1.2-.7-2.1-2.3-2.9-1-.5-1.5-.8-1.5-1.2 0-.4.5-.9 1.6-.9.9 0 1.5.2 2 .4l.2.1.6-2.1z" fill="#fff"/>
-          <path d="M33.2 10.8h-2.1c-.7 0-1.1.2-1.4.9L26 21.2h2.9l.6-1.6h3.5l.4 1.6h2.6l-2.3-10.4h-.5zm-3.2 6.8l1.1-3 .3-.9.2.8.6 3.1h-2.2z" fill="#fff"/>
-          <path d="M15.9 10.8l-2.6 7.1-.3-1.4c-.5-1.7-2.1-3.5-3.8-4.4l2.5 9.1h3l4.5-10.4h-3.3z" fill="#fff"/>
-          <path d="M10.7 10.8H6.2l0 .2c3.4.9 5.7 3 6.6 5.5l-1-5.1c-.1-.5-.5-.6-1.1-.6z" fill="#F9A533"/>
-        </svg>
-      </span>
-      <!-- Pix -->
-      <span class="pi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-          <rect width="48" height="32" rx="4" fill="#fff"/>
-          <rect x=".5" y=".5" width="47" height="31" rx="3.5" fill="none" stroke="#e0e0e0"/>
-          <path d="M28.3 21.3l-3.6-3.6a1 1 0 0 1 0-1.4l3.6-3.6a3.2 3.2 0 0 1 4.5 0l1.5 1.5-2.3 2.3-1.5-1.5a.5.5 0 0 0-.7 0l-2.9 2.9 2.9 2.9a.5.5 0 0 0 .7 0l1.5-1.5 2.3 2.3-1.5 1.5a3.2 3.2 0 0 1-4.5 0zm-8.6 0a3.2 3.2 0 0 1-4.5 0l-1.5-1.5 2.3-2.3 1.5 1.5a.5.5 0 0 0 .7 0l2.9-2.9-2.9-2.9a.5.5 0 0 0-.7 0l-1.5 1.5-2.3-2.3 1.5-1.5a3.2 3.2 0 0 1 4.5 0l3.6 3.6a1 1 0 0 1 0 1.4l-3.6 3.6z" fill="#32BCAD"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 471" style="height:28px;width:44px;border-radius:4px;">
+          <rect width="750" height="471" rx="40" fill="#fff"/>
+          <rect x="1" y="1" width="748" height="469" rx="39" fill="none" stroke="#e0e0e0" stroke-width="3"/>
+          <path d="M430 148l-60 60a25 25 0 0 0 0 55l60 60a80 80 0 0 0 113 0l37-37-57-57-37 37a12 12 0 0 1-17 0l-72-72 72-72a12 12 0 0 1 17 0l37 37 57-57-37-37a80 80 0 0 0-113 0zm-110 120l-60-60a80 80 0 0 0-113 0l-37 37 57 57 37-37a12 12 0 0 1 17 0l72 72-72 72a12 12 0 0 1-17 0l-37-37-57 57 37 37a80 80 0 0 0 113 0l60-60a25 25 0 0 0 0-87z" fill="#32BCAD"/>
         </svg>
       </span>
     </div>
