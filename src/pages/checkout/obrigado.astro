@@ -1,5 +1,48 @@
 ---
 const id = Astro.url.searchParams.get('id') ?? '';
+const voltar = Astro.url.searchParams.get('voltar') ?? '/';
+
+// Fetch transaction details if we have an id
+let tx: any = null;
+if (id) {
+  try {
+    const runtime = (Astro.locals as any).runtime;
+    const BESTFY_API_URL = runtime?.env?.BESTFY_API_URL ?? 'https://api.bestfybr.com.br/v1';
+    const SECRET_KEY = runtime?.env?.BESTFY_SECRET_KEY ?? '';
+    if (SECRET_KEY) {
+      const res = await fetch(`${BESTFY_API_URL}/transactions/${encodeURIComponent(id)}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Basic ' + btoa(`${SECRET_KEY}:x`),
+          'Accept': 'application/json',
+        },
+      });
+      if (res.ok) tx = await res.json();
+    }
+  } catch { /* silently fail — show page without details */ }
+}
+
+const items = tx?.items ?? [];
+const amount = tx?.amount ?? 0;
+const paymentMethod = tx?.payment_method ?? '';
+const status = tx?.status ?? '';
+const customerName = tx?.customer?.name ?? '';
+const customerEmail = tx?.customer?.email ?? '';
+
+function formatBRL(cents: number) {
+  return 'R$ ' + (cents / 100).toFixed(2).replace('.', ',');
+}
+
+const statusLabels: Record<string, string> = {
+  paid: 'Pago',
+  authorized: 'Autorizado',
+  waiting_payment: 'Aguardando pagamento',
+  processing: 'Processando',
+  refused: 'Recusado',
+  refunded: 'Reembolsado',
+};
+const statusLabel = statusLabels[status] ?? status;
+const methodLabel = paymentMethod === 'pix' ? 'PIX' : paymentMethod === 'credit_card' ? 'Cartão de Crédito' : paymentMethod;
 ---
 
 <!DOCTYPE html>
@@ -7,11 +50,11 @@ const id = Astro.url.searchParams.get('id') ?? '';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedido confirmado — Synergy</title>
+  <title>Pedido confirmado!</title>
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Meta Pixel Code -->
-  <script>
+  <script is:inline>
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};
   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
@@ -41,25 +84,110 @@ const id = Astro.url.searchParams.get('id') ?? '';
     .card {
       background: #fff;
       border-radius: 18px;
-      padding: 48px 36px;
-      max-width: 440px;
+      padding: 40px 32px;
+      max-width: 480px;
       width: 100%;
       text-align: center;
       border: 1px solid #e8e8e8;
     }
-    .icon { font-size: 4rem; margin-bottom: 16px; }
-    h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; color: #16a34a; }
-    p { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
-    .id-pedido {
+    .icon { font-size: 3.5rem; margin-bottom: 12px; }
+    h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; color: #16a34a; }
+    .subtitle { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+    .order-id {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
       padding: 10px 16px;
       font-size: 0.8rem;
       color: #475569;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
     }
-    .id-pedido strong { color: #1a1a2e; font-weight: 700; }
+    .order-id strong { color: #1a1a2e; font-weight: 700; }
+
+    /* Order summary */
+    .order-summary { text-align: left; margin-bottom: 24px; }
+    .order-summary h2 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 0.85rem;
+      color: #334155;
+    }
+    .order-item + .order-item { border-top: 1px solid #f1f5f9; }
+    .order-item .item-name { flex: 1; margin-right: 12px; }
+    .order-item .item-qty {
+      color: #94a3b8;
+      font-size: 0.78rem;
+      margin-right: 12px;
+      white-space: nowrap;
+    }
+    .order-item .item-price { font-weight: 600; white-space: nowrap; }
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      margin-top: 8px;
+      border-top: 2px solid #e2e8f0;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .order-total .total-value { color: #16a34a; }
+
+    /* Info grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .info-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .info-box .label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    .info-box .value {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .status-paid, .status-authorized {
+      background: #dcfce7; color: #16a34a;
+    }
+    .status-waiting_payment, .status-processing {
+      background: #fef9c3; color: #a16207;
+    }
+    .status-refused {
+      background: #fee2e2; color: #dc2626;
+    }
+
     .btn-voltar {
       display: inline-block;
       padding: 12px 28px;
@@ -72,22 +200,79 @@ const id = Astro.url.searchParams.get('id') ?? '';
       transition: opacity 0.2s;
     }
     .btn-voltar:hover { opacity: 0.88; }
+
+    @media (max-width: 480px) {
+      .card { padding: 28px 20px; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="icon">🎉</div>
     <h1>Pedido confirmado!</h1>
-    <p>
+    <p class="subtitle">
       Seu pagamento foi processado com sucesso.<br>
       Em breve você receberá um e-mail com os detalhes do pedido.
     </p>
+
     {id && (
-      <div class="id-pedido">
+      <div class="order-id">
         Código do pedido: <strong>{id}</strong>
       </div>
     )}
-    <a href="/lp-secador-bettdow" class="btn-voltar">← Voltar à página</a>
+
+    {/* Info boxes: status, method, customer */}
+    {tx && (
+      <div class="info-grid">
+        {statusLabel && (
+          <div class="info-box">
+            <div class="label">Status</div>
+            <div class="value">
+              <span class={`status-badge status-${status}`}>{statusLabel}</span>
+            </div>
+          </div>
+        )}
+        {methodLabel && (
+          <div class="info-box">
+            <div class="label">Pagamento</div>
+            <div class="value">{methodLabel}</div>
+          </div>
+        )}
+        {customerName && (
+          <div class="info-box">
+            <div class="label">Cliente</div>
+            <div class="value">{customerName}</div>
+          </div>
+        )}
+        {customerEmail && (
+          <div class="info-box">
+            <div class="label">E-mail</div>
+            <div class="value" style="font-size:0.78rem;word-break:break-all;">{customerEmail}</div>
+          </div>
+        )}
+      </div>
+    )}
+
+    {/* Product list */}
+    {items.length > 0 && (
+      <div class="order-summary">
+        <h2>Resumo do pedido</h2>
+        {items.map((item: any) => (
+          <div class="order-item">
+            <span class="item-name">{item.title ?? 'Produto'}</span>
+            <span class="item-qty">× {item.quantity ?? 1}</span>
+            <span class="item-price">{formatBRL(item.unit_price * (item.quantity ?? 1))}</span>
+          </div>
+        ))}
+        <div class="order-total">
+          <span>Total</span>
+          <span class="total-value">{formatBRL(amount)}</span>
+        </div>
+      </div>
+    )}
+
+    <a href={voltar} class="btn-voltar">← Voltar à página</a>
   </div>
 </body>
 </html>
