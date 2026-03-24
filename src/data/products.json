@@ -38,6 +38,58 @@
       "images": [
         "https://madeliebrasil.com/cdn/shop/files/br-11134207-7r98o-m82v867w1gk111.jpg?v=1764562749&width=1000"
       ]
+    },
+    {
+      "id": 4,
+      "title": "Lift Detox Black — Leve 1 Pote",
+      "description": "Lift Detox Black - Nova Fórmula Mais Potente. Duração de 1 mês.",
+      "price": 137.00,
+      "comparePrice": 297.00,
+      "tangible": true,
+      "hasVariants": false,
+      "variants": [],
+      "images": [
+        "/liftdetox/images/kit1.jpg"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Lift Detox Black — Compre 2 Leve 3",
+      "description": "Kit com 3 frascos de Lift Detox Black. Duração de 3 meses. 28% OFF.",
+      "price": 237.00,
+      "comparePrice": 891.00,
+      "tangible": true,
+      "hasVariants": false,
+      "variants": [],
+      "images": [
+        "/liftdetox/images/kit2.jpg"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Lift Detox Black — Compre 3 Leve 5",
+      "description": "Kit com 5 frascos de Lift Detox Black. Duração de 5 meses. 50% OFF.",
+      "price": 337.00,
+      "comparePrice": 1485.00,
+      "tangible": true,
+      "hasVariants": false,
+      "variants": [],
+      "images": [
+        "/liftdetox/images/kit3.jpg"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Lift Detox Black — Compre 5 Leve 10",
+      "description": "Kit com 10 frascos de Lift Detox Black. Duração de 8 meses. 60% OFF.",
+      "price": 637.00,
+      "comparePrice": 2970.00,
+      "tangible": true,
+      "hasVariants": false,
+      "variants": [],
+      "images": [
+        "/liftdetox/images/kit4.jpg"
+      ]
     }
   ]
 }

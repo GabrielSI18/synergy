@@ -30,6 +30,36 @@ const PRODUTOS: Record<string, { nome: string; valor: number; parcelas: number }
     valor: 16990, // R$ 169,90
     parcelas: 12,
   },
+  'liftdetox-kit1': {
+    nome: 'Lift Detox Black — Leve 1 Pote',
+    valor: 13700, // R$ 137,00
+    parcelas: 12,
+  },
+  'liftdetox-kit2': {
+    nome: 'Lift Detox Black — Compre 2 Leve 3',
+    valor: 23700, // R$ 237,00
+    parcelas: 12,
+  },
+  'liftdetox-kit3': {
+    nome: 'Lift Detox Black — Compre 3 Leve 5',
+    valor: 33700, // R$ 337,00
+    parcelas: 12,
+  },
+  'liftdetox-bump1': {
+    nome: 'Lift Detox Black — 2 Potes Extra',
+    valor: 6790, // R$ 67,90
+    parcelas: 12,
+  },
+  'liftdetox-bump2': {
+    nome: 'Lift Detox Black — 3 Potes Extra',
+    valor: 13700, // R$ 137,00
+    parcelas: 12,
+  },
+  'liftdetox-kit4': {
+    nome: 'Lift Detox Black — Compre 5 Leve 10',
+    valor: 63700, // R$ 637,00
+    parcelas: 12,
+  },
 };
 
 export const POST: APIRoute = async ({ request, locals }) => {
