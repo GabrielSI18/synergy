@@ -97,11 +97,11 @@ if (!productId) {
   n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '3144701205661826');
+  fbq('init', '1589262665667084');
   fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=3144701205661826&ev=PageView&noscript=1"/></noscript>
+  src="https://www.facebook.com/tr?id=1589262665667084&ev=PageView&noscript=1"/></noscript>
   <!-- End Meta Pixel Code -->
 </head>
 <body>
@@ -670,6 +670,10 @@ if (!productId) {
     if (!btn) return;
 
     var bumpValue = parseInt(btn.getAttribute('data-bump-value') || '0', 10);
+    var bumpProduto = btn.getAttribute('data-bump-produto') || '';
+    var bumpEl = document.getElementById('order-bump');
+    var bumpImage = bumpEl ? (bumpEl.querySelector('.order-bump__image img') || {}).src || '' : '';
+    var bumpBarText = bumpEl ? (bumpEl.querySelector('.order-bump__bar span') || {}).textContent || '' : '';
     var added = false;
 
     btn.addEventListener('click', function() {
@@ -679,32 +683,24 @@ if (!productId) {
       // Visual feedback
       btn.textContent = '✓ ADICIONADO';
       btn.classList.add('order-bump__btn--added');
-      var bumpEl = document.getElementById('order-bump');
       if (bumpEl) bumpEl.classList.add('order-bump--added');
 
-      // Update order totals
-      var subtotalEl = document.getElementById('order-subtotal-value');
-      var totalEl = document.getElementById('order-total-value');
-      if (subtotalEl && totalEl) {
-        var currentSubtotal = parseFloat(subtotalEl.textContent.replace('R$', '').replace('.', '').replace(',', '.').trim()) || 0;
-        var newSubtotal = currentSubtotal + (bumpValue / 100);
-        var fmtSub = 'R$ ' + newSubtotal.toFixed(2).replace('.', ',');
-        subtotalEl.textContent = fmtSub;
-
-        // Recalculate total (subtotal + shipping)
-        var shippingEl = document.getElementById('order-shipping-value');
-        var shippingVal = 0;
-        if (shippingEl) {
-          var shTxt = shippingEl.textContent.replace('R$', '').replace('.', '').replace(',', '.').trim();
-          shippingVal = parseFloat(shTxt) || 0;
-        }
-        var newTotal = newSubtotal + shippingVal;
-        totalEl.textContent = 'R$ ' + newTotal.toFixed(2).replace('.', ',');
+      // Add bump to orderItems via checkout.js API
+      if (window.__checkout && window.__checkout.addItem) {
+        window.__checkout.addItem({
+          title: bumpBarText || ('Order Bump — ' + bumpProduto),
+          fullTitle: bumpBarText || ('Order Bump — ' + bumpProduto),
+          variantTitle: '',
+          unitPrice: bumpValue,
+          quantity: 1,
+          tangible: true,
+          image: bumpImage,
+        });
       }
 
-      // Store bump in URL params so checkout.js can send it
+      // Store bump in URL params
       var url = new URL(window.location.href);
-      url.searchParams.set('bump', btn.getAttribute('data-bump-produto') || '');
+      url.searchParams.set('bump', bumpProduto);
       url.searchParams.set('bumpValue', String(bumpValue));
       history.replaceState(null, '', url.toString());
     });

@@ -979,6 +979,17 @@
     return div.innerHTML;
   }
 
+  // --- Expose API for external scripts (e.g. order bumps) ---
+  window.__checkout = {
+    addItem(item) {
+      orderItems.push(item);
+      renderOrderSummary();
+    },
+    getItems() { return orderItems; },
+    updateTotals,
+    renderOrderSummary,
+  };
+
   // --- Start ---
   document.addEventListener('DOMContentLoaded', init);
 
